@@ -1,0 +1,49 @@
+<!-- views/post.ejs -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{POST_TITLE}} | Node.js Blog</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <div>
+
+        <div id="prova"></div>
+
+        <p>by <a href="#">POST_AUTHOR</a></p>
+
+        <p>{{POST_CONTENT}}</p>
+        <hr>
+    </div>
+
+</div>
+<script id="entry-template" type="text/x-handlebars-template" >
+    <h2>{{POST_TITLE}}</h2>
+</script>
+<script src="assets/plugins/jquery/jquery.min.js"></script>
+<script src="assets/plugins/jquery/jquery-migrate.min.js"></script>
+<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/handlebars.min.js"></script>
+<script>
+    jQuery(document).ready(function() {
+    var source   = $("#entry-template").html();
+    var template = Handlebars.compile(source);
+    var html=template({POST_TITLE:"ecco il titolo"});
+    $("#prova").html(html);
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+
+	<!-- Disable Web Kit yellow background if password saved-->
+	<!--<style>-->
+		<!--input:-webkit-autofill,-->
+		<!--input:-webkit-autofill:hover,-->
+		<!--input:-webkit-autofill:focus,-->
+		<!--input:-webkit-autofill:active {-->
+			<!-- -webkit-box-shadow: 0 0 0px 1000px #1d4976 inset !important;-->
+			<!-- -webkit-text-fill-color: white !important;-->
+		<!--}-->
+	<!--</style>-->
+
+	<title>Login/Registration | Cagliari Port 2020</title>
+
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="favicon.ico">
+
+	<!-- Web Fonts -->
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700&amp;subset=cyrillic,latin">
+
+	<!-- CSS Global Compulsory -->
+	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="customAssets/css/style.css">
+
+	<!-- CSS Header and Footer -->
+	<!-- link rel="stylesheet" href="assets/css/headers/header-v6.css" -->
+  <link rel="stylesheet" href="assets/css/headers/header-default.css">
+
+    <link rel="stylesheet" href="assets/css/footers/sticky-footer-navbar.css">
+
+	<!-- CSS Implementing Plugins -->
+	<link rel="stylesheet" href="assets/plugins/animate.css">
+	<link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
+	<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/plugins/brand-buttons/brand-buttons-inversed.css">
+
+	<!-- CSS Theme -->
+	<link rel="stylesheet" href="assets/css/theme-skins/dark.css" id="style_color">
+	<link rel="stylesheet" href="assets/css/theme-colors/dark-red.css">
+
+	<!-- CSS Page Style -->
+	<link rel="stylesheet" href="assets/css/pages/page_log_reg_v3.css">
+
+	<!-- CSS Customization -->
+	<link rel="stylesheet" href="assets/css/custom.css">
+
+  <link rel="stylesheet" href="assets/css/plugins/bootstrap-select.min.css">
+
+</head>
+
+<body>
+	<!--=== Content Part ===-->
+    <div>
+	<div class="forms-wrapper">
+		<!--=== Header ===-->
+		<div id="header_p_HT"></div>
+
+		<!--=== End Header ===-->
+		<div class="container content-md">
+
+			<div class="row space-xlg-hor equal-height-columns">
+	<!--login Block-->
+				<div class="form-block login-block col-md-6 col-sm-12 rounded-left equal-height-column" id="inupblock">
+					<div class="form-block-header">
+						<h2 class="margin-bottom-15" data-i18n="login.signIn"></h2>
+					</div>
+
+          <div class="alert alert-danger invisible margin-bottom-20" id="signInResponse">
+
+					</div>
+
+					<div class="input-group margin-bottom-20">
+						<span class="input-group-addon rounded-left"><i class="icon-user color-white"></i></span>
+						<input type="text" class="form-control rounded-right" data-i18n="[placeholder]login.yourEmail" id="signInEmail">
+					</div>
+
+					<div class="input-group margin-bottom-20">
+						<span class="input-group-addon rounded-left"><i class="icon-lock color-white"></i></span>
+						<input type="password" class="form-control rounded-right" data-i18n="[placeholder]login.password" id="signInPassword">
+					</div>
+
+					<div class="row margin-bottom-70">
+						<div class="col-md-12">
+							<button type="submit" class="btn-u btn-block rounded" onclick="signIn()" data-i18n="login.signIn"></button>
+						</div>
+					</div>
+					<!--div class="social-login">
+						<div class="or rounded-x">Or</div>
+						<ul class="list-unstyled">
+							<li>
+								<button class="btn rounded btn-block btn-lg btn-facebook-inversed margin-bottom-20">
+									<i class="fa fa-facebook"></i> Sign in with Facebook
+								</button>
+							</li>
+							<li>
+								<button class="btn rounded btn-block btn-lg btn-twitter-inversed">
+									<i class="fa fa-twitter"></i> Sign in with Twitter
+								</button>
+							</li>
+						</ul>
+					</div -->
+				</div>
+				<!--End login Block-->
+
+				<!--Reg Block-->
+				<div class="form-block reg-block col-md-6 col-sm-12 rounded-right equal-height-column">
+					<div class="form-block-header">
+						<h2 class="margin-bottom-10" data-i18n="login.signUp"></h2>
+					</div>
+
+          <div class="alert alert-danger invisible margin-bottom-20" id="signUpResponse"></div>
+
+          <div class="input-group margin-bottom-20">
+						<span class="input-group-addon rounded-left"><i class="icon-envelope"></i></span>
+						<input type="email" class="form-control rounded-right" data-i18n="[placeholder]login.yourEmail" id="signUpEmail">
+					</div>
+
+					<div class="input-group margin-bottom-20">
+						<span class="input-group-addon rounded-left"><i class="icon-pencil"></i></span>
+						<input type="text" class="form-control rounded-right" data-i18n="[placeholder]login.yourName" id="signUpName">
+					</div>
+
+
+					<div class="input-group margin-bottom-20">
+						<span class="input-group-addon rounded-left"><i class="icon-lock"></i></span>
+						<input type="password" class="form-control rounded-right" data-i18n="[placeholder]login.choosePassword" id="signUpPassword">
+					</div>
+
+          <div class="input-group margin-bottom-20">
+						<span class="input-group-addon rounded-left"><i class="icon-lock"></i></span>
+						<input type="password" class="form-control rounded-right" data-i18n="[placeholder]login.retypePassword" id="signUpPassword2">
+					</div>
+
+					<div class="checkbox margin-bottom-15">
+						<label>
+							<input type="checkbox">
+							<p>I agree to terms &amp; conditions</p>
+						</label>
+
+						<!--label>
+							<input type="checkbox">
+							<p>Subscribe to our newsletter</p>
+						</label-->
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<button onclick="signUp()" class="btn-u btn-block rounded" data-i18n="login.signUp"></button>
+						</div>
+					</div>
+				</div>
+				<!--End Reg Block-->
+			</div>
+		</div><!--/container-->
+	</div>
+	<!--=== End Content Part ===-->
+
+
+    <!--=== Footer Version 1 ===-->
+        <div id="footer_p_HT"></div>
+    <!--=== End Footer Version 1 ===-->
+
+    </div>
+
+	<!-- Load properties -->
+	<script>
+		var config=JSON.parse('<%- JSON.stringify(properties) %>');
+        console.log(config);
+        var redirectTo='<%- redirectTo %>'
+		console.log(redirectTo);
+	</script>
+
+
+
+
+    <!-- JS Global Compulsory -->
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <script src="assets/plugins/jquery/jquery-migrate.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- JS Implementing Plugins -->
+    <script src="assets/plugins/back-to-top.js"></script>
+    <script src="assets/plugins/backstretch/jquery.backstretch.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/style-switcher.js"></script>
+
+
+    <script type="text/javascript" src="assets/js/plugins/bootstrap-select.min.js"></script>
+    <script src="customAssets/translations/translation.json"></script>
+    <!--script type="text/javascript" src="https://raw.githubusercontent.com/i18next/i18next-xhr-backend/master/i18nextXHRBackend.min.js"></script-->
+    <script type="text/javascript" src="assets/js/plugins/i18next.min.js"></script>
+    <!-- script type="text/javascript" src="https://raw.githubusercontent.com/i18next/i18next/master/i18next.min.js"></script -->
+    <script type="text/javascript" src="assets/js/plugins/jquery-i18next.min.js"></script>
+    <!-- script type="text/javascript" src="https://raw.githubusercontent.com/i18next/jquery-i18next/master/jquery-i18next.min.js"></script -->
+
+    <!-- JS Customization -->
+	<script type="text/javascript" src="node_modules/underscore/underscore-min.js"></script>
+    <script type="text/javascript" src="customAssets/js/utils.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/handlebars.min.js"></script>
+	<script type="text/javascript" src="customAssets/js/common_header.js"></script>
+	<script type="text/javascript" src="customAssets/js/footer.js"></script>
+	<script src="customAssets/js/custom.js"></script>
+    <script src="customAssets/js/sign_in_up.js"></script>
+
+    <!-- JS Page Level -->
+    <script src="assets/js/app.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            App.init();
+            //App.initCounter();
+            //	App.initParallaxBg();
+            //OwlCarousel.initOwlCarousel();
+         //   StyleSwitcher.initStyleSwitcher();
+         //   $('#header_p').html(header_template);
+
+
+            $.backstretch([
+                "customAssets/img/port/login_1.jpg",
+                "customAssets/img/port/login_2.jpg",
+                "customAssets/img/port/login_3.jpg",
+                "customAssets/img/port/login_8.jpg",
+            ], {
+                fade: 1000,
+                duration: 7000
+            });
+        });
+
+
+    </script>
+
+	<!--[if lt IE 9]>
+  <script src="assets/plugins/respond.js"></script>
+  <script src="assets/plugins/html5shiv.js"></script>
+  <script src="assets/plugins/placeholder-IE-fixes.js"></script>
+  <![endif]-->
+</body>
+</html>

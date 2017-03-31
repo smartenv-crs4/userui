@@ -1,0 +1,47 @@
+{
+  "dev":{
+    "limit":50,
+    "skip":0,
+    "logfile":"/var/log/caport2020User-Microservice.log",
+    "userWebUiProtocol":"http",
+    "userWebUiHost":"localhost",
+    "userWebUiPort":"3011",
+    "userProtocol":"http",
+    "userHost":"localhost",
+    "userPort":"3010",
+    "authProtocol":"http",
+    "authHost":"localhost",
+    "authPort":"3005",
+    "apiGwUserBaseUrl":"",
+    "apiVersion":"",
+    "MyMicroserviceToken":"",
+    "defaultUserType":"cruiser",
+    "defaultHomeRedirect":"index",
+    "userTypeTranslateDictionary":{
+      "cruiser":"profile.cruiser"
+    }
+  },
+
+  "production":{
+    "limit":50,
+    "skip":0,
+    "logfile":"/var/log/caport2020User-Microservice.log",
+    "userWebUiProtocol":"http",
+    "userWebUiHost":"localhost",
+    "userWebUiPort":"3011",
+    "userProtocol":"http",
+    "userHost":"localhost",
+    "userPort":"3010",
+    "authProtocol":"http",
+    "authHost":"localhost",
+    "authPort":"3005",
+    "apiGwUserBaseUrl":"",
+    "apiVersion":"",
+    "MyMicroserviceToken":"",
+    "defaultUserType":"cruiser",
+    "defaultHomeRedirect":"index",
+    "userTypeTranslateDictionary":{
+      "cruiser":"profile.cruiser"
+    }
+  }
+}

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+	<title>Profile Settings | Unify - Responsive Website Template</title>
+
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="favicon.ico">
+
+	<!-- Web Fonts -->	
+	<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
+
+
+	<!-- CSS Global Compulsory -->
+	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="customAssets/css/style.css">
+
+	<!-- CSS Header and Footer -->
+	<link rel="stylesheet" href="assets/css/headers/header-default.css">
+	<link rel="stylesheet" href="assets/css/footers/footer-v1.css">
+
+
+	<!-- CSS Implementing Plugins -->
+	<link rel="stylesheet" href="assets/plugins/animate.css">
+	<link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
+	<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/plugins/scrollbar/css/jquery.mCustomScrollbar.css">
+	<link rel="stylesheet" href="assets/plugins/sky-forms-pro/skyforms/css/sky-forms.css">
+	<link rel="stylesheet" href="assets/plugins/sky-forms-pro/skyforms/custom/custom-sky-forms.css">
+
+	<!-- CSS Page Style -->
+	<link rel="stylesheet" href="assets/css/pages/profile.css">
+
+	<!-- CSS Theme -->
+	<link rel="stylesheet" href="assets/css/theme-skins/dark.css" id="style_color">
+	<link rel="stylesheet" href="assets/css/theme-colors/dark-blue.css">
+	<link rel="stylesheet" href="assets/css/theme-colors/dark-red.css">
+
+
+	<!-- CSS Customization -->
+	<link rel="stylesheet" href="assets/css/custom.css">
+	<link rel="stylesheet" href="assets/css/bootstrap-editable.css">
+
+  <link rel="stylesheet" href="assets/css/jquery.jgrowl.min.css">
+  
+  <link rel="stylesheet" href="assets/css/typeaheadjs.css">  
+
+
+	<!-- CSS Page Style Import-->
+	<link rel="stylesheet" href="assets/css/pages/page_log_reg_v3.css">
+  
+  <style type="text/css">
+        .giveMeEllipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 5; /* number of lines to show */
+            /*  line-height: 1;  fallback */
+            max-height: 5; /* fallback */
+        }
+
+        .sidebar-showhide {
+            max-width: 25%;
+            float: left;
+            display: flex;
+            padding: 15px;
+            padding-top: 0;
+        }
+
+        .autoexpand {
+            width: auto;
+            display: flex;
+        }
+
+        #pagination_container {
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+            max-width: 530px;
+            width: 530px;
+        }
+    </style>
+  
+  
+</head>
+
+<body >
+	<div class="wrapper">
+		<!--=== Header ===-->
+		<div id="header_p_HT"></div>
+		<!--=== End Header ===-->
+
+		<!--=== Profile ===-->
+		<div class="container content profile">
+			<div class="row">
+				<!--Left Sidebar-->
+				<div id="sidebar" class="sidebar-showhide"></div>
+				<!--End Left Sidebar-->
+
+				<!-- Profile Content -->
+				<div class="col-md-9" id="profileContent">
+					<div class="profile-body margin-bottom-20">
+						<div class="tab-v1">
+							<ul class="nav nav-justified nav-tabs" id="tabContainer">
+								<li  class="active tab-bar"><a data-toggle="tab" href="#profile" data-i18n="profile.edit"></a></li>
+								<li class="tab-bar"><a data-toggle="tab" href="#passwordTab" data-i18n="profile.editPassword"></a></li>
+							</ul>
+							<div class="tab-content" id="tabBodyContainer">
+                <div id="responseBlock" class="alert alert-danger hidden"></div>
+								<div id="profile" class="profile-edit tab-pane fade in active">
+								</div>
+								<div id="passwordTab" class="profile-edit tab-pane fade">									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Profile Content -->
+			</div><!--/end row-->
+		</div>
+		<!--=== End Profile ===-->
+
+
+		<!--=== Footer Version 1 ===-->
+		<div id="footer_p_HT"></div>
+		<!--=== End Footer Version 1 ===-->
+	</div><!--/wrapper-->
+
+	<!-- Load properties -->
+	<script>
+        var config=JSON.parse('<%- JSON.stringify(properties) %>');
+        console.log(config);
+        var userData=JSON.parse('<%- JSON.stringify(user) %>');
+        console.log("UserData:" + userData);
+        var errorsData=JSON.parse('<%- JSON.stringify(error) %>');
+        console.log("ErrorData:"+  errorsData);
+	</script>
+
+	<!-- JS Global Compulsory -->
+	<script type="text/javascript" src="assets/plugins/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/jquery/jquery-migrate.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+	<!-- JS Translation -->
+  	<script src="assets/js/plugins/i18next.min.js"></script>
+	<script src="customAssets/translations/translation.json"></script>
+  	<script src="assets/js/plugins/jquery-i18next.min.js"></script>
+
+	<!-- JS Implementing Plugins -->
+	<script type="text/javascript" src="assets/plugins/back-to-top.js"></script>
+	<script type="text/javascript" src="assets/plugins/smoothScroll.js"></script>
+	<script type="text/javascript" src="assets/plugins/sky-forms-pro/skyforms/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/sky-forms-pro/skyforms/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/sky-forms-pro/skyforms/js/jquery.maskedinput.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/scrollbar/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+
+	<!-- JS Customization -->
+	<script type="text/javascript" src="node_modules/underscore/underscore-min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/bootstrap-editable.min.js"></script>
+
+
+	<!-- <script type="text/javascript" src="assets/js/custom.js"></script>
+	JS Page Level -->
+	<script type="text/javascript" src="assets/js/app.js"></script>
+	<script type="text/javascript" src="assets/js/forms/reg.js"></script>
+	<script type="text/javascript" src="assets/js/forms/checkout.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/datepicker.js"></script>
+	<script type="text/javascript" src="customAssets/js/common_header.js"></script>
+  <script type="text/javascript" src="customAssets/js/footer.js"></script>
+  <script type="text/javascript" src="customAssets/js/profile_template.js"></script>
+  <script type="text/javascript" src="assets/js/plugins/handlebars.min.js"></script>
+  <script type="text/javascript" src="assets/js/plugins/jquery.jgrowl.min.js"></script>
+
+
+  	<script type="text/javascript" src="assets/js/plugins/bootstrap-filestyle.min.js"></script>
+  	<script type="text/javascript" src="assets/js/plugins/typeahead.bundle.js"></script>
+	<script type="text/javascript" src="customAssets/js/utils.js"></script>
+	<script type="text/javascript" src="customAssets/js/custom.js"></script>
+  	<script type="text/javascript" src="customAssets/js/sidebar.js"></script>
+  	<script type="text/javascript" src="customAssets/js/profile.js"></script>
+	<script type="text/javascript" src="customAssets/js/defaultValues.js"></script>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			App.init();
+			//App.initCounter();
+			//	App.initParallaxBg();
+			//OwlCarousel.initOwlCarousel();
+			//$('#header_p').html(header_template);
+      		getUserProfile();
+
+
+
+/*
+			i18next.init({
+				lng: 'en', // evtl. use language-detector https://github.com/i18next/i18next-browser-languageDetector
+				resources:  translation
+			}, function (err, t) {
+
+				jqueryI18next.init(i18next, $ );
+				$('body').localize();
+
+				$('.lang-select').click(function() {
+					i18next.changeLanguage($(this).data('lang'));
+					$('body').localize();
+				});
+
+
+			});
+      */
+
+		});
+	</script>
+
+
+	<script>
+        DefaultValuesInit();
+	</script>
+
+	<!--[if lt IE 9]>
+	<script src="assets/plugins/respond.js"></script>
+	<script src="assets/plugins/html5shiv.js"></script>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="assets/plugins/sky-forms-pro/skyforms/js/sky-forms-ie8.js"></script>
+	<![endif]-->
+
+	<!--[if lt IE 10]>
+	<script src="assets/plugins/sky-forms-pro/skyforms/js/jquery.placeholder.min.js"></script>
+	<![endif]-->
+</body>
+</html>
