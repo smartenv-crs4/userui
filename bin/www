@@ -4,9 +4,9 @@ var request=require("request");
 var properties = require('propertiesmanager').conf;
 var _=require("underscore");
 
-var gwExists=_.isEmpty(properties.apiGwUserBaseUrl) ? "" : properties.apiGwUserBaseUrl;
-gwExists=_.isEmpty(properties.apiVersion) ? gwExists : gwExists + "/" + properties.apiVersion;
-var authMsUrl  = properties.authProtocol + "://" + properties.authHost + ":" + properties.authPort + gwExists; //"http://seidue.crs4.it/api/user/v1/";
+var authGwExists=_.isEmpty(properties.authApiGwBaseUrl) ? "" : properties.authApiGwBaseUrl;
+authGwExists=_.isEmpty(properties.authApiVersion) ? authGwExists : authGwExists + "/" + properties.authApiVersion;
+var authMsUrl  = properties.authProtocol + "://" + properties.authHost + ":" + properties.authPort + authGwExists; //"http://seidue.crs4.it/api/user/v1/";
 
 
 
@@ -30,10 +30,9 @@ app.set('port', process.env.PORT || 3011);
 var server;
 
 
-
 var rqparams = {
     url:  authMsUrl + '/usertypes?skip=-1&limit=-1',
-    headers: {'Authorization': "Bearer " + properties.MyMicroserviceToken},
+    headers: {'Authorization': "Bearer " + properties.myMicroserviceToken},
 };
 
 

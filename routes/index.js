@@ -5,18 +5,25 @@ var _ = require('underscore')._;
 var properties = require('propertiesmanager').conf;
 var tokenManager = require('tokenmanager');
 
-var gwExists=_.isEmpty(properties.apiGwUserBaseUrl) ? "" : properties.apiGwUserBaseUrl;
-gwExists=_.isEmpty(properties.apiVersion) ? gwExists : gwExists + "/" + properties.apiVersion;
-var authMsUrl  = properties.authProtocol + "://" + properties.authHost + ":" + properties.authPort + gwExists; //"http://seidue.crs4.it/api/user/v1/";
-var userWebUiMsUrl  = properties.userWebUiProtocol + "://" + properties.userWebUiHost + ":" + properties.userWebUiPort + gwExists; //"http://seidue.crs4.it/api/user/v1/";
-var userMsUrl  = properties.userProtocol + "://" + properties.userHost + ":" + properties.userPort + gwExists; //"http://seidue.crs4.it/api/user/v1/";
+var authGwExists=_.isEmpty(properties.authApiGwBaseUrl) ? "" : properties.authApiGwBaseUrl;
+authGwExists=_.isEmpty(properties.authApiVersion) ? authGwExists : authGwExists + "/" + properties.authApiVersion;
+var authMsUrl  = properties.authProtocol + "://" + properties.authHost + ":" + properties.authPort + authGwExists; //"http://seidue.crs4.it/api/user/v1/";
+
+var userGwExists=_.isEmpty(properties.userApiGwBaseUrl) ? "" : properties.userApiGwBaseUrl;
+userGwExists=_.isEmpty(properties.userApiVersion) ? userGwExists : userGwExists + "/" + properties.userApiVersion;
+var userMsUrl  = properties.userProtocol + "://" + properties.userHost + ":" + properties.userPort + userGwExists; //"http://seidue.crs4.it/api/user/v1/";
+
+var userWebUiGwExists=_.isEmpty(properties.userWebUiApiGwBaseUrl) ? "" : properties.userWebUiApiGwBaseUrl;
+userWebUiGwExists=_.isEmpty(properties.userWebUiApiVersion) ? userWebUiGwExists : userWebUiGwExists + "/" + properties.userWebUiApiVersion;
+var userWebUiMsUrl  = properties.userWebUiProtocol + "://" + properties.userWebUiHost + ":" + properties.userWebUiPort + userWebUiGwExists; //"http://seidue.crs4.it/api/user/v1/";
+
 
 tokenManager.configure( {
     "decodedTokenFieldName":"UserToken", // Add token in UserToken field
     "exampleUrl":userWebUiMsUrl,
     "authorizationMicroserviceUrl":authMsUrl+ "/tokenactions/checkiftokenisauth",
     "authorizationMicroserviceEncodeTokenUrl":authMsUrl+ "/tokenactions/decodeToken",
-    "authorizationMicroserviceToken":properties.MyMicroserviceToken,
+    "authorizationMicroserviceToken":properties.myMicroserviceToken,
 });
 
 
@@ -38,7 +45,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
             // go to login
             console.log("Login because not valid Access_token");
-            return res.render('login', {properties: properties, redirectTo: properties.userWebUiProtocol +"://" + properties.userWebUiHost + ":" + properties.userWebUiPort + "/"});
+            return res.render('login', {properties: properties, redirectTo: userWebUiMsUrl});
         }
         else{ // load page profile
 
@@ -95,7 +102,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 //         res.render('main', {
 //             MicroSL: conf.getParam("microserviceList"),
 //             myUrl: conf.getParam("authProtocol") + "://" + conf.getParam("authHost") + ":" + conf.getParam("authPort") + gwConf,
-//             myToken: conf.getParam("MyMicroserviceToken"),
+//             myToken: conf.getParam("myMicroserviceToken"),
 //             iconsList: iconsList,
 //             adminToken:adminToken
 //         });
@@ -124,7 +131,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 //     gwConf=_.isEmpty(gwVersion) ? gwConf : gwConf + "/" + gwVersion;
 //     res.render('login', {
 //         next: conf.getParam("authProtocol") + "://" + conf.getParam("authHost") + ":" + conf.getParam("authPort") + gwConf,
-//         at: conf.getParam("MyMicroserviceToken")
+//         at: conf.getParam("myMicroserviceToken")
 //     });
 // });
 //
@@ -144,7 +151,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 // //         res.render('main', {
 // //             MicroSL: conf.getParam("microserviceList"),
 // //             myUrl: conf.getParam("myMicroserviceBaseUrl"),
-// //             myToken: conf.getParam("MyMicroserviceToken"),
+// //             myToken: conf.getParam("myMicroserviceToken"),
 // //             iconsList: iconsList
 // //         });
 // //     }
@@ -154,7 +161,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 // //         res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
 // //         res.render('login', {
 // //             next: conf.getParam("myMicroserviceBaseUrl"),
-// //             at: conf.getParam("MyMicroserviceToken")
+// //             at: conf.getParam("myMicroserviceToken")
 // //         });
 // //     }
 // // });
@@ -178,7 +185,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 //     request.post({
 //         url: conf.getParam("authProtocol") + "://" + conf.getParam("authHost") + ":" + conf.getParam("authPort") + gwConf + "/authuser/signin",
 //         body: userBody,
-//         headers: {'content-type': 'application/json', 'Authorization': "Bearer " + conf.getParam("MyMicroserviceToken")}
+//         headers: {'content-type': 'application/json', 'Authorization': "Bearer " + conf.getParam("myMicroserviceToken")}
 //     }, function (error, response,body) {
 //         console.log(body);
 //         respb=JSON.parse(body);
@@ -190,7 +197,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 //             gwConf=_.isEmpty(gwVersion) ? gwConf : gwConf + "/" + gwVersion;
 //             res.render('login', {
 //                 next: conf.getParam("authProtocol") + "://" + conf.getParam("authHost") + ":" + conf.getParam("authPort") + gwConf,
-//                 at: conf.getParam("MyMicroserviceToken"),
+//                 at: conf.getParam("myMicroserviceToken"),
 //                 error_message:respb.error_message
 //             });
 //         }
