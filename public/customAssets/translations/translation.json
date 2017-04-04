@@ -76,7 +76,7 @@ var translation = {
                 "pIva": "VATIN",
                 "reviews": "Reviews",
                 "profile": "Profile",
-
+                "photo":"Update profile image",
                 "documents": "Documents",
                 "documentsTitle": "Manage your public documents",
                 "documentsTitle2": "Below you can add or remove documents",
@@ -357,7 +357,7 @@ var translation = {
                 "reviews": "Recensioni",
                 "profile": "Profilo",
 
-
+                "photo":"Aggiorna immagine del profilo",
                 "documents": "Documenti",
                 "documentsTitle": "Gestisci i tuoi documenti pubblici",
                 "documentsTitle2": "Qui puoi aggiungere o rimuovere documenti",

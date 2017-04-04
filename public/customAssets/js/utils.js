@@ -76,3 +76,49 @@ function setEditable(elementId,associatedButtons){
     });
     element.focus();
 }
+
+
+
+function openBrowseFile(){
+   $('#loadThumbnailImageProfile').click();
+}
+
+
+function loadProfileImage(){
+    var file=$('#loadThumbnailImageProfile')[0].files[0];
+    console.log(file);
+    // var file=$('#fileID')[0].files[0];
+    // var reader = new FileReader();
+    // var problems=null;
+    // reader.onload = function(e) {
+    //     var contents = JSON.parse(e.target.result);
+    //     console.log(contents);
+    //     importMicroservicesListCall({ microservicelist: contents.microservice },url,myToken,function(err){
+    //         if(err) problems="----------------------------IMPORT MICROSERVICE LIST---------------------------\n\r" + err;
+    //         importAuthendpointCall({authendpoint:contents.roles},url,url+"/authms/authendpoint/actions/import",myToken,function(err){
+    //             if(err) problems=(problems||"") + "----------------------------IMPORT AUTHORIZATION ROLES LIST---------------------------\n\r" + err;
+    //             importTokenTypeListCall(contents.token,url,myToken,function(err){
+    //                 if(err) problems=(problems||"") + "----------------------------IMPORT TOKEN TYPES LIST---------------------------\n\r" + err;
+    //
+    //                 if(problems) return showError(problems);
+    //
+    //                 $('#myInfoMsgModalLabel').text("Import Results");
+    //                 $('#InfoMsgMessage').text("Architecture import setting Done");
+    //                 $('#myInfoMsg').modal({show: true, backdrop: false});
+    //                 reloadPage=true;
+    //                 $('#myInfoMsg').on('hidden.bs.modal', function (e) {
+    //                     if (reloadPage) {
+    //                         reloadPage = false;
+    //                         location.reload();
+    //                     }
+    //                 });
+    //
+    //             })
+    //         });
+    //     });
+    // };
+    // reader.readAsText(file);
+    // $('#BrowseFile').remove();
+}
+
+

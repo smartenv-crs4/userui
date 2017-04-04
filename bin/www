@@ -37,6 +37,8 @@ var rqparams = {
 };
 
 
+//console.log("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°" +properties.MyMicroserviceToken);
+
 
 request.get(rqparams, function (error, response, body) {
 if(error){
@@ -44,7 +46,7 @@ if(error){
 }
 
 if(_.isEmpty(body)){
-    return console.log("ERROR: SERVER IS NOT LISTENING DUE DEFAULT USER " + properties.defaultUserType + " IS NOT DEFINED IN AUTHMS");
+    return console.log("ERROR: SERVER IS NOT LISTENING DUE TO DEFAULT USER " + properties.defaultUserType + " IS NOT DEFINED IN AUTHMS");
 }else{
 
     var bodyJson=JSON.parse(body);
@@ -55,7 +57,7 @@ if(_.isEmpty(body)){
         var userTypesList=bodyJson.userandapptypes;
         var defaulFind=_.find(userTypesList, function(tokenType){ return properties.defaultUserType==tokenType.name; });
         if(_.isEmpty(defaulFind)){
-            return console.log("ERROR: SERVER IS NOT LISTENING DUE DEFAULT USER " + properties.defaultUserType + " IS NOT A VALID USER DEFINED IN AUTHMS -->" + body);
+            return console.log("ERROR: SERVER IS NOT LISTENING DUE TO DEFAULT USER " + properties.defaultUserType + " IS NOT A VALID USER DEFINED IN AUTHMS -->" + body);
         }else{
             if (process.env.ENABLEHTTPS ){
                 app.set('port', 443);
