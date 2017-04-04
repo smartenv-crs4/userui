@@ -7,7 +7,7 @@ var _userMsUrl  = config.userWebUiProtocol + "://" + config.userWebUiHost + ":" 
 
 
 // Get userWebUi Token
-_access_token =  config.MyMicroserviceToken;
+_access_token =  config.myMicroserviceToken;
 
 
 var defaultImg = "assets/img/team/img32-md.jpg";

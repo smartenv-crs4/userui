@@ -4,9 +4,9 @@ var request=require("request");
 var _ = require('underscore')._;
 var properties = require('propertiesmanager').conf;
 
-var gwExists=_.isEmpty(properties.apiGwUserBaseUrl) ? "" : properties.apiGwUserBaseUrl;
-gwExists=_.isEmpty(properties.apiVersion) ? gwExists : gwExists + "/" + properties.apiVersion;
-var userMsUrl  = properties.userProtocol + "://" + properties.userHost + ":" + properties.userPort + gwExists; //"http://seidue.crs4.it/api/user/v1/";
+var userGwExists=_.isEmpty(properties.userApiGwBaseUrl) ? "" : properties.userApiGwBaseUrl;
+userGwExists=_.isEmpty(properties.userApiVersion) ? userGwExists : userGwExists + "/" + properties.userApiVersion;
+var userMsUrl  = properties.userProtocol + "://" + properties.userHost + ":" + properties.userPort + userGwExists; //"http://seidue.crs4.it/api/user/v1/";
 
 
 
@@ -19,7 +19,7 @@ router.post('/signup', function(req, res) {
 
     var rqparams = {
         url:  userMsUrl + '/users/signup',
-        headers: {'content-type': 'application/json','Authorization': "Bearer " + properties.MyMicroserviceToken},
+        headers: {'content-type': 'application/json','Authorization': "Bearer " + properties.myMicroserviceToken},
         body: JSON.stringify(req.body)
     };
 
@@ -39,7 +39,7 @@ router.post('/signin', function(req, res) {
 
     var rqparams = {
         url:  userMsUrl + '/users/signin',
-        headers: {'content-type': 'application/json','Authorization': "Bearer " + properties.MyMicroserviceToken},
+        headers: {'content-type': 'application/json','Authorization': "Bearer " + properties.myMicroserviceToken},
         body: JSON.stringify(req.body)
     };
 
