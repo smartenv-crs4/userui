@@ -38,7 +38,7 @@ var defaultUserProfileTemplate = `
     <dt><strong data-i18n="profile.avatar"></strong></dt>
     <dd>
         <span data-name="avatar" data-i18n="[data-defaultEmptyValue]profile.emptyText" id="ed-avatar">{{avatar}}</span>
-        <a class="pull-right" href="javascript:setEditable('ed-avatar',{{profileEditParams}})"><i class="fa fa-pencil"></i></a>
+        <a id="ed-avatarButton" style="display: none" class="pull-right" onclick="setEditable('ed-avatar',{{profileEditParams}})"><i class="fa fa-pencil"></i></a>
     </dd>
     <hr>
 </dl>

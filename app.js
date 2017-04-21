@@ -10,6 +10,12 @@ var routes = require('./routes/index');
 var users= require('./routes/users');
 
 
+//TODO remove
+var FormData = require("form-data");
+var request = require("request");
+var multiparty = require("multiparty");
+var crossOrigin=require('./routes/middlewares').crossOrigin;
+
 var app = express();
 
 // var conf = null;
@@ -25,6 +31,10 @@ var app = express();
 ///...
 
 
+
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -34,28 +44,30 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // for timestamps in logger
 app.use(logger('dev'));
-app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({ extended: false }));
+
+
+
+
+
+
+
+app.use(bodyParser.json({limit: '50mb'}));
+
+app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 //app.use(passport.initialize());
 
 //app.use(cookieParser("supercalifragilistichespiralitoso"));
 
 //app.use(cookieParser());
 // static files
+
+app.use(crossOrigin);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/doc', express.static('doc',{root:'doc'}));
 app.use('/node_modules', express.static('node_modules',{root:'node_modules'}));
 
 
-//app.use(logger('[:mydate] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
-
-
-// passport-local-mongoose initialization
-//passport.use(new LocalStrategy(User.authenticate()));
-
-
-//app.use(jwtMiddle.decodeToken);
 
 app.use('/', routes);
 app.use('/users', users);

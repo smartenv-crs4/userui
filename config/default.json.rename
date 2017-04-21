@@ -3,6 +3,9 @@
     "limit":50,
     "skip":0,
     "logfile":"/var/log/caport2020User-Microservice.log",
+    "commonUIUrl":"your_commonui_base_url",
+    "defaultHomeRedirect":"http://localhost:3011/",
+
     "userWebUiProtocol":"http",
     "userWebUiHost":"your_user_webui_host",
     "userWebUiPort":"3050",
@@ -17,9 +20,13 @@
     "authPort":"3000",
     "authApiGwBaseUrl":"",
     "authApiVersion":"",
+    "uploadProtocol":"http",
+    "uploadHost":"smartapi.crs4.it",
+    "uploadPort":"80",
+    "uploadApiVersion":"80",
+    "uploadApiGwBaseUrl":"",
     "myMicroserviceToken":"your_auth_service_token",
     "defaultUserType":"cruiser",
-    "defaultHomeRedirect":"index",
     "userTypeTranslateDictionary":{
       "cruiser":"profile.cruiser"
     }
@@ -29,6 +36,9 @@
     "limit":50,
     "skip":0,
     "logfile":"/var/log/caport2020User-Microservice.log",
+    "commonUIUrl":"your_commonui_base_url",
+    "defaultHomeRedirect":"http://localhost:3011/",
+
     "userWebUiProtocol":"http",
     "userWebUiHost":"your_user_webui_host",
     "userWebUiPort":"3050",
@@ -43,9 +53,14 @@
     "authPort":"3000",
     "authApiGwBaseUrl":"",
     "authApiVersion":"",
+    "uploadProtocol":"http",
+    "uploadHost":"smartapi.crs4.it",
+    "uploadPort":"80",
+    "uploadApiVersion":"80",
+    "uploadApiGwBaseUrl":"",
     "myMicroserviceToken":"your_auth_service_token",
     "defaultUserType":"cruiser",
-    "defaultHomeRedirect":"index",
+
     "userTypeTranslateDictionary":{
       "cruiser":"profile.cruiser"
     }

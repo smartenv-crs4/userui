@@ -1,18 +1,16 @@
 var sidebarTemplate = `
-<div class=" md-margin-bottom-40 hidden-xs">
+<div class="md-margin-bottom-40 hidden-xs">
 
 <!--upload file-->
 <input style="display: none" name="imglogo" type="file" id="loadThumbnailImageProfile" onchange="loadProfileImage()">
 
  <div class="img-thumbnail-container">
-  <img class="img-thumbnail profile-img margin-bottom-20" src="assets/img/team/img32-md.jpg" alt="" id="imgBox">
+  <img class="img-responsive img-thumbnail profile-img margin-bottom-20" src="{{avatar}}" alt="" id="imgBox">
    <div class="img-thumbnail-update" onclick="openBrowseFile()">       
        <div class="thumbnail-logo"><a class="pull-right" href="#"><i class="fa fa-camera-retro"></i></a></div>
        <div class="thumbnail-message"><a data-i18n="profile.photo" class="pull-right" href="#"><i class="fa fa-camera-retro"></i></a></div>             
    </div>  
-   
-   
-   
+         
  </div>
   
   

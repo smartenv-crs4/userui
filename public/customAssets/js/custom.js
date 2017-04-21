@@ -10,7 +10,7 @@ var _userMsUrl  = config.userWebUiProtocol + "://" + config.userWebUiHost + ":" 
 _access_token =  config.myMicroserviceToken;
 
 
-var defaultImg = "assets/img/team/img32-md.jpg";
+
 
 
 jQuery(document).ready(function(){
@@ -18,48 +18,42 @@ jQuery(document).ready(function(){
 
     var sb = jQuery("#sidebar");
 
-    if(sb.length > 0)
-    {
+    if(sb.length > 0){
         //var isSupplier = sessionStorage.type && sessionStorage.type == "supplier";
-        var sbT = Handlebars.compile(sidebarTemplate);
-        jQuery("#sidebar").html(sbT({
-            isSupplier : isSupplier(),
-            idSupplier : isSupplier() ? sessionStorage.userId : ""
-        }));
-        jQuery("#sidebar").localize();
+        if(userData){
+
+            var sbT = Handlebars.compile(sidebarTemplate);
+            var profileImage="assets/img/team/img32-md.jpg";
+
+            if(! _.isEmpty(userData.avatar))
+              profileImage=_userMsUrl + "/users/actions/getprofileimage/" +userData.avatar+"?access_token=" + userData.UserToken;
 
 
-        if(sessionStorage.logo && sessionStorage.logo.trim() != "")
-        {
-            jQuery("#imgBox").attr("src", sessionStorage.logo);
-        }
-        else
-        {
-            jQuery("#imgBox").attr("src", defaultImg);
-        }
+            console.log("PROFILE IMG " + profileImage );
 
-        if(sessionStorage.token)
-        {
-            sb.show();
+            jQuery("#sidebar").html(sbT({
+                avatar : profileImage
+            }));
+            jQuery("#sidebar").localize();
         }
     }
 
 
-  var headerCompiled = Handlebars.compile(header_template);
-  var headerHTML = headerCompiled({
-    isLogged: isLogged(),
-    showSearch : isSearchVisible(),
-    isHome : window['isHome'] || false,
-    isRFQ : window['isRFQ'] || false
-  });
+  // var headerCompiled = Handlebars.compile(header_template);
+  // var headerHTML = headerCompiled({
+  //   isLogged: isLogged(),
+  //   showSearch : isSearchVisible(),
+  //   isHome : window['isHome'] || false,
+  //   isRFQ : window['isRFQ'] || false
+  // });
+  //
+  // jQuery('#header_p_HT').html(headerHTML);
 
-  jQuery('#header_p_HT').html(headerHTML);
-
-  if(jQuery('#footer_p_HT').length > 0)
-  {
-    var footerCompiled = Handlebars.compile(footer_template);        
-    jQuery('#footer_p_HT').html(footerCompiled);
-  }
+  // if(jQuery('#footer_p_HT').length > 0)
+  // {
+  //   var footerCompiled = Handlebars.compile(footer_template);
+  //   jQuery('#footer_p_HT').html(footerCompiled);
+  // }
   
   jQuery('body').localize();  // body translate
 
@@ -140,7 +134,7 @@ jQuery(document).ready(function(){
     jQuery("#h_logout").hide();
     jQuery("#h_user").hide();
   }
-  loadCookieLawBar();
+  //loadCookieLawBar();
 });
 
 

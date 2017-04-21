@@ -18,6 +18,9 @@ userWebUiGwExists=_.isEmpty(properties.userWebUiApiVersion) ? userWebUiGwExists 
 var userWebUiMsUrl  = properties.userWebUiProtocol + "://" + properties.userWebUiHost + ":" + properties.userWebUiPort + userWebUiGwExists; //"http://seidue.crs4.it/api/user/v1/";
 
 
+
+
+
 tokenManager.configure( {
     "decodedTokenFieldName":"UserToken", // Add token in UserToken field
     "exampleUrl":userWebUiMsUrl,
@@ -32,6 +35,7 @@ tokenManager.configure( {
 router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
     console.log(req.UserToken);
+
     var redirectTo=(req.query && req.query.redirectTo);
 
     if (req.headers['redirectTo']) {
@@ -39,7 +43,28 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
     }
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
-        return res.render('login', {properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+
+        request.get(properties.commonUIUrl+"/headerAndFooter", function (error, response, body) {
+            if(error){
+              return res.render('page_400_error',{properties: properties,error_message:error});
+            }else{
+                body=JSON.parse(body);
+                if(response.statusCode!=200){
+                    return res.render('page_400_errors',{properties: properties,error_message:body.error_message});
+                }else{
+                    var commonUI={
+                        footer:body.footer.html,
+                        footerCss:body.footer.css,
+                        footerScript:body.footer.js,
+                        header:body.header.html,
+                        headerCss:body.header.css,
+                        headerScript:body.header.js
+                    };
+                    return res.render('login', {commonUI:commonUI,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                }
+            }
+        });
+
     }
     else { // get user profile
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
@@ -71,6 +96,53 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 });
 
 
+
+
+//TODO REMOVE
+
+router.get('/old',tokenManager.checkTokenValidityOnReq, function(req, res) {
+
+    console.log(req.UserToken);
+
+    var redirectTo=(req.query && req.query.redirectTo);
+
+    if (req.headers['redirectTo']) {
+        redirectTo= req.headers['redirectTo'];
+    }
+
+    if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
+
+        return res.render('loginOld', {properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+
+    }
+    else { // get user profile
+        if(req.UserToken && req.UserToken.error_code) { // no valid access_token
+            // go to login
+            console.log("Login because not valid Access_token");
+            return res.render('login', {properties: properties, redirectTo: userWebUiMsUrl});
+        }
+        else{ // load page profile
+
+            var rqparams = {
+                url:  userMsUrl + '/users/' + req.UserToken.token._id,
+                headers: {'content-type': 'application/json','Authorization': "Bearer " + req.UserToken.access_token},
+            };
+
+            request.get(rqparams, function (error, response, body) {
+                var bodyJson=JSON.parse(body);
+                if(response.statusCode==200) {
+                    bodyJson.UserToken=req.UserToken.access_token;
+                    return res.render('profile', {properties: properties, user: bodyJson, error: null});
+                }
+                else{
+                    return res.render('profile', {properties: properties, user:null ,error:bodyJson});
+                }
+            });
+
+        }
+
+    }
+});
 
 // /* GET home page. */
 // router.get('/index', function(req, res) {

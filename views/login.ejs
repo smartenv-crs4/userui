@@ -53,7 +53,9 @@
 	<!-- CSS Customization -->
 	<link rel="stylesheet" href="assets/css/custom.css">
 
-  <link rel="stylesheet" href="assets/css/plugins/bootstrap-select.min.css">
+  	<link rel="stylesheet" href="assets/css/plugins/bootstrap-select.min.css">
+
+	<link rel="stylesheet" href="<%= commonUI.headerCss %>">
 
 </head>
 
@@ -62,7 +64,7 @@
     <div>
 	<div class="forms-wrapper">
 		<!--=== Header ===-->
-		<div id="header_p_HT"></div>
+		<div id="header_p_HT"> <%- commonUI.header %> </div>
 
 		<!--=== End Header ===-->
 		<div class="container content-md">
@@ -166,7 +168,7 @@
 
 
     <!--=== Footer Version 1 ===-->
-        <div id="footer_p_HT"></div>
+	<div id="footer_p_HT"> <%- commonUI.footer %> </div>
     <!--=== End Footer Version 1 ===-->
 
     </div>
@@ -236,6 +238,10 @@
 
 
     </script>
+
+
+	<script src="<%- commonUI.headerScript %>"></script>
+	<script src="<%- commonUI.footerScript %>"></script>
 
 	<!--[if lt IE 9]>
   <script src="assets/plugins/respond.js"></script>

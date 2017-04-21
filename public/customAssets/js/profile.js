@@ -50,7 +50,6 @@ function updateProfile()
         var value= this.textContent;
         if(this.innerHTML.indexOf("<mark>")>=0)
           this.innerHTML=this.textContent;
-        console.log("===> " + name + "|" + value);
         data.user[name]=value;
     });
 
@@ -68,6 +67,13 @@ function updateProfile()
 
             jQuery("#profileCancel").removeClass().addClass("btn-u btn-u-default").attr("disabled","disabled");
             jQuery("#profileSave").removeClass().addClass("btn-u btn-u-default").attr("disabled","disabled");
+
+            _.each(data.user,function(value,key){
+              userData[key]=value;
+            });
+
+            if(!_.isEmpty(data.user.avatar))
+              jQuery('#imgBox').attr("src", _userMsUrl + "/users/actions/getprofileimage/" +userData.avatar+"?access_token=" + userData.UserToken);
 
             //TODO INSERT IMAGE
             // var defaultImg = "assets/img/team/img32-md.jpg";
@@ -98,6 +104,46 @@ function updateProfile()
             jQuery.jGrowl(msg, {theme:'bg-color-red', life: 5000});
 
             return;
+        }
+    });
+}
+
+
+
+function openBrowseFile(){
+    $('#loadThumbnailImageProfile').click();
+}
+
+
+function loadProfileImage(){
+    var file=$('#loadThumbnailImageProfile')[0].files[0];
+
+    var fd = new FormData();
+    fd.append( file.name.split(".")[0], file);
+
+    jQuery.ajax({
+        url: _userMsUrl + "/users/actions/uploadprofileimage",
+        data: fd,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function(data){
+            jQuery('#ed-avatarButton').click();
+//            console.log(jQuery('#ed-avatar').html());
+            jQuery('#ed-avatar').html(data.filecode).blur();
+            jQuery('#profileSave').click();
+        },
+        error: function(xhr, status)
+        {
+
+            var errType="error." + xhr.status;
+            var msg=i18next.t(errType);
+
+            try{
+                msg = msg + " --> " + xhr.responseJSON.error_message;
+            }
+            catch(err){ }
+           jQuery.jGrowl(msg, {theme:'bg-color-red', life: 5000});
         }
     });
 }
