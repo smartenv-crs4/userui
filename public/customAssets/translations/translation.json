@@ -24,6 +24,7 @@ var translation = {
                 "403": "You are not authorized to access this resource",
                 "500": "Internal server error",
                 "404": "Resource Not found",
+                "invalid_access_token":"Your acccess token is expired or invalid",
                 "invalid_email": "Your email address is not valid",
                 "bad_request": "",
                 "missing_user_or_password": "No username o password provided",
@@ -307,6 +308,7 @@ var translation = {
                 "403": "Non sei autorizzato ad accedere a questa funzione",
                 "500": "Errore interno del server",
                 "404": "Risorsa non trovata",
+                "invalid_access_token":"Il tuo access toen è scaduto o invalido",
 
                 "invalid_email": "L'indirizzo email inserito non &egrave; valido",
                 "missing_user_or_password": "Nome utente o password mancanti",

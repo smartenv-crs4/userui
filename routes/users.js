@@ -11,14 +11,9 @@ var sizeof = require('object-sizeof');
 var Buffer=require('buffer').Buffer;
 var Busboy = require('busboy');
 
-var userGwExists=_.isEmpty(properties.userApiGwBaseUrl) ? "" : properties.userApiGwBaseUrl;
-userGwExists=_.isEmpty(properties.userApiVersion) ? userGwExists : userGwExists + "/" + properties.userApiVersion;
-var userMsUrl  = properties.userProtocol + "://" + properties.userHost + ":" + properties.userPort + userGwExists; //"http://seidue.crs4.it/api/user/v1/";
+var userMsUrl  = properties.userUrl;
 
-
-var uploadGwExists=_.isEmpty(properties.uploadApiGwBaseUrl) ? "" : properties.uploadApiGwBaseUrl;
-uploadGwExists=_.isEmpty(properties.uploadApiVersion) ? uploadGwExists : uploadGwExists + "/" + properties.uploadApiVersion;
-var uploadMsUrl  = properties.uploadProtocol + "://" + properties.uploadHost + ":" + properties.uploadPort + uploadGwExists; //"http://seidue.crs4.it/api/user/v1/";
+var uploadMsUrl  = properties.uploadUrl; //"http://seidue.crs4.it/api/user/v1/";
 
 
 

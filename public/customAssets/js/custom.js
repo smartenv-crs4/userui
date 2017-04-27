@@ -3,7 +3,7 @@
 //***** Create userms Url
 var gwExists=_.isEmpty(config.apiGwUserBaseUrl) ? "" : conf.apiGwUserBaseUrl;
 gwExists=_.isEmpty(config.apiVersion) ? gwExists : gwExists + "/" + config.apiVersion;
-var _userMsUrl  = config.userWebUiProtocol + "://" + config.userWebUiHost + ":" + config.userWebUiPort + gwExists; //"http://seidue.crs4.it/api/user/v1/";
+var _userMsUrl  = config.userWebUiUrl;
 
 
 // Get userWebUi Token

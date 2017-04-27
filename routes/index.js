@@ -7,15 +7,10 @@ var tokenManager = require('tokenmanager');
 
 var authGwExists=_.isEmpty(properties.authApiGwBaseUrl) ? "" : properties.authApiGwBaseUrl;
 authGwExists=_.isEmpty(properties.authApiVersion) ? authGwExists : authGwExists + "/" + properties.authApiVersion;
-var authMsUrl  = properties.authProtocol + "://" + properties.authHost + ":" + properties.authPort + authGwExists; //"http://seidue.crs4.it/api/user/v1/";
+var authMsUrl  = properties.authUrl; //"http://seidue.crs4.it/api/user/v1/";
+var userMsUrl  = properties.userUrl; //"http://seidue.crs4.it/api/user/v1/";
 
-var userGwExists=_.isEmpty(properties.userApiGwBaseUrl) ? "" : properties.userApiGwBaseUrl;
-userGwExists=_.isEmpty(properties.userApiVersion) ? userGwExists : userGwExists + "/" + properties.userApiVersion;
-var userMsUrl  = properties.userProtocol + "://" + properties.userHost + ":" + properties.userPort + userGwExists; //"http://seidue.crs4.it/api/user/v1/";
-
-var userWebUiGwExists=_.isEmpty(properties.userWebUiApiGwBaseUrl) ? "" : properties.userWebUiApiGwBaseUrl;
-userWebUiGwExists=_.isEmpty(properties.userWebUiApiVersion) ? userWebUiGwExists : userWebUiGwExists + "/" + properties.userWebUiApiVersion;
-var userWebUiMsUrl  = properties.userWebUiProtocol + "://" + properties.userWebUiHost + ":" + properties.userWebUiPort + userWebUiGwExists; //"http://seidue.crs4.it/api/user/v1/";
+var userWebUiMsUrl  = properties.userWebUiUrl; //"http://seidue.crs4.it/api/user/v1/";
 
 
 
@@ -31,6 +26,30 @@ tokenManager.configure( {
 
 
 
+function getCommonUiResource(resource,callback){
+    request.get(properties.commonUIUrl+resource, function (error, response, body) {
+        if(error){
+            return callback ({error:'page_400_error',error_message:error});
+        }else{
+            body=JSON.parse(body);
+            if(response.statusCode!=200){
+                return callback ({error:'page_400_error',error_message:body.error_message});
+            }else{
+                var commonUI={
+                    footer:body.footer.html,
+                    footerCss:body.footer.css,
+                    footerScript:body.footer.js,
+                    header:body.header.html,
+                    headerCss:body.header.css,
+                    headerScript:body.header.js
+                };
+                return callback(commonUI);
+            }
+        }
+    });
+}
+
+
 /* GET home page. */
 router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
@@ -44,33 +63,53 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
 
-        request.get(properties.commonUIUrl+"/headerAndFooter", function (error, response, body) {
-            if(error){
-              return res.render('page_400_error',{properties: properties,error_message:error});
-            }else{
-                body=JSON.parse(body);
-                if(response.statusCode!=200){
-                    return res.render('page_400_errors',{properties: properties,error_message:body.error_message});
-                }else{
-                    var commonUI={
-                        footer:body.footer.html,
-                        footerCss:body.footer.css,
-                        footerScript:body.footer.js,
-                        header:body.header.html,
-                        headerCss:body.header.css,
-                        headerScript:body.header.js
-                    };
-                    return res.render('login', {commonUI:commonUI,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
-                }
-            }
+        console.log("######################################################################################### Login because not Access_token --->" + req.UserToken);
+        getCommonUiResource("/headerAndFooter",function(commonUIItem){
+           if(commonUIItem.error){
+               return res.render(commonUIItem.error,{properties: properties,error_message:commonUIItem.error_message});
+           } else {
+               console.log(commonUIItem);
+               return res.render('login', {commonUI:commonUIItem,options:{error:false},properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+           }
         });
 
     }
     else { // get user profile
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
             // go to login
-            console.log("Login because not valid Access_token");
-            return res.render('login', {properties: properties, redirectTo: userWebUiMsUrl});
+            console.log("######################################################################################### Login because not valid Access_token --> " + req.UserToken.error_message);
+            getCommonUiResource("/headerAndFooter",function(commonUIItem){
+                if(commonUIItem.error){
+                    return res.render(commonUIItem.error,{properties: properties,error_message:commonUIItem.error_message});
+                } else {
+                    return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: properties, redirectTo:userWebUiMsUrl});
+                }
+            });
+
+            // request.get(properties.commonUIUrl+"/headerAndFooter", function (error, response, body) {
+            //     if(error){
+            //         return res.render('page_400_error',{properties: properties,error_message:error});
+            //     }else{
+            //         body=JSON.parse(body);
+            //         if(response.statusCode!=200){
+            //             return res.render('page_400_errors',{properties: properties,error_message:body.error_message});
+            //         }else{
+            //             var commonUI={
+            //                 footer:body.footer.html,
+            //                 footerCss:body.footer.css,
+            //                 footerScript:body.footer.js,
+            //                 header:body.header.html,
+            //                 headerCss:body.header.css,
+            //                 headerScript:body.header.js
+            //             };
+            //             return res.render('login', {commonUI:commonUI,options:{error:"true"},properties: properties, redirectTo:userWebUiMsUrl});
+            //         }
+            //     }
+            // });
+
+
+
+
         }
         else{ // load page profile
 
@@ -83,15 +122,29 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                 var bodyJson=JSON.parse(body);
                 if(response.statusCode==200) {
                     bodyJson.UserToken=req.UserToken.access_token;
-                    return res.render('profile', {properties: properties, user: bodyJson, error: null});
-                }
-                else{
-                    return res.render('profile', {properties: properties, user:null ,error:bodyJson});
+
+                    console.log("######################################################################################### " + bodyJson);
+                    getCommonUiResource("/headerAndFooter?access_token=" + bodyJson.UserToken,function(commonUIItem){
+                        if(commonUIItem.error){
+                            return res.render(commonUIItem.error,{properties: properties,error_message:commonUIItem.error_message});
+                        } else {
+                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null});
+                        }
+                    });
+
+                }else{
+                    console.log("######################################################################################### " + bodyJson);
+                    getCommonUiResource("/headerAndFooter",function(commonUIItem){
+                        if(commonUIItem.error){
+                            return res.render(commonUIItem.error,{properties: properties,error_message:commonUIItem.error_message});
+                        } else {
+                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user:null ,error:bodyJson});
+                        }
+                    });
                 }
             });
 
-            }
-
+        }
     }
 });
 

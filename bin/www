@@ -6,7 +6,7 @@ var _=require("underscore");
 
 var authGwExists=_.isEmpty(properties.authApiGwBaseUrl) ? "" : properties.authApiGwBaseUrl;
 authGwExists=_.isEmpty(properties.authApiVersion) ? authGwExists : authGwExists + "/" + properties.authApiVersion;
-var authMsUrl  = properties.authProtocol + "://" + properties.authHost + ":" + properties.authPort + authGwExists; //"http://seidue.crs4.it/api/user/v1/";
+var authMsUrl  = properties.authUrl; //"http://seidue.crs4.it/api/user/v1/";
 
 
 

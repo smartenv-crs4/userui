@@ -4,13 +4,13 @@
 
 	<!-- Disable Web Kit yellow background if password saved-->
 	<!--<style>-->
-		<!--input:-webkit-autofill,-->
-		<!--input:-webkit-autofill:hover,-->
-		<!--input:-webkit-autofill:focus,-->
-		<!--input:-webkit-autofill:active {-->
-			<!-- -webkit-box-shadow: 0 0 0px 1000px #1d4976 inset !important;-->
-			<!-- -webkit-text-fill-color: white !important;-->
-		<!--}-->
+	<!--input:-webkit-autofill,-->
+	<!--input:-webkit-autofill:hover,-->
+	<!--input:-webkit-autofill:focus,-->
+	<!--input:-webkit-autofill:active {-->
+	<!-- -webkit-box-shadow: 0 0 0px 1000px #1d4976 inset !important;-->
+	<!-- -webkit-text-fill-color: white !important;-->
+	<!--}-->
 	<!--</style>-->
 
 	<title>Login/Registration | Cagliari Port 2020</title>
@@ -33,9 +33,9 @@
 
 	<!-- CSS Header and Footer -->
 	<!-- link rel="stylesheet" href="assets/css/headers/header-v6.css" -->
-  <link rel="stylesheet" href="assets/css/headers/header-default.css">
+	<link rel="stylesheet" href="assets/css/headers/header-default.css">
 
-    <link rel="stylesheet" href="assets/css/footers/sticky-footer-navbar.css">
+	<link rel="stylesheet" href="assets/css/footers/sticky-footer-navbar.css">
 
 	<!-- CSS Implementing Plugins -->
 	<link rel="stylesheet" href="assets/plugins/animate.css">
@@ -53,15 +53,15 @@
 	<!-- CSS Customization -->
 	<link rel="stylesheet" href="assets/css/custom.css">
 
-  	<link rel="stylesheet" href="assets/css/plugins/bootstrap-select.min.css">
+	<link rel="stylesheet" href="assets/css/plugins/bootstrap-select.min.css">
 
 	<link rel="stylesheet" href="<%= commonUI.headerCss %>">
 
 </head>
 
 <body>
-	<!--=== Content Part ===-->
-    <div>
+<!--=== Content Part ===-->
+<div>
 	<div class="forms-wrapper">
 		<!--=== Header ===-->
 		<div id="header_p_HT"> <%- commonUI.header %> </div>
@@ -70,13 +70,13 @@
 		<div class="container content-md">
 
 			<div class="row space-xlg-hor equal-height-columns">
-	<!--login Block-->
+				<!--login Block-->
 				<div class="form-block login-block col-md-6 col-sm-12 rounded-left equal-height-column" id="inupblock">
 					<div class="form-block-header">
 						<h2 class="margin-bottom-15" data-i18n="login.signIn"></h2>
 					</div>
 
-          <div class="alert alert-danger invisible margin-bottom-20" id="signInResponse">
+					<div class="alert alert-danger invisible margin-bottom-20" id="signInResponse">
 
 					</div>
 
@@ -119,9 +119,9 @@
 						<h2 class="margin-bottom-10" data-i18n="login.signUp"></h2>
 					</div>
 
-          <div class="alert alert-danger invisible margin-bottom-20" id="signUpResponse"></div>
+					<div class="alert alert-danger invisible margin-bottom-20" id="signUpResponse"></div>
 
-          <div class="input-group margin-bottom-20">
+					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-envelope"></i></span>
 						<input type="email" class="form-control rounded-right" data-i18n="[placeholder]login.yourEmail" id="signUpEmail">
 					</div>
@@ -137,7 +137,7 @@
 						<input type="password" class="form-control rounded-right" data-i18n="[placeholder]login.choosePassword" id="signUpPassword">
 					</div>
 
-          <div class="input-group margin-bottom-20">
+					<div class="input-group margin-bottom-20">
 						<span class="input-group-addon rounded-left"><i class="icon-lock"></i></span>
 						<input type="password" class="form-control rounded-right" data-i18n="[placeholder]login.retypePassword" id="signUpPassword2">
 					</div>
@@ -167,86 +167,95 @@
 	<!--=== End Content Part ===-->
 
 
-    <!--=== Footer Version 1 ===-->
+	<!--=== Footer Version 1 ===-->
 	<div id="footer_p_HT"> <%- commonUI.footer %> </div>
-    <!--=== End Footer Version 1 ===-->
+	<!--=== End Footer Version 1 ===-->
 
-    </div>
+</div>
 
-	<!-- Load properties -->
-	<script>
-		var config=JSON.parse('<%- JSON.stringify(properties) %>');
-        console.log(config);
-        var redirectTo='<%- redirectTo %>'
-		console.log(redirectTo);
-	</script>
-
-
+<!-- Load properties -->
+<script>
+    var config=JSON.parse('<%- JSON.stringify(properties) %>');
+    console.log(config);
+    var redirectTo='<%- redirectTo %>'
+    console.log(redirectTo);
+</script>
 
 
-    <!-- JS Global Compulsory -->
-    <script src="assets/plugins/jquery/jquery.min.js"></script>
-    <script src="assets/plugins/jquery/jquery-migrate.min.js"></script>
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- JS Implementing Plugins -->
-    <script src="assets/plugins/back-to-top.js"></script>
-    <script src="assets/plugins/backstretch/jquery.backstretch.min.js"></script>
-    <script type="text/javascript" src="assets/js/plugins/style-switcher.js"></script>
 
 
-    <script type="text/javascript" src="assets/js/plugins/bootstrap-select.min.js"></script>
-    <script src="customAssets/translations/translation.json"></script>
-    <!--script type="text/javascript" src="https://raw.githubusercontent.com/i18next/i18next-xhr-backend/master/i18nextXHRBackend.min.js"></script-->
-    <script type="text/javascript" src="assets/js/plugins/i18next.min.js"></script>
-    <!-- script type="text/javascript" src="https://raw.githubusercontent.com/i18next/i18next/master/i18next.min.js"></script -->
-    <script type="text/javascript" src="assets/js/plugins/jquery-i18next.min.js"></script>
-    <!-- script type="text/javascript" src="https://raw.githubusercontent.com/i18next/jquery-i18next/master/jquery-i18next.min.js"></script -->
+<!-- JS Global Compulsory -->
+<script src="assets/plugins/jquery/jquery.min.js"></script>
+<script src="assets/plugins/jquery/jquery-migrate.min.js"></script>
+<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- JS Customization -->
-	<script type="text/javascript" src="node_modules/underscore/underscore-min.js"></script>
-    <script type="text/javascript" src="customAssets/js/utils.js"></script>
-	<script type="text/javascript" src="assets/js/plugins/handlebars.min.js"></script>
-	<script type="text/javascript" src="customAssets/js/common_header.js"></script>
-	<script type="text/javascript" src="customAssets/js/footer.js"></script>
-	<script src="customAssets/js/custom.js"></script>
-    <script src="customAssets/js/sign_in_up.js"></script>
-
-    <!-- JS Page Level -->
-    <script src="assets/js/app.js"></script>
-
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
-            App.init();
-            //App.initCounter();
-            //	App.initParallaxBg();
-            //OwlCarousel.initOwlCarousel();
-         //   StyleSwitcher.initStyleSwitcher();
-         //   $('#header_p').html(header_template);
+<!-- JS Implementing Plugins -->
+<script src="assets/plugins/back-to-top.js"></script>
+<script src="assets/plugins/backstretch/jquery.backstretch.min.js"></script>
+<script type="text/javascript" src="assets/js/plugins/style-switcher.js"></script>
 
 
-            $.backstretch([
-                "customAssets/img/port/login_1.jpg",
-                "customAssets/img/port/login_2.jpg",
-                "customAssets/img/port/login_3.jpg",
-                "customAssets/img/port/login_8.jpg",
-            ], {
-                fade: 1000,
-                duration: 7000
-            });
+<script type="text/javascript" src="assets/js/plugins/bootstrap-select.min.js"></script>
+<script src="customAssets/translations/translation.json"></script>
+<!--script type="text/javascript" src="https://raw.githubusercontent.com/i18next/i18next-xhr-backend/master/i18nextXHRBackend.min.js"></script-->
+<script type="text/javascript" src="assets/js/plugins/i18next.min.js"></script>
+<!-- script type="text/javascript" src="https://raw.githubusercontent.com/i18next/i18next/master/i18next.min.js"></script -->
+<script type="text/javascript" src="assets/js/plugins/jquery-i18next.min.js"></script>
+<!-- script type="text/javascript" src="https://raw.githubusercontent.com/i18next/jquery-i18next/master/jquery-i18next.min.js"></script -->
+
+<!-- JS Customization -->
+<script type="text/javascript" src="node_modules/underscore/underscore-min.js"></script>
+<script type="text/javascript" src="customAssets/js/utils.js"></script>
+<script type="text/javascript" src="assets/js/plugins/handlebars.min.js"></script>
+<script type="text/javascript" src="customAssets/js/common_header.js"></script>
+<script type="text/javascript" src="customAssets/js/footer.js"></script>
+<script src="customAssets/js/custom.js"></script>
+<script src="customAssets/js/sign_in_up.js"></script>
+
+<!-- JS Page Level -->
+<script src="assets/js/app.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        App.init();
+        //App.initCounter();
+        //	App.initParallaxBg();
+        //OwlCarousel.initOwlCarousel();
+        //   StyleSwitcher.initStyleSwitcher();
+        //   $('#header_p').html(header_template);
+
+
+        $.backstretch([
+            "customAssets/img/port/login_1.jpg",
+            "customAssets/img/port/login_2.jpg",
+            "customAssets/img/port/login_3.jpg",
+            "customAssets/img/port/login_8.jpg",
+        ], {
+            fade: 1000,
+            duration: 7000
         });
+    });
 
 
-    </script>
+    <% if(options.error) { %>
+        var respBlock = jQuery("#signInResponse");
+        respBlock.html(i18next.t("error.invalid_access_token"));
+        respBlock.removeClass("invisible");
+	<%  } %>
+
+</script>
 
 
-	<script src="<%- commonUI.headerScript %>"></script>
-	<script src="<%- commonUI.footerScript %>"></script>
 
-	<!--[if lt IE 9]>
-  <script src="assets/plugins/respond.js"></script>
-  <script src="assets/plugins/html5shiv.js"></script>
-  <script src="assets/plugins/placeholder-IE-fixes.js"></script>
-  <![endif]-->
+
+
+<script src="<%- commonUI.headerScript %>"></script>
+<script src="<%- commonUI.footerScript %>"></script>
+
+<!--[if lt IE 9]>
+<script src="assets/plugins/respond.js"></script>
+<script src="assets/plugins/html5shiv.js"></script>
+<script src="assets/plugins/placeholder-IE-fixes.js"></script>
+<![endif]-->
 </body>
 </html>

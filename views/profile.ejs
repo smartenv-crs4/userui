@@ -3,7 +3,7 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
 <head>
-	<title>Profile Settings | Unify - Responsive Website Template</title>
+	<title>Profile Settings | Cagliari Port 2020</title>
 
 	<!-- Meta -->
 	<meta charset="utf-8">
@@ -56,6 +56,8 @@
 
 	<!-- CSS Page Style Import-->
 	<link rel="stylesheet" href="assets/css/pages/page_log_reg_v3.css">
+
+	<link rel="stylesheet" href="<%= commonUI.headerCss %>">
   
   <style type="text/css">
         .giveMeEllipsis {
@@ -89,14 +91,15 @@
             width: 530px;
         }
     </style>
-  
+
+
   
 </head>
 
 <body >
 	<div class="wrapper">
 		<!--=== Header ===-->
-		<div id="header_p_HT"></div>
+		<div id="header_p_HT"> <%- commonUI.header %> </div>
 		<!--=== End Header ===-->
 
 		<!--=== Profile ===-->
@@ -131,7 +134,7 @@
 
 
 		<!--=== Footer Version 1 ===-->
-		<div id="footer_p_HT"></div>
+		<div id="footer_p_HT"> <%- commonUI.footer %> </div>
 		<!--=== End Footer Version 1 ===-->
 	</div><!--/wrapper-->
 
@@ -190,6 +193,10 @@
   	<script type="text/javascript" src="customAssets/js/profile.js"></script>
 	<script type="text/javascript" src="customAssets/js/defaultValues.js"></script>
 
+	<script src="<%- commonUI.headerScript %>"></script>
+	<script src="<%- commonUI.footerScript %>"></script>
+
+
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			App.init();
@@ -226,6 +233,9 @@
 	<script>
         DefaultValuesInit();
 	</script>
+
+
+
 
 	<!--[if lt IE 9]>
 	<script src="assets/plugins/respond.js"></script>
