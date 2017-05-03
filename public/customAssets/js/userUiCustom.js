@@ -3,7 +3,7 @@
 //***** Create userms Url
 var gwExists=_.isEmpty(config.apiGwUserBaseUrl) ? "" : conf.apiGwUserBaseUrl;
 gwExists=_.isEmpty(config.apiVersion) ? gwExists : gwExists + "/" + config.apiVersion;
-var _userMsUrl  = config.userWebUiUrl;
+var _userMsUrl  = config.userUIUrl;
 
 
 // Get userWebUi Token
