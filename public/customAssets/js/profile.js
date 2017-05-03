@@ -1,5 +1,5 @@
 
-//_access_token defined in custom.js
+//_access_token defined in userUiCustom.js
 
 function getUserProfile()
 {

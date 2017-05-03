@@ -124,23 +124,23 @@ jQuery(document).ready(function(){
   // }
 
 
-  if(sessionStorage.token)
-  {
-    jQuery("#h_login").hide();
-    jQuery("#h_user strong").html(sessionStorage.email);
-  }
-  else
-  {
-    jQuery("#h_logout").hide();
-    jQuery("#h_user").hide();
-  }
+  // if(sessionStorage.token)
+  // {
+  //   jQuery("#h_login").hide();
+  //   jQuery("#h_user strong").html(sessionStorage.email);
+  // }
+  // else
+  // {
+  //   jQuery("#h_logout").hide();
+  //   jQuery("#h_user").hide();
+  // }
   //loadCookieLawBar();
 });
 
 
 
 i18next.init({
-  lng: localStorage.lng, // evtl. use language-detector https://github.com/i18next/i18next-browser-languageDetector
+  lng: localStorage.lng || "en", // evtl. use language-detector https://github.com/i18next/i18next-browser-languageDetector
   fallbackLng: "en",
   resources:  translation
 }, function (err, t) {
@@ -159,6 +159,14 @@ i18next.init({
 
 
 
+function logout()
+{
+
+    window.location.replace("/");
+}
+
+
+
 
 /*******************************************
  ****************** UTILS ******************
@@ -170,13 +178,7 @@ function isValidEmailAddress(emailAddress)
 };
 /*******************************************
  *******************************************/
-function logout()
-{
-  //sessionStorage.token = undefined;
-  //sessionStorage.userId = undefined;
-  sessionStorage.clear();
-  window.location.replace("/login");
-}
+
 function redirectToLogin()
 {
   sessionStorage.prevPage = window.location.href;

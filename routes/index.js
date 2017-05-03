@@ -4,6 +4,7 @@ var request=require("request");
 var _ = require('underscore')._;
 var properties = require('propertiesmanager').conf;
 var tokenManager = require('tokenmanager');
+var util=require('util');
 
 var authGwExists=_.isEmpty(properties.authApiGwBaseUrl) ? "" : properties.authApiGwBaseUrl;
 authGwExists=_.isEmpty(properties.authApiVersion) ? authGwExists : authGwExists + "/" + properties.authApiVersion;
@@ -11,6 +12,7 @@ var authMsUrl  = properties.authUrl; //"http://seidue.crs4.it/api/user/v1/";
 var userMsUrl  = properties.userUrl; //"http://seidue.crs4.it/api/user/v1/";
 
 var userWebUiMsUrl  = properties.userWebUiUrl; //"http://seidue.crs4.it/api/user/v1/";
+
 
 
 
@@ -26,14 +28,31 @@ tokenManager.configure( {
 
 
 
+function getErrorPage(errorCode,errorMessage,showMore,callback){
+    var url=properties.commonUIUrl+"/errorPage?error_code="+errorCode+"&error_message="+ errorMessage +"&showMore_message="+showMore;
+    request.get(url,function(err,response,body){
+        if(err) return callback(500,{error:"Internal Server Error", error_message:err});
+        else{
+            return callback(200,body);
+        }
+    });
+}
+
+
 function getCommonUiResource(resource,callback){
     request.get(properties.commonUIUrl+resource, function (error, response, body) {
         if(error){
-            return callback ({error:'page_400_error',error_message:error});
+            getErrorPage(500,"500",error,function(er,content){
+                return callback (er,content);
+            });
         }else{
+            console.log(body);
             body=JSON.parse(body);
             if(response.statusCode!=200){
-                return callback ({error:'page_400_error',error_message:body.error_message});
+                getErrorPage(500,500,"Get commonUi Elements: "+ util.inspect(body.error_message),function(er,content){
+                    return callback (er,content);
+                });
+
             }else{
                 var commonUI={
                     footer:body.footer.html,
@@ -43,7 +62,7 @@ function getCommonUiResource(resource,callback){
                     headerCss:body.header.css,
                     headerScript:body.header.js
                 };
-                return callback(commonUI);
+                return callback(null,commonUI);
             }
         }
     });
@@ -63,12 +82,11 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
 
-        console.log("######################################################################################### Login because not Access_token --->" + req.UserToken);
-        getCommonUiResource("/headerAndFooter",function(commonUIItem){
-           if(commonUIItem.error){
-               return res.render(commonUIItem.error,{properties: properties,error_message:commonUIItem.error_message});
+        console.log("######################################################################################### Login because not Access_token --->" + req.UserToken.error_message);
+        getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+           if(er){
+               return res.status(er).send(commonUIItem);
            } else {
-               console.log(commonUIItem);
                return res.render('login', {commonUI:commonUIItem,options:{error:false},properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
            }
         });
@@ -78,9 +96,9 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
             // go to login
             console.log("######################################################################################### Login because not valid Access_token --> " + req.UserToken.error_message);
-            getCommonUiResource("/headerAndFooter",function(commonUIItem){
-                if(commonUIItem.error){
-                    return res.render(commonUIItem.error,{properties: properties,error_message:commonUIItem.error_message});
+            getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+                if(er){
+                    return res.status(er).send(commonUIItem);
                 } else {
                     return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: properties, redirectTo:userWebUiMsUrl});
                 }
@@ -107,9 +125,6 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
             //     }
             // });
 
-
-
-
         }
         else{ // load page profile
 
@@ -123,10 +138,10 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                 if(response.statusCode==200) {
                     bodyJson.UserToken=req.UserToken.access_token;
 
-                    console.log("######################################################################################### " + bodyJson);
-                    getCommonUiResource("/headerAndFooter?access_token=" + bodyJson.UserToken,function(commonUIItem){
-                        if(commonUIItem.error){
-                            return res.render(commonUIItem.error,{properties: properties,error_message:commonUIItem.error_message});
+                    console.log("######################################################################################### Logged User" + bodyJson);
+                    getCommonUiResource("/headerAndFooter?logout=logout();&access_token=" + bodyJson.UserToken,function(er,commonUIItem){
+                        if(er){
+                            return res.status(er).send(commonUIItem);;
                         } else {
                             return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null});
                         }
@@ -134,16 +149,15 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
                 }else{
                     console.log("######################################################################################### " + bodyJson);
-                    getCommonUiResource("/headerAndFooter",function(commonUIItem){
-                        if(commonUIItem.error){
-                            return res.render(commonUIItem.error,{properties: properties,error_message:commonUIItem.error_message});
+                    getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+                        if(er){
+                            return res.status(er).send(commonUIItem);
                         } else {
                             return res.render('profile', {commonUI:commonUIItem,properties: properties, user:null ,error:bodyJson});
                         }
                     });
                 }
             });
-
         }
     }
 });
