@@ -1,7 +1,7 @@
 /* Write here your custom javascript codes */
 
 //***** Create userms Url
-var _userMsUrl  = config.userWebUiUrl;
+var _userMsUrl  = config.userUIUrl;
 
 
 // Get userWebUi Token

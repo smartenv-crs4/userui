@@ -7,9 +7,7 @@ var FormData = require('form-data');
 var multiparty = require('multiparty');
 var magic = require('stream-mmmagic');
 var fs=require('fs');
-var sizeof = require('object-sizeof');
 var Buffer=require('buffer').Buffer;
-var Busboy = require('busboy');
 
 var userMsUrl  = properties.userUrl;
 
