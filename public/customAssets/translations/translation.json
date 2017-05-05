@@ -2,15 +2,6 @@ var translation = {
 
     en: {
         translation: {
-            "nav": {
-                "home": "Home",
-                "about": "About",
-                "services": "Services",
-                "contacts": "Contacts",
-                "help": "Help",
-                "logout": "Logout",
-                "lang": "Language"
-            },
 
             "cookieLaw": {
                 "message": "This website uses session storage, local storage and cookie to store on your browser your preferences and your account information",
@@ -286,15 +277,6 @@ var translation = {
     },
     it: {
         translation: {
-            "nav": {
-                "home": "Home",
-                "about": "Chi siamo",
-                "services": "Servizi",
-                "contacts": "Contatti",
-                "help": "Aiuto",
-                "logout": "Esci",
-                "lang": "Lingua"
-            },
 
             "cookieLaw": {
                 "message": "Questo sito utilizza il session storage, il local storage e i cookie per salvare sul tuo browser le tue preferenze e le informazioni del tuo account",

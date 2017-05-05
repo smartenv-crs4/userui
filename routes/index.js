@@ -6,16 +6,10 @@ var properties = require('propertiesmanager').conf;
 var tokenManager = require('tokenmanager');
 var util=require('util');
 
-var authGwExists=_.isEmpty(properties.authApiGwBaseUrl) ? "" : properties.authApiGwBaseUrl;
-authGwExists=_.isEmpty(properties.authApiVersion) ? authGwExists : authGwExists + "/" + properties.authApiVersion;
+
 var authMsUrl  = properties.authUrl; //"http://seidue.crs4.it/api/user/v1/";
 var userMsUrl  = properties.userUrl; //"http://seidue.crs4.it/api/user/v1/";
-
 var userWebUiMsUrl  = properties.userWebUiUrl; //"http://seidue.crs4.it/api/user/v1/";
-
-
-
-
 
 
 tokenManager.configure( {

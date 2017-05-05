@@ -1,17 +1,11 @@
 /* Write here your custom javascript codes */
 
 //***** Create userms Url
-var gwExists=_.isEmpty(config.apiGwUserBaseUrl) ? "" : conf.apiGwUserBaseUrl;
-gwExists=_.isEmpty(config.apiVersion) ? gwExists : gwExists + "/" + config.apiVersion;
 var _userMsUrl  = config.userWebUiUrl;
 
 
 // Get userWebUi Token
 _access_token =  config.myMicroserviceToken;
-
-
-
-
 
 jQuery(document).ready(function(){
 
@@ -38,23 +32,6 @@ jQuery(document).ready(function(){
         }
     }
 
-
-  // var headerCompiled = Handlebars.compile(header_template);
-  // var headerHTML = headerCompiled({
-  //   isLogged: isLogged(),
-  //   showSearch : isSearchVisible(),
-  //   isHome : window['isHome'] || false,
-  //   isRFQ : window['isRFQ'] || false
-  // });
-  //
-  // jQuery('#header_p_HT').html(headerHTML);
-
-  // if(jQuery('#footer_p_HT').length > 0)
-  // {
-  //   var footerCompiled = Handlebars.compile(footer_template);
-  //   jQuery('#footer_p_HT').html(footerCompiled);
-  // }
-  
   jQuery('body').localize();  // body translate
 
   if(localStorage.lng) // if a language is set in a previous page
@@ -101,40 +78,6 @@ jQuery(document).ready(function(){
     }
   });
 
-
-
-
-  // if(jQuery(".footer-language").length > 0)
-  // {
-  //   var fl = jQuery(".footer-language select").first();
-  //
-  //   if (localStorage.lng != undefined)
-  //   {
-  //     fl.val(localStorage.lng);
-  //   }
-  //
-  //   fl.change(function(){
-  //     var lng = jQuery(this).val();
-  //     localStorage.lng = lng;
-  //     i18next.changeLanguage(localStorage.lng, function(){});
-  //     jQuery('body').localize();
-  //     jQuery(document).trigger('translate');
-  //
-  //   });
-  // }
-
-
-  // if(sessionStorage.token)
-  // {
-  //   jQuery("#h_login").hide();
-  //   jQuery("#h_user strong").html(sessionStorage.email);
-  // }
-  // else
-  // {
-  //   jQuery("#h_logout").hide();
-  //   jQuery("#h_user").hide();
-  // }
-  //loadCookieLawBar();
 });
 
 
@@ -158,13 +101,9 @@ i18next.init({
 });
 
 
-
-function logout()
-{
-
+function logout(){
     window.location.replace("/");
 }
-
 
 
 
@@ -184,16 +123,15 @@ function redirectToLogin()
   sessionStorage.prevPage = window.location.href;
   window.location.href = "/login";
 }
-function redirectToHome()
-{
-  window.location.href = "/index";
-}
+
 function redirectToPrevPage(access_token)
 {
     // redirect is set from ejs rendering
     console.log(redirectTo + "?access_token=" + access_token);
     window.location.href = redirectTo + "?access_token=" + access_token;
 }
+
+
 function getProfileInfo(async)
 {
   if(sessionStorage.userId == undefined)
@@ -231,6 +169,9 @@ function getProfileInfo(async)
     }
   });
 }
+
+
+
 function getUrlParameter(sParam)
 {
   var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -252,67 +193,3 @@ function getUrlParameter(sParam)
 
 
 
-function loadCookieLawBar()
-{
-  var links = document.getElementsByTagName('link');
-  var needCSS = true;
-
-  for ( var i = 0; i < links.length; i++ )
-  {
-    if ( links[i].href == "assets/css/jquery.cookiebar.css" )
-      needCSS = false;
-  }
-
-  if ( needCSS )
-  {
-    var ls = document.createElement('link');
-    ls.rel="stylesheet";
-    ls.href="assets/css/jquery.cookiebar.css";
-    document.getElementsByTagName('head')[0].appendChild(ls);
-  }
-
-  if(jQuery.cookieBar != "function")
-  {
-    var j = document.createElement('script');
-    j.type = 'text/javascript';
-    document.getElementsByTagName('head')[0].appendChild(j);
-    j.src = 'assets/js/plugins/jquery.cookiebar.js';
-
-    j.onload = function()
-    {
-      initCookieBar();
-    }
-  }
-  else
-  {
-    initCookieBar();
-  }
-
-
-  jQuery(document).on("translate", function(){
-    if(jQuery("#cookie-bar .cb-enable").length > 0)
-    {
-      var button = jQuery("#cookie-bar .cb-enable").first()[0].cloneNode(true);
-      jQuery("#cookie-bar p").html(jQuery.i18n.t("cookieLaw.message"));
-      button.innerHTML = jQuery.i18n.t("cookieLaw.accept");
-      jQuery("#cookie-bar p").append(button);
-    }
-  })
-}
-function initCookieBar()
-{
-  jQuery.cookieBar({
-    message: jQuery.i18n.t("cookieLaw.message"),
-    //declineButton: true,
-    acceptText: jQuery.i18n.t("cookieLaw.accept"),
-    declineText: jQuery.i18n.t("cookieLaw.decline"),
-    declineFunction: function() {
-      window.location.href = "http://www.crs4.it";
-    },
-    //renewOnVisit: true,
-    expireDays: 90,
-    //autoEnable: false,
-  });
-
-  jQuery("#cookie-bar p").css("color", "#FFFFFF");
-}
