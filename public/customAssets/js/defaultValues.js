@@ -3,13 +3,17 @@
  */
 
 
+
+// init default values in usser profile if data is empty from db
 function DefaultValuesInit(){
     jQuery(document).ready(function() {
         SetDefaultValues();
     });
 }
 
+// set the default values in profile if data is empty from db
 function SetDefaultValues(){
+    console.log("-_-_-_-_-_-_-_-_-_-_-_-_-_ Set DEfault Values");
     var elements= jQuery("[data-defaultEmptyValue]");
     elements.each(function( index ) {
         var dataDefaultEmptyValue=this.getAttribute('data-defaultEmptyValue');

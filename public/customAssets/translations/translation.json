@@ -1,556 +1,318 @@
-var translation = {
-
-    en: {
-        translation: {
-
-            "cookieLaw": {
-                "message": "This website uses session storage, local storage and cookie to store on your browser your preferences and your account information",
-                "accept": "I understand",
-                "decline": "I refuse it"
-            },
-
-            "error": {
-                "400": "Bad request",
-                "401": "You are not authorized to access this resource",
-                "403": "You are not authorized to access this resource",
-                "500": "Internal server error",
-                "404": "Resource Not found",
-                "invalid_access_token":"Your acccess token is expired or invalid",
-                "invalid_email": "Your email address is not valid",
-                "bad_request": "",
-                "missing_user_or_password": "No username o password provided",
-                "unauthorized": "You are not authorized to call this endpoint",
-                "internal_server_error": "Internal server error",
-                "invalid_auth": "Invalid email and/or password",
-                "password_differs": "Passwords must be equals",
-                "unknown_user_type": "Select a valid user type",
-                "invalid_pdf": "You can upload only pdf files",
-                "disk_quota_exceeded": "Disk quota exceeded",
-                "request_rejected": "The request has bee rejected",
-                "missing_date": "Please enter a validity date",
-                "invalid_number": "Please enter only digits",
-                "noparameter": "Wrong parameter",
-                "void_name": "Name cannot be void",
-                "void_category": "Category cannot be void",
-                "void_desc": "Description cannot be void",
-                "void_unit": "Unit cannot be void",
-                "void_password": "Passwords can not be void",
-            },
-            "warning": {
-                "warning": "Warning!",
-                "emptyResult": "No result to show"
-            },
-            "buttons": {
-                "send": "Send",
-                "add": "Add",
-                "details": "Details"
-            },
-            "login": {
-                "signUp": "Sign Up",
-                "signIn": "Sign In",
-                "yourEmail": "Your email",
-                "yourName": "Your name",
-                "password": "Password",
-                "choosePassword": "Choose password",
-                "retypePassword": "Retype password",
-                "userType": "You are a ...",
-                "customer": "Customer",
-                "supplier": "Supplier"
-            },
-            "profile": {
-                "email": "Email",
-                "type": "Account type",
-                "name": "Name",
-                "Name": "name",
-                "Surname": "surname",
-                "ckanApiKey": "ckan Api Key",
-                "phone": "Telephone number",
-                "favoriteSuppliers": "Favorite suppliers",
-                "avatar": "Image",
-                "description": "Description",
-                "web": "Web site",
-                "categories": "Categories",
-                "pIva": "VATIN",
-                "reviews": "Reviews",
-                "profile": "Profile",
-                "photo":"Update profile image",
-                "documents": "Documents",
-                "documentsTitle": "Manage your public documents",
-                "documentsTitle2": "Below you can add or remove documents",
-                "documentDeleted": "The document has been deleted successfully",
-
-                "areYouSure": "Are you sure ?",
-                "confirmDeleteDocument": "Do you want to remove this  document ?",
-
-                "customer": "customer",
-                "supplier": "supplier",
-
-                "addCategory": "Add",
-
-                "passwordTitle": "Manage your password",
-                "passwordTitle2": "Below you can change your password",
-                "editPassword": "Change Password",
-                "oldPasswordPlaceholder": "Your current password",
-                "newPasswordPlaceholder": "New password",
-                "newPassword2Placeholder": "Retype the new password",
-                "passwordSaved": "Your password has been updated successfully",
-
-                "favoriteTitle": "Mange your favorite suppliers' list",
-                "favoriteTitle2": "Below you can show your favorite suppliers",
-                "documentsInputLabel": "Choose a pdf document",
-                "uploadDocument": "Upload",
-
-                "avatarSaved": "Image profile saved",
-
-                "certifications": "Certification",
-                "certificationsTitle": "Manage your certifications",
-                "certificationsTitle2": "Below you can show your certifications",
-                "certificationsDate" : "Date",
-                "certificationsDescription" : "Description",
-                "certificationsActions" : "Actions",
-                "addCertification" : "Add",
-
-                "title": "Manage your profile information",
-                "edit": "Edit profile",
-
-                "saved": "Your profile has been successfully updated",
-                "emptyText": "Empty",
-                "cancel": "Cancel",
-                "save": "Save",
-                "yes": "Yes",
-                "no": "No",
-                "noSupplierSearch": "No supplier found"
-            },
-            "publicProfile": {
-                "web": "Web site:",
-                "address": "Address:",
-                "noSupplier": "Missing Supplier code",
-                "addSupplier": "Add to favorites"
-            },
-            "rfq": {
-                "requests": "Requests",
-                "requestSubject": "Subject",
-                "requestQuantity": "Quantity",
-                "requestQuote": "Quote",
-                "requestStatus": "Status",
-                "requestLastModification": "Last Modification ",
-                "messages": "Messages",
-                "requestAccept": "Accept",
-                "requestConfirm": "Confirm",
-                "requestSaveAccept": "Save&Accept",
-                "requestReject": "Reject",
-                "requestGiveup": "Give Up",
-                "requestSave": "Save",
-                "requestCancel": "Cancel",
-                "pending": "Pending",
-                "rejectedByC": "Gave Up By Customer",
-                "rejectedByS": "Rejected By Supplier",
-                "acceptedByS": "Accepted By Supplier",
-                "modifyAndAcceptedByS": "Accepted By Supplier",
-                "acceptedByC": "Confirmed By Customer",
-                "modifyByC": "Modified By Customer",
-                "close": "Completed",
-                "expired": "Expired",
-                "writeMessage": "Type your message here...",
-                "confirmedRequestMsg": "The customer has confirmed the Request",
-                "acceptedRequestMsg": "The supplier has accepted the Request",
-                "rejectedRequestMsg": "The supplier has rejected the Request",
-                "gaveupRequestMsg": "The customer has gave up the Request",
-                "modifiedRequestMsg": "The customer has modified the Request",
-                "warning": "Warning!",
-                "updateDone": "The Request is updated!",
-                "rfqExpired": "RFQ is expired",
-                "NaN": "Is required a number!",
-                "NaVN":"It's not a valid quantity",
-                "unty": "Unit",
-                "kg": "Kg",
-                "mtr": "Mtr",
-                "ltr": "Ltr",
-                "fot": "Fot",
-                "lbr": "Lbr",
-                "g": "g",
-                "--": "--",
-                "newrfq": "New RFQ",
-                "choose": "Choose",
-                "expiredate": "Expiration date",
-                "chooseSupplier": "Choose a favorite above or select a vendor from the search list",
-                "newrfqcreated": "RFQ created with success!",
-                "sendRFQ": "Send RFQ",
-                "noDeleteRfq": "You must have at least one request!",
-                "myrfqs": "My RFQs",
-                "sendeval": "Write a review to the supplier"
-            },
-            "catalog": {
-                "catalog": "Catalog",
-                "mycatalog": "My Catalog",
-                "search": "Search",
-                "all": "All",
-                "incatalog": "In catalog",
-                "products": "Products",
-                "files": "Attached Files",
-                "more": "More",
-                "less": "Less",
-                "pdf": "Pdf file",
-                "placeholder": "Search in catalog...",
-                "deliveryIn": "Delivery in",
-                "atleast": "At least",
-                "atmost": "At most",
-                "unit": "Unity",
-                "days": "days",
-                "searchResults":"Search results",
-                "price":"Price",
-                "availability": "Availability",
-                "resultsLabel": "Products matching ",
-                "showAll": "Show all products"
-                
-            },
-            "pagination": {
-                "next": "Next",
-                "prev": "Prev",
-                "last": "Last",
-                "first": "First"
-            },
-            "product": {
-                "searchSupplierTitle": "Discover new suppliers",
-                "searchProductTitle": "Discover new products",
-                "searchLabelCategories": "Categories...",
-                "searchLabelProducts": "Search products...",
-                "searchTagMessage": "Use product tags for your search",
-                "thLogo": "Logo",
-                "thAbout": "About",
-                "thRates": "Rates",
-                "thAction": "Action",
-                "tabLabelRegistration": "Rigistered ",
-                "tabMsgProduct": "See products match",
-                "category":"Category",
-                "newProduct":"New product",
-                "updateProduct":"Update product",
-                "added": "Product added",
-                "updated": "Product updated",
-                "maxCharacters": "Max 500 characters",
-                "note": "Note ",
-                "minimumQuantity": "Minimum quantity",
-                "maximumQuantity": "Maximum quantity",
-                "numberOfDays": "Number of Days",
-                "images": "Images",
-                "noProductSearch": "No products found"
-            },
-            "evaluation": {
-                "evaluation": "Evaluation",
-                "your_opinion": "Your opinion is really important to us!",
-                "quality": "Quality of the product",
-                "pricevalue": "Price/Value",
-                "customerservice": "Customer service (promptness, support, and assistance)",
-                "delivery": "Delivery policy",
-                "overallrating": "Overall rating (required field)",
-                "pros": "Pros",
-                "pros_placeholder": "Write your positive comments here",
-                "cons": "Cons",
-                "cons_placeholder": "Write your negative comments here",
-                "submit": "Submit",
-                "thank_you": "Thank you for your evaluation!",
-                "invalid_evaluation": "incomplete evaluation",
-                "missing_overall": "The overall rating is required.",
-                "price_rate": "price rate",
-                "delivery_rate": "delivery rate",
-                "product_rate": "product rate",
-                "customer_rate": "customer rate"
-            },
-            "homepage": {
-                "discoversuppliers": "Discover",
-                "new": "new",
-                "suppliers": "suppliers",
-                "simplesearch": "Quick search",
-                "smartrfq": "Smart RFQ",
-                "typicalproducts": "Typical products",
-                "des_simplesearch": "Search for a supplier in Sardinia either by product or by category.",
-                "des_smartrfq": "Requests smart compilation with direct negotiation and messaging.",
-                "des_typicalproducts": "Many typical products made available from our suppliers.",
-                "des_crs4": "CRS4 is a private interdisciplinary research center, founded by the Sardinia Autonomous Region.",
-                "useflink": "Useful Links",
-                "contactus": "Contact Us",
-                "aboutus": "About us",
-                "site": "Site",
-                "everything": "Everything"
-            }
-        }
+{
+  "cookieLaw": {
+    "message": {
+      "en": "This website uses session storage, local storage and cookie to store on your browser your preferences and your account information",
+      "it": "Questo sito utilizza il session storage, il local storage e i cookie per salvare sul tuo browser le tue preferenze e le informazioni del tuo account"
     },
-    it: {
-        translation: {
-
-            "cookieLaw": {
-                "message": "Questo sito utilizza il session storage, il local storage e i cookie per salvare sul tuo browser le tue preferenze e le informazioni del tuo account",
-                "accept": "Ho capito",
-                "decline": "Rifiuto"
-            },
-
-            "error": {
-                "400": "Richiesta non valida",
-                "401": "Non sei autorizzato ad accedere a questa funzione",
-                "403": "Non sei autorizzato ad accedere a questa funzione",
-                "500": "Errore interno del server",
-                "404": "Risorsa non trovata",
-                "invalid_access_token":"Il tuo access toen è scaduto o invalido",
-
-                "invalid_email": "L'indirizzo email inserito non &egrave; valido",
-                "missing_user_or_password": "Nome utente o password mancanti",
-                "invalid_auth": "Email e/o password errati",
-                "password_differs": "Le password differiscono",
-                "unknown_user_type": "Seleziona il tipo di account che vuoi creare",
-                "invalid_pdf": "Puoi caricare soltanto file pdf",
-                "disk_quota_exceeded": "La quota disco a tua disposizione è stata superata",
-                "request_rejected": "La richiesta non può essere accolta",
-                "missing_date": "Devi inserire una data",
-                "invalid_number": "Puoi inserire solo un numero",
-                "noparameter": "Parametri non corretti",
-                "void_name": "Devi inserire un nome",
-                "void_category": "Devi inserire una categoria",
-                "void_desc": "Devi inserire una descrizione",
-                "void_unit": "Devi inserire un'unità di misura",
-                "void_password": "La password non puo essere vuota",
-
-            },
-            "warning": {
-                "warning": "Attenzione!",
-                "emptyResult": "Nessun risultato da mostrare"
-            },
-            "buttons": {
-                "send": "Invia",
-                "add": "Aggiungi",
-                "details": "Dettagli"
-            },
-            "login": {
-                "signUp": "Registrati",
-                "signIn": "Accedi",
-                "yourEmail": "Il tuo indirizzo email",
-                "yourName": "Il tuo nome",
-                "password": "Password",
-                "choosePassword": "Scegli una password",
-                "retypePassword": "Conferma password",
-                "userType": "Sei un ...",
-                "customer": "Cliente",
-                "supplier": "Fornitore"
-
-            },
-            "profile": {
-                "email": "Email",
-                "type": "Tipo di account",
-                "name": "Nome",
-                "Name": "Nome",
-                "Surname": "Cognome",
-                "ckanApiKey": "chiave ckan ",
-                "phone": "Numero di telefono",
-                "favoriteSuppliers": "Fornitori preferiti",
-                "avatar": "Logo",
-                "description": "Descrizione",
-                "web": "Sito web",
-                "categories": "Categorie",
-                "pIva": "Partita IVA",
-                "reviews": "Recensioni",
-                "profile": "Profilo",
-
-                "photo":"Aggiorna immagine del profilo",
-                "documents": "Documenti",
-                "documentsTitle": "Gestisci i tuoi documenti pubblici",
-                "documentsTitle2": "Qui puoi aggiungere o rimuovere documenti",
-                "documentsInputLabel": "Scegli un documento pdf",
-                "uploadDocument": "Upload",
-                "avatarSaved": "Immagine profilo salvata",
-                "documentDeleted": "Il documento  stato cancellato correttamente",
-
-                "areYouSure": "Confermi ?",
-                "confirmDeleteDocument": "Vuoi rimuovere questo documento ?",
-
-                "customer": "cliente",
-                "supplier": "fornitore",
-
-                "addCategory": "Inserisci",
-
-                "passwordTitle": "Gestisci la tua password",
-                "passwordTitle2": "Qui puoi cambiare la tua password",
-                "editPassword": "Cambia la password",
-                "oldPasswordPlaceholder": "La tua password attuale",
-                "newPasswordPlaceholder": "Inserisci la nuova password",
-                "newPassword2Placeholder": "Conferma la nuova password",
-                "passwordSaved": "La tua password è stata aggiornata correttamente",
-
-                "favoriteTitle": "Gestisci la tua lista dei fornitori preferiti",
-                "favoriteTitle2": "Qui puoi visualizzare i fornitori salvati nella tua lista dei preferiti",
-
-                "certifications": "Certificazione",
-                "certificationsTitle": "Gestisci le tue certificazioni",
-                "certificationsTitle2": "Qui puoi visualizzare le certificazioni associate al tuo account",
-                "certificationsDate" : "Data",
-                "certificationsDescription" : "Descrizione",
-                "certificationsActions" : "Azioni",
-                "addCertification" : "Inserisci",
-                
-                "title": "Gestisci le informazioni del tuo profilo",
-                "edit": "Modifica il profilo",
-                "saved": "Il tuo profilo è stato aggiornato correttamente",
-                "emptyText": "Vuoto",
-                "cancel": "Annulla",
-
-                "save": "Salva",
-                "yes": "Si",
-                "no": "No",
-                "noSupplierSearch": "Nessun supplier trovato" 
-
-            },
-            "publicProfile": {
-                "web": "Sito web:",
-                "address": "Indirizzo:",
-                "noSupplier": "Codice fornitore mancante",
-                "addSupplier": "Aggiungi ai preferiti"
-            },
-            "rfq": {
-                "requests": "Richieste",
-                "requestSubject": "Oggetto",
-                "requestQuantity": "Quantità",
-                "requestQuote": "Costo",
-                "requestStatus": "Stato",
-                "requestLastModification": "Ultima Modifica ",
-                "messages": "Messaggi",
-                "requestAccept": "Accetta",
-                "requestSaveAccept": "Salva&Accetta",
-                "requestReject": "Rifiuta",
-                "requestSave": "Salva",
-                "requestCancel": "Cancella",
-                "requestConfirm": "Conferma",
-                "requestGiveup": "Annulla",
-                "pending": "In corso...",
-                "rejectedByC": "Annullata dal cliente",
-                "rejectedByS": "Rifiutata dal fornitore",
-                "acceptedByS": "Accettata dal fornitore",
-                "acceptedByC": "Confermata dal cliente",
-                "modifyByC": "Modificata dal cliente",
-                "close": "Completata",
-                "expired": "Scaduta",
-                "writeMessage": "Scrivi il tuo messaggio qui...",
-                "confirmedRequestMsg": "Il cliente ha confermato la Richiesta",
-                "acceptedRequestMsg": "Il fornitore ha accettato la Richiesta",
-                "rejectedRequestMsg": "Il fornitore ha rifiutato la Richiesta",
-                "gaveupRequestMsg": "Il cliente ha annullato la Richiesta",
-                "modifiedRequestMsg": "Il cliente ha modificato la Richiesta",
-                "warning": "Attenzione!",
-                "updateDone": "La tua Richiesta è stata aggiornata!",
-                "rfqExpired": "L'RFQ è scaduta!",
-                "NaN": "E' richiesto un numero!",
-                "NaVN":"Non è una quantità valida",
-                "unty": "Unità",
-                "kg": "Kg",
-                "mtr": "Mtr",
-                "ltr": "Ltr",
-                "fot": "Fot",
-                "lbr": "Lbr",
-                "g": "g",
-                "--": "--",
-                "newrfq": "Nuova RFQ",
-                "choose": "Scegli",
-                "expiredate": "Fine validità",
-                "chooseSupplier": "Scegli tra i preferiti qui sopra o seleziona un fornitore da lista di ricerca",
-                "newrfqcreated": "RFQ Creata con successo!",
-                "sendRFQ": "Invia RFQ",
-                "noDeleteRfq": "Devi avere almeno una richiesta!",
-                "myrfqs": "Le mie RFQ",
-                "sendeval": "Scrivi una recensione al fornitore"
-            },
-            "catalog": {
-                "catalog": "Catalogo",
-                "mycatalog": "Il mio Catalogo",
-                "search": "Cerca",
-                "all": "Tutto",
-                "incatalog": "Solo catalogo",
-                "products": "Prodotti",
-                "files": "File Caricati",
-                "more": "Leggi tutto",
-                "less": "Meno",
-                "pdf": "File pdf",
-                "placeholder": "Cerca nel catalogo...",
-                "deliveryIn": "Consegna in",
-                "atleast": "Min",
-                "atmost": "Max",
-                "unit": "Unità",
-                "days": "giorni",
-                "searchResults":"Risultati ricerca",
-                "price":"Prezzo",
-                "availability": "Disponibilità",
-                "resultsLabel": "Prodotti che contengono la voce ",
-                "showAll": "Mostra tutti i prodotti"
-            },
-            "pagination": {
-                "next": "Prossima",
-                "prev": "Precedente",
-                "last": "Ultima",
-                "first": "Prima"
-
-            },
-            "product": {
-                "searchSupplierTitle": "Cerca nuovi suppliers",
-                "searchProductTitle": "Cerca nuovi prodotti",
-                "searchLabelCategories": "Categorie...",
-                "searchLabelProducts": "Cerca prodotti...",
-                "searchTagMessage": "Usa i tag dei prodotti per la ricerca",
-                "thLogo": "Logo",
-                "thAbout": "Info",
-                "thRates": "Giudizi",
-                "thAction": "Azioni",
-                "tabLabelRegistration": "Registrato il ",
-                "tabMsgProduct": "Vedi i prodotti associati",
-                "category":"Categoria",
-                "newProduct":"Nuovo prodotto",
-                "updateProduct":"Modifica prodotto",
-                "added": "Prodotto aggiunto",
-                "updated": "Prodotto aggiornato",
-                "maxCharacters": "Max 500  caratteri.",
-                "note": "Note ",
-                "minimumQuantity": "Quantità minima",
-                "maximumQuantity": "Quantità massima",
-                "numberOfDays": "Numero di giorni",
-                "images": "Immagini",
-                "noProductSearch": "Nessun prodotto trovato"
-            },
-            "evaluation": {
-                "evaluation": "Evaluation",
-                "your_opinion": "Il tuo parere conta molto per noi!",
-                "quality": "Qualità del prodotto",
-                "pricevalue": "Rapporto qualità/prezzo",
-                "delivery": "Modalità e termini di consegna",
-                "overallrating": "Giudizio complessivo (campo obbligatorio)",
-                "customerservice": "Servizio clienti (tempi di risposta, supporto e assistenza)",
-                "pros": "Aspetti positivi",
-                "pros_placeholder": "Scrivi qui i tuoi commenti positivi",
-                "cons": "Aspetti negativi",
-                "cons_placeholder": "Scrivi qui i tuoi commenti negativi",
-                "submit": "Invia",
-                "thank_you": "Grazie per avere lasciato la tua opinione!",
-                "invalid_evaluation": "Valutazione incompleta",
-                "missing_overall": "Manca il giudizio complessivo.",
-                "price_rate": "prezzo",
-                "delivery_rate": "spedizione",
-                "product_rate": "prodotto",
-                "customer_rate": "venditore"
-                
-            },
-            "homepage": {
-                "discoversuppliers": "Scopri",
-                "new": "nuovi",
-                "suppliers": "fornitori",
-                "simplesearch": "Ricerca veloce",
-                "smartrfq": "RFQ rapide",
-                "typicalproducts": "Prodotti tipici",
-                "des_simplesearch": "Ricerca veloce dei fornitori che dispongono di un dato prodotto o che appartengono ad una data categoria merceologica.",
-                "des_smartrfq": "Compilazione rapida delle richieste al fornitore con possibilità di trattativa e messaggistica diretta.",
-                "des_typicalproducts": "Tantissimi prodotti tipici messi a disposizione dai nostri fornitori. ",
-                "des_crs4": "Il CRS4 è un centro di ricerca interdisciplinare privato fondato dalla Regione Autonoma della Sardegna.",
-                "useflink": "Links utili",
-                "contactus": "Contattaci",
-                "aboutus": "Chi siamo",
-                "site": "Sito",
-                "everything": "Tutte"
-
-            }
-        }
+    "accept": {
+      "en": "I understand",
+      "it": "Ho capito"
+    },
+    "decline": {
+      "en": "I refuse it",
+      "it": "Rifiuto"
     }
-
-};
+  },
+  "nav": {
+    "home": {
+      "en": "Home",
+      "it": "Home"
+    },
+    "about": {
+      "en": "About",
+      "it": "Chi siamo"
+    },
+    "help": {
+      "en": "Help",
+      "it": "Aiuto"
+    },
+    "logout": {
+      "en": "Logout",
+      "it": "Esci"
+    },
+    "login": {
+      "en": "Login",
+      "it": "Accedi"
+    },
+    "lang": {
+      "en": "Language",
+      "it": "Lingua"
+    },
+    "services": {
+      "en": "Services",
+      "it": "Servizi"
+    },
+    "contacts": {
+      "en": "Contacts",
+      "it": "Contatti"
+    }
+  },
+  "error": {
+    "400": {
+      "en": "Bad request",
+      "it": "Richiesta non valida"
+    },
+    "401": {
+      "en": "You are not authorized to access this resource",
+      "it": "Non sei autorizzato ad accedere a questa funzione"
+    },
+    "403": {
+      "en": "You are not authorized to access this resource",
+      "it": "Non sei autorizzato ad accedere a questa funzione"
+    },
+    "500": {
+      "en": "Internal server error",
+      "it": "Errore interno del server"
+    },
+    "404": {
+      "en": "Resource Not found",
+      "it": "Risorsa non trovata"
+    },
+    "invalid_access_token": {
+      "en": "Your acccess token is expired or invalid",
+      "it": "Il tuo access token è scaduto o invalido"
+    },
+    "invalid_email": {
+      "en": "Your email address is not valid",
+      "it": "L'indirizzo email inserito non &egrave; valido"
+    },
+    "bad_request": {
+      "en": "Bad Request",
+      "it": "Richiesta non valida"
+    },
+    "missing_user_or_password": {
+      "en": "No username o password provided",
+      "it": "Nome utente o password mancanti"
+    },
+    "unauthorized": {
+      "en": "You are not authorized to call this endpoint",
+      "it": "Non sei autorizzato ad accedere lla risorsa"
+    },
+    "internal_server_error": {
+      "en": "Internal server error",
+      "it": "Errore Interno del Server"
+    },
+    "invalid_auth": {
+      "en": "Invalid email and/or password",
+      "it": "Email e/o password errati"
+    },
+    "password_differs": {
+      "en": "Passwords must be equals",
+      "it": "Le password differiscono"
+    },
+    "void_password": {
+      "en": "Passwords can not be void",
+      "it": "La password non puo essere vuota"
+    }
+  },
+  "homepage": {
+    "des_crs4": {
+      "en": "CRS4 is a private interdisciplinary research center, founded by the Sardinia Autonomous Region.",
+      "it": "Il CRS4 è un centro di ricerca interdisciplinare privato fondato dalla Regione Autonoma della Sardegna."
+    },
+    "useflink": {
+      "en": "Useful Links",
+      "it": "Links utili"
+    },
+    "aboutus": {
+      "en": "About us",
+      "it": "Chi siamo"
+    },
+    "site": {
+      "en": "Site",
+      "it": "Sito"
+    }
+  },
+  "buttons": {
+    "show_more": {
+      "en": "Show More",
+      "it": "Mostra Ulteriori Dettagli"
+    },
+    "home_redirect": {
+      "en": "Go Back to Main Page",
+      "it": "Ritorna alla Home Page"
+    },
+    "search": {
+      "en": "Search",
+      "it": "Cerca"
+    }
+  },
+  "login": {
+    "signUp": {
+      "en": "Sign Up",
+      "it": "Registrati"
+    },
+    "signIn": {
+      "en": "Sign In",
+      "it": "Accedi"
+    },
+    "yourEmail": {
+      "en": "Your email",
+      "it": "Il tuo indirizzo email"
+    },
+    "yourName": {
+      "en": "Your name",
+      "it": "Il tuo nome"
+    },
+    "password": {
+      "en": "Password",
+      "it": "Password"
+    },
+    "choosePassword": {
+      "en": "Choose password",
+      "it": "Scegli una password"
+    },
+    "retypePassword": {
+      "en": "Retype password",
+      "it": "Conferma password"
+    },
+    "forgetpassword": {
+      "en": "Forget your Password ?",
+      "it": "Hai dimenticato la Password ?"
+    },
+    "noworries": {
+      "en": "no worries, to reset your password",
+      "it": "non preoccuparti, per reimpostare la tua password"
+    },
+    "clickhere": {
+      "en": "click here",
+      "it": "clicca qui"
+    }
+  },
+  "profile": {
+    "email": {
+      "en": "Email",
+      "it": "Email"
+    },
+    "type": {
+      "en": "Account type",
+      "it": "Tipo di account"
+    },
+    "Name": {
+      "en": "Name",
+      "it": "Nome"
+    },
+    "Surname": {
+      "en": "surname",
+      "it": "Cognome"
+    },
+    "ckanApiKey": {
+      "en": "ckan Api Key",
+      "it": "chiave ckan"
+    },
+    "phone": {
+      "en": "Telephone number",
+      "it": "Numero di telefono"
+    },
+    "avatar": {
+      "en": "Image",
+      "it": "Logo"
+    },
+    "pIva": {
+      "en": "VATIN",
+      "it": "Partita IVA"
+    },
+    "profile": {
+      "en": "Profile",
+      "it": "Profilo"
+    },
+    "photo": {
+      "en": "Update profile image",
+      "it": "Aggiorna immagine del profilo"
+    },
+    "passwordTitle": {
+      "en": "Manage your password",
+      "it": "Gestisci la tua password"
+    },
+    "passwordTitle2": {
+      "en": "Below you can change your password",
+      "it": "Qui puoi cambiare la tua password"
+    },
+    "editPassword": {
+      "en": "Change Password",
+      "it": "Cambia la password"
+    },
+    "oldPasswordPlaceholder": {
+      "en": "Your current password",
+      "it": "La tua password attuale"
+    },
+    "newPasswordPlaceholder": {
+      "en": "New password",
+      "it": "Inserisci la nuova password"
+    },
+    "newPassword2Placeholder": {
+      "en": "Retype the new password",
+      "it": "Conferma la nuova password"
+    },
+    "passwordSaved": {
+      "en": "Your password has been updated successfully",
+      "it": "La tua password è stata aggiornata correttamente"
+    },
+    "avatarSaved": {
+      "en": "Image profile saved",
+      "it": "Immagine del profilo salvata"
+    },
+    "title": {
+      "en": "Manage your profile information",
+      "it": "Gestisci le informazioni del tuo profilo"
+    },
+    "edit": {
+      "en": "Edit profile",
+      "it": "Modifica il profilo"
+    },
+    "saved": {
+      "en": "Your profile has been successfully updated",
+      "it": "Il tuo profilo è stato aggiornato correttamente"
+    },
+    "emptyText": {
+      "en": "Empty",
+      "it": "Vuoto"
+    },
+    "cancel": {
+      "en": "Cancel",
+      "it": "Annulla"
+    },
+    "save": {
+      "en": "Save",
+      "it": "Salva"
+    },
+    "resetpasswordtitle": {
+      "en": "Reset Your Password",
+      "it": "Recupera la tua Password"
+    },
+    "resetpasswordmessage": {
+      "en": "Type your username used in signUp process",
+      "it": "inserisci il tuo nome utente usato per la registrazione"
+    },
+    "emailplaceholder": {
+      "en": "username",
+      "it": "nome utente"
+    },
+    "reset": {
+      "en": "Reset",
+      "it": "Reimposta"
+    },
+    "resetemailmessage": {
+      "en": "We have been sent an email with instructions to change your password.",
+      "it": "Ti abbiamo spedito una email con le istruzioni per cambiare la password."
+    }
+  },
+  "pagination": {
+    "next": {
+      "en": "Next",
+      "it": "Prossima"
+    },
+    "prev": {
+      "en": "Prev",
+      "it": "Precedente"
+    },
+    "last": {
+      "en": "Last",
+      "it": "Ultima"
+    },
+    "first": {
+      "en": "First",
+      "it": "Prima"
+    }
+  }
+}

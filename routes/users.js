@@ -8,6 +8,7 @@ var multiparty = require('multiparty');
 var magic = require('stream-mmmagic');
 var fs=require('fs');
 var Buffer=require('buffer').Buffer;
+var commonFunctions=require('./commonFunctions');
 
 var userMsUrl  = properties.userUrl;
 
@@ -226,6 +227,62 @@ router.get('/actions/getprofileimage/:id', function(req, res) {
         headers: {'Authorization': "Bearer " + (req.query.access_token || "")},
     };
     request.get(rqparams).pipe(res);
+});
+
+
+router.post('/actions/resetPassword/:email', function(req, res) {
+
+    var email=req.params.email;
+
+    var rqparams = {
+        url:  userMsUrl + "/users/"+email+"/actions/resetpassword",
+        headers: {'Authorization': "Bearer " + properties.myMicroserviceToken},
+    };
+    request.post(rqparams,function(err,response,body){
+        if(err){ // internla Error
+                return res.status(500).send({error:"InternalError",error_message:err});
+        }else{
+            var bodyJson=JSON.parse(body);
+            if(bodyJson.error){ // reset password error
+                return res.status(response.statusCode).send(bodyJson);
+            }else{
+
+                var resetLink=properties.userUIUrl + "/users/actions/setNewPassword/"+ bodyJson.reset_token;
+
+
+
+                var bodyMail="<p>"+ properties.resetPasswordMail.htmlMessage +"<br> <a href=\""+ resetLink + " style=\"color:#2A5685\">Click Here</a></p>";
+
+                var mail={
+                         "from":properties.resetPasswordMail.from,
+                         "to":[email],
+                         "subject":properties.resetPasswordMail.subject,
+                         "htmlBody":bodyMail
+                };
+
+                var options={
+                    url:  properties.mailUrl + "/email",
+                    headers: {'Authorization': "Bearer " + properties.myMicroserviceToken, 'content-type': 'application/json'},
+                    body: JSON.stringify(mail)
+                };
+
+                request.post(options,function(err,resp,body){
+                    if(err){
+                        return res.status(500).send({error:"InternalError",error_message:err});
+                    }else{
+                        console.log(body);
+                        var respBody=JSON.parse(body);
+                       if(resp.statusCode!=200){
+                            return res.status(resp.statusCode).send({error:respBody.error,error_message:body});
+                       }else{
+                            return res.status(200).send({username:email});
+                       }
+                    }
+                });
+
+            }
+        }
+    });
 });
 
 

@@ -95,6 +95,13 @@
 							<button type="submit" class="btn-u btn-block rounded" onclick="signIn()" data-i18n="login.signIn"></button>
 						</div>
 					</div>
+					<div class="row">
+						<hr>
+						<h4 style="color:white" data-i18n="login.forgetpassword" ></h4>
+						<!--<p style="color:white">no worries, <a style="background-color: red;color: white" href="#">click here</a> to reset your password.</p>-->
+						<p><span style="color:white" data-i18n="login.noworries"></span> <a style="background-color: red;color: white" href="resetPassword" data-i18n="login.clickhere"></a></p>
+					</div>
+
 					<!--div class="social-login">
 						<div class="or rounded-x">Or</div>
 						<ul class="list-unstyled">
@@ -196,24 +203,26 @@
 
 
 <script type="text/javascript" src="assets/js/plugins/bootstrap-select.min.js"></script>
-<script src="customAssets/translations/translation.json"></script>
-<!--script type="text/javascript" src="https://raw.githubusercontent.com/i18next/i18next-xhr-backend/master/i18nextXHRBackend.min.js"></script-->
-<script type="text/javascript" src="assets/js/plugins/i18next.min.js"></script>
-<!-- script type="text/javascript" src="https://raw.githubusercontent.com/i18next/i18next/master/i18next.min.js"></script -->
-<script type="text/javascript" src="assets/js/plugins/jquery-i18next.min.js"></script>
-<!-- script type="text/javascript" src="https://raw.githubusercontent.com/i18next/jquery-i18next/master/jquery-i18next.min.js"></script -->
+
+<!--<script src="customAssets/translations/translation.json"></script>-->
+<!--<script type="text/javascript" src="assets/js/plugins/i18next.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/js/plugins/jquery-i18next.min.js"></script>-->
+
 
 <!-- JS Customization -->
 <script type="text/javascript" src="node_modules/underscore/underscore-min.js"></script>
 <script type="text/javascript" src="customAssets/js/utils.js"></script>
 <script type="text/javascript" src="assets/js/plugins/handlebars.min.js"></script>
-<script type="text/javascript" src="customAssets/js/common_header.js"></script>
-<script type="text/javascript" src="customAssets/js/footer.js"></script>
 <script src="customAssets/js/userUiCustom.js"></script>
 <script src="customAssets/js/sign_in_up.js"></script>
 
 <!-- JS Page Level -->
 <script src="assets/js/app.js"></script>
+
+<script src="<%- commonUI.headerScript %>"></script>
+<script src="<%- commonUI.footerScript %>"></script>
+<script src="<%- commonUI.languagemanager %>"></script>
+
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
@@ -224,7 +233,6 @@
         //   StyleSwitcher.initStyleSwitcher();
         //   $('#header_p').html(header_template);
 
-
         $.backstretch([
             "customAssets/img/port/login_1.jpg",
             "customAssets/img/port/login_2.jpg",
@@ -234,6 +242,24 @@
             fade: 1000,
             duration: 7000
         });
+
+
+
+        $.ajax({
+            cache: false,
+            url: config.userUIUrl + '/customAssets/translations/translation.json',
+            type:"get",
+            contentType:"application/json",
+            success: function(data) {
+                initDictionary(data,config.commonUIUrl,"profileLanguageManagerInitialized");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+                console.error(thrownError);
+            }
+        });
+
+
     });
 
 
@@ -249,8 +275,7 @@
 
 
 
-<script src="<%- commonUI.headerScript %>"></script>
-<script src="<%- commonUI.footerScript %>"></script>
+
 
 <!--[if lt IE 9]>
 <script src="assets/plugins/respond.js"></script>

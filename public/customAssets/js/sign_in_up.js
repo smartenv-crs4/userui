@@ -10,12 +10,9 @@ jQuery(document).ready(function(){
 });
 
 
-jQuery(document).on("translate", function(){
-  jQuery('.selectpicker').selectpicker('refresh');
-})
-
-
-
+// jQuery(document).on("translate", function(){
+//   jQuery('.selectpicker').selectpicker('refresh');
+// })
 
 
 function signIn()
@@ -163,16 +160,8 @@ function signUp()
       // success
       if(xhr.status == 201)
       {
-        console.log(data);
-        console.log(data.access_credentials.apiKey.token);
-        sessionStorage.token = data["access_credentials"]["apiKey"]["token"];
-        sessionStorage.refresh_token = data["access_credentials"]["refreshToken"]["token"];
-        sessionStorage.userId = data["created_resource"]["_id"];
-        sessionStorage.email = email;
-        getProfileInfo(false);
-        sessionStorage.prevPage = "page_profile_settings.html";
-        
-        redirectToPrevPage();
+          redirectToPrevPage(data["access_credentials"]["apiKey"]["token"]);
+          return;
       }
       else
       {
@@ -217,4 +206,64 @@ function signUp()
       xhr.setRequestHeader('Authorization','Bearer ' + _access_token);
     }
   });
+}
+
+
+function resetPassword(){
+    var email = jQuery("#passwordrecoveremail").val();
+
+
+
+
+    //console.log(sessionStorage.token);
+    jQuery.ajax({
+        url: _userMsUrl + "/users/actions/resetPassword/"+ email,
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function(dataResp, textStatus, xhr)
+        {
+            jQuery('#reseterror').addClass("hidden");
+            jQuery('#resetform').addClass("hidden");
+            jQuery('#resetmessage').removeClass("hidden");
+
+        },
+        error: function(xhr, status)
+        {
+
+            var msg;
+            console.log(xhr.status);
+            switch(xhr.status)
+            {
+
+                case 400:
+                    msg = i18next.t("error.400");
+                    break;
+                case 401:
+                    msg =i18next.t("error.401");
+                    break;
+                case 403:
+                    msg =i18next.t("error.403");
+                    break;
+                case 404:
+                    msg =i18next.t("error.404");
+                    break;
+                case 500:
+                    msg =i18next.t("error.500");
+                    break;
+                default:
+                    msg =i18next.t("error.500");
+
+
+            }
+
+
+            jQuery('#reseterror').removeClass("hidden");
+            console.log(xhr);
+            jQuery('#resetPasswordErrorMessage').text(msg);
+            jQuery('#showmore').text(JSON.stringify(xhr.responseJSON.error_message));
+
+
+            return;
+        }
+    });
 }

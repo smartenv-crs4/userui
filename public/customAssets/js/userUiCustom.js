@@ -28,77 +28,19 @@ jQuery(document).ready(function(){
             jQuery("#sidebar").html(sbT({
                 avatar : profileImage
             }));
-            jQuery("#sidebar").localize();
+
+
+            //wait to language manager, when is loaded translate sidebar
+            addEventListener('profileLanguageManagerInitialized', function (e) {
+                jQuery("#sidebar").localize();
+
+            }, false);
+
         }
     }
-
-  jQuery('body').localize();  // body translate
-
-  if(localStorage.lng) // if a language is set in a previous page
-  {
-    var l = jQuery(".languages a[data-lng='" + localStorage.lng +"']"); // get language arrays
-    if(l.length > 0)  // check if a language array exist(not all pages have a language drop down menu)
-    {
-      if(localStorage.lng != jQuery(".languages .active a").first().attr("data-lng")) // if current language != set language then translate and change language
-      {
-        var lngSel = jQuery(".languages .active").first()
-        lngSel.empty();
-        lngSel.append(l[0].cloneNode(true));
-        var c = document.createElement("i");
-        c.className = "fa fa-check";
-        lngSel.find("a").first().append(c);
-      }
-      i18next.changeLanguage(localStorage.lng, function(){});
-      jQuery('body').localize();
-    }
-  }
-  else  //if not a language is set
-  {
-      //get default language and set it
-    localStorage.lng = jQuery(".languages .active a").first().data("lng");
-    i18next.changeLanguage(localStorage.lng, function(){});
-    jQuery('body').localize();
-  }
-
-
-  // on click on language drop down set the language
-  jQuery(".languages a").click(function(){
-    if(jQuery(this).attr("data-lng"))
-    {
-      localStorage.lng = jQuery(this).attr("data-lng");
-      var lngSel = jQuery(".languages .active").first();
-      lngSel.empty();
-      lngSel.append(this.cloneNode(true));
-      var c = document.createElement("i");
-      c.className = "fa fa-check";
-      lngSel.find("a").first().append(c);
-      i18next.changeLanguage(localStorage.lng, function(){});
-      jQuery('body').localize();
-      jQuery(document).trigger('translate');
-    }
-  });
-
 });
 
 
-
-i18next.init({
-  lng: localStorage.lng || "en", // evtl. use language-detector https://github.com/i18next/i18next-browser-languageDetector
-  fallbackLng: "en",
-  resources:  translation
-}, function (err, t) {
-  jqueryI18next.init(i18next, jQuery,
-      {
-        tName: 't', // --> appends $.t = i18next.t
-        i18nName: 'i18n', // --> appends $.i18n = i18next
-        handleName: 'localize', // --> appends $(selector).localize(opts);
-        selectorAttr: 'data-i18n', // selector for translating elements
-        targetAttr: 'i18n-target', // data-() attribute to grab target element to translate (if diffrent then itself)
-        optionsAttr: 'i18n-options', // data-() attribute that contains options, will load/set if useOptionsAttr = true
-        useOptionsAttr: false, // see optionsAttr
-        parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
-      });
-});
 
 
 function logout(){

@@ -9,10 +9,14 @@
     "userUrl":"your_user_service_url",
     "userUIUrl":"this_service_url",
     "uploadUrl":"your_upload_service_url",
+    "mailUrl":"your_mailer_service_url",
     "myMicroserviceToken":"your_auth_service_token",
     "defaultUserType":"cruiser",
-    "userTypeTranslateDictionary":{
-      "cruiser":"profile.cruiser"
+    "languageManagerLibUrl":"languageManager.js Path || URL",
+    "resetPasswordMail":{
+      "from":{"name":"Cagliari Port", "address":"cport2020@gmail.com"},
+      "subject":"Cagliari Port reset password",
+      "htmlMessage":"To change your password, click on the following link:"
     }
   },
 
@@ -26,10 +30,18 @@
     "userUrl":"your_user_service_url",
     "userUIUrl":"this_service_url",
     "uploadUrl":"your_upload_service_url",
+    "mailUrl":"your_mailer_service_url",
     "myMicroserviceToken":"your_auth_service_token",
     "defaultUserType":"cruiser",
-    "userTypeTranslateDictionary":{
-      "cruiser":"profile.cruiser"
+    "languageManagerLibUrl":"languageManager.js Path || URL",
+    "resetPasswordMail":{
+      "from":{"name":"Cagliari Port", "address":"cport2020@gmail.com"},
+      "subject":"Cagliari Port reset password",
+      "htmlMessage":"To change your password, click on the following link:"
     }
   }
 }
+
+
+
+
