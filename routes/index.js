@@ -84,7 +84,8 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
                 if(er){
                     return res.status(er).send(commonUIItem);
                 } else {
-                    return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: properties, redirectTo:userWebUiMsUrl});
+                    commonUIItem.languagemanager=properties.languageManagerLibUrl;
+                    return res.render('resetPassword', {commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
                 }
             });
 

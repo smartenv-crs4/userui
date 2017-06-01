@@ -229,6 +229,36 @@ router.get('/actions/getprofileimage/:id', function(req, res) {
     request.get(rqparams).pipe(res);
 });
 
+function getToken(req){
+    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token); // || req.headers['x-access-token'];
+    if (req.headers['authorization']) {
+        var value = req.headers['authorization'];
+        header = value.split(" ");
+        if (header.length == 2)
+            if (header[0] == "Bearer") {
+                token = header[1];
+            }
+    }
+
+    return token;
+}
+
+router.post('/:id/actions/setpassword', function(req, res) {
+
+    var userId=req.params.id;
+
+
+    //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SET PASSWORD URL:" + userMsUrl+"/" +userId + "/actions/setpassword");
+
+    //console.log(req.body);
+
+    var rqparams = {
+        url:  userMsUrl+"/users/" +userId + "/actions/setpassword",
+        headers: {'content-type': 'application/json','Authorization': "Bearer " + (getToken(req) || "")},
+        body:JSON.stringify(req.body)
+    };
+    request.post(rqparams).pipe(res);
+});
 
 router.post('/actions/resetPassword/:email', function(req, res) {
 

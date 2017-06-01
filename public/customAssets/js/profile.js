@@ -175,63 +175,74 @@ function loadProfileImage(){
 
 function changePassword()
 {
-  if(sessionStorage.userId == undefined)
-  {      
-    redirectToLogin();
+  if(!userData.UserToken)
+  {
+      redirectToResetPassword();
   }
   
   var oldPassword = jQuery("#oldPassword").val();
   var newPassword = jQuery("#newPassword1").val();
   var newPassword2 = jQuery("#newPassword2").val();
-  
+
+  var respBlock = jQuery("#responseBlock");
+
   if(newPassword !== newPassword2 || newPassword === "")
   {
-    jQuery.jGrowl(i18next.t("error.password_differs"), {theme:'bg-color-red', life: 5000});    
-    return;
+
+      respBlock.html(i18next.t("error.password_differs"));
+      respBlock.removeClass("hidden");
+      return;
   }
   
   var data = new Object();
   data.oldpassword = oldPassword;
   data.newpassword = newPassword;
-  
-  
-  //console.log(sessionStorage.token);
+
+
+  console.log(_userMsUrl + "/users/" +  userData._id + "/actions/setpassword");
+
+
   jQuery.ajax({
-    url: _userMsUrl + "users/" + sessionStorage.userId + "/actions/setpassword",
+    url: _userMsUrl + "/users/" +  userData._id + "/actions/setpassword",
     type: "POST",
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(data),
     dataType: "json",
     success: function(dataResp, textStatus, xhr)
-    {        
-      if(!dataResp.access_credentials.error)
-      {
-        jQuery.jGrowl(i18next.t("profile.passwordSaved"), {theme:'bg-color-green1', life: 5000});    
-      }
-      else
-      {
-        jQuery.jGrowl(dataResp.access_credentials.error_message, {theme:'bg-color-red', life: 5000});    
-      }
+    {
+        respBlock.addClass("hidden");
+        jQuery('#tabProfile').click();
+        jQuery("#oldPassword").val("");
+        jQuery("#newPassword1").val("");
+        jQuery("#newPassword2").val("");
+        jQuery.jGrowl(i18next.t("profile.passwordSaved"), {theme:'bg-color-green1', life: 5000});
+
     },     
     error: function(xhr, status)
     {
       var msg;
+
+      console.log("$$$$$$$$$$$$$$$$$$ RESET PAssword");
+      console.log(xhr);
+      console.log(status);
+
       try
       {        
-        msg = xhr.responseJSON.message;
+        msg = xhr.responseJSON.error_message;
       }
       catch(err)
       {
         msg = i18next.t("error.internal_server_error");
       }
-      
-      jQuery.jGrowl(msg, {theme:'bg-color-red', life: 5000});
+
+        respBlock.html(msg);
+        respBlock.removeClass("hidden");
             
       return;    
     },
     beforeSend: function(xhr, settings) 
     { 
-      xhr.setRequestHeader('Authorization','Bearer ' + sessionStorage.token); 
+      xhr.setRequestHeader('Authorization','Bearer ' +  userData.UserToken);
     }                    
   });  
 

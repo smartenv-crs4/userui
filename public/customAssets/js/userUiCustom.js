@@ -67,6 +67,12 @@ function redirectToLogin()
   window.location.href = "/login";
 }
 
+function redirectToResetPassword()
+{
+    sessionStorage.prevPage = window.location.href;
+    window.location.href = "/resetPassword";
+}
+
 function redirectToPrevPage(access_token)
 {
     // redirect is set from ejs rendering
