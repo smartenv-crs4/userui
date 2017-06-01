@@ -26,7 +26,8 @@ jQuery(document).ready(function(){
             console.log("PROFILE IMG " + profileImage );
 
             jQuery("#sidebar").html(sbT({
-                avatar : profileImage
+                avatar : profileImage,
+                profilePage:"?access_token=" + userData.UserToken
             }));
 
 

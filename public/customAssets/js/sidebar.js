@@ -18,7 +18,7 @@ var sidebarTemplate = `
 
   <ul class="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
       <li class="list-group-item active">
-          <a href="page_profile.html"><i class="fa fa-bar-chart-o"></i> Menu</a>
+          <a href="{{profilePage}}"><i class="fa fa-bar-chart-o"></i> Menu</a>
       </li>
       
       <!--{{#if isSupplier}}-->
@@ -40,7 +40,7 @@ var sidebarTemplate = `
       <!--</li>-->
 
       <li class="list-group-item">
-          <a href="page_profile_settings.html"><i class="fa fa-cog"></i> <span data-i18n="profile.profile"></span></a>
+          <a href="{{profilePage}}"><i class="fa fa-cog"></i> <span data-i18n="profile.profile"></span></a>
       </li>
   </ul>
 
