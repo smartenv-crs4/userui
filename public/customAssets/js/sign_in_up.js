@@ -310,7 +310,7 @@ function setPassword(resetToken,userID)
             jQuery("#oldPassword").val("");
             jQuery("#newPassword1").val("");
             jQuery("#newPassword2").val("");
-            jQuery.jGrowl(i18next.t("profile.passwordSaved"), {theme:'bg-color-green1', life: 5000});
+            redirectToPrevPage(dataResp["access_credentials"]["apiKey"]["token"]);
 
         },
         error: function(xhr, status)
