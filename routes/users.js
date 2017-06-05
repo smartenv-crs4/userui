@@ -248,10 +248,6 @@ router.post('/:id/actions/setpassword', function(req, res) {
     var userId=req.params.id;
 
 
-    //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SET PASSWORD URL:" + userMsUrl+"/" +userId + "/actions/setpassword");
-
-    //console.log(req.body);
-
     var rqparams = {
         url:  userMsUrl+"/users/" +userId + "/actions/setpassword",
         headers: {'content-type': 'application/json','Authorization': "Bearer " + (getToken(req) || "")},
@@ -259,6 +255,7 @@ router.post('/:id/actions/setpassword', function(req, res) {
     };
     request.post(rqparams).pipe(res);
 });
+
 
 router.post('/actions/resetPassword/:email', function(req, res) {
 
@@ -277,7 +274,7 @@ router.post('/actions/resetPassword/:email', function(req, res) {
                 return res.status(response.statusCode).send(bodyJson);
             }else{
 
-                var resetLink=properties.userUIUrl + "/users/actions/setNewPassword/"+ bodyJson.reset_token;
+                var resetLink=properties.userUIUrl + "/setNewPassword/"+ bodyJson.reset_token;
 
 
 

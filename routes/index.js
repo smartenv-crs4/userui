@@ -52,7 +52,73 @@ function getCommonUiResource(resource,callback){
 }
 
 
-/* GET home page. */
+
+
+router.get('/setNewPassword/:resetToken', function(req, res) {
+
+    var resetToken=req.params.resetToken;
+
+    var redirectTo=(req.query && req.query.redirectTo);
+
+    if (req.headers['redirectTo']) {
+        redirectTo= req.headers['redirectTo'];
+    }
+
+
+
+
+    var rqparams = {
+        url:  authMsUrl+ "/tokenactions/decodeToken",
+        headers: {'content-type': 'application/json','Authorization': "Bearer " + properties.myMicroserviceToken},
+        body:JSON.stringify({decode_token:resetToken})
+    };
+
+    request.get(rqparams, function (error, response, body) {
+
+        var bodyJson=JSON.parse(body);
+        console.log("????????????????????????????????????????????????????????????????????????????????????????");
+        console.log(body);
+        console.log(bodyJson.valid);
+        console.log(bodyJson.token._id);
+        console.log(resetToken);
+
+        if(response.statusCode==200) {
+           if(bodyJson.valid==true){
+               getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+                   if(er){
+                       return res.status(er).send(commonUIItem);
+                   } else {
+                       commonUIItem.languagemanager=properties.languageManagerLibUrl;
+                       return res.render('resetPassword', {resetTokenuserId:bodyJson.token._id,resetToken:resetToken,resetPassword:true,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                   }
+               });
+           }else{
+               getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+                   if(er){
+                       return res.status(er).send(commonUIItem);
+                   } else {
+                       commonUIItem.languagemanager=properties.languageManagerLibUrl;
+                       return res.render('resetPassword', {resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                   }
+               });
+           }
+
+        }else{
+            getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+                if(er){
+                    return res.status(er).send(commonUIItem);
+                } else {
+                    commonUIItem.languagemanager=properties.languageManagerLibUrl;
+                    return res.render('resetPassword', {resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                }
+            });
+        }
+    });
+
+});
+
+
+
 router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
     console.log(req.UserToken);
@@ -71,7 +137,7 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
                return res.status(er).send(commonUIItem);
            } else {
                commonUIItem.languagemanager=properties.languageManagerLibUrl;
-               return res.render('resetPassword', {commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+               return res.render('resetPassword', {resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
            }
         });
 
@@ -85,7 +151,7 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
                     return res.status(er).send(commonUIItem);
                 } else {
                     commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                    return res.render('resetPassword', {commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                    return res.render('resetPassword', {resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
                 }
             });
 

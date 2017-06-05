@@ -170,82 +170,82 @@ function loadProfileImage(){
 }
 
 
-
-
-
 function changePassword()
 {
-  if(!userData.UserToken)
-  {
-      redirectToResetPassword();
-  }
-  
-  var oldPassword = jQuery("#oldPassword").val();
-  var newPassword = jQuery("#newPassword1").val();
-  var newPassword2 = jQuery("#newPassword2").val();
-
-  var respBlock = jQuery("#responseBlock");
-
-  if(newPassword !== newPassword2 || newPassword === "")
-  {
-
-      respBlock.html(i18next.t("error.password_differs"));
-      respBlock.removeClass("hidden");
-      return;
-  }
-  
-  var data = new Object();
-  data.oldpassword = oldPassword;
-  data.newpassword = newPassword;
-
-
-  console.log(_userMsUrl + "/users/" +  userData._id + "/actions/setpassword");
-
-
-  jQuery.ajax({
-    url: _userMsUrl + "/users/" +  userData._id + "/actions/setpassword",
-    type: "POST",
-    contentType: "application/json; charset=utf-8",
-    data: JSON.stringify(data),
-    dataType: "json",
-    success: function(dataResp, textStatus, xhr)
+    if(!userData.UserToken)
     {
-        respBlock.addClass("hidden");
-        jQuery('#tabProfile').click();
-        jQuery("#oldPassword").val("");
-        jQuery("#newPassword1").val("");
-        jQuery("#newPassword2").val("");
-        jQuery.jGrowl(i18next.t("profile.passwordSaved"), {theme:'bg-color-green1', life: 5000});
+        redirectToResetPassword();
+    }
 
-    },     
-    error: function(xhr, status)
+    var oldPassword = jQuery("#oldPassword").val();
+    var newPassword = jQuery("#newPassword1").val();
+    var newPassword2 = jQuery("#newPassword2").val();
+
+    var respBlock = jQuery("#responseBlock");
+
+    if(newPassword !== newPassword2 || newPassword === "")
     {
-      var msg;
 
-      console.log("$$$$$$$$$$$$$$$$$$ RESET PAssword");
-      console.log(xhr);
-      console.log(status);
-
-      try
-      {        
-        msg = xhr.responseJSON.error_message;
-      }
-      catch(err)
-      {
-        msg = i18next.t("error.internal_server_error");
-      }
-
-        respBlock.html(msg);
+        respBlock.html(i18next.t("error.password_differs"));
         respBlock.removeClass("hidden");
-            
-      return;    
-    },
-    beforeSend: function(xhr, settings) 
-    { 
-      xhr.setRequestHeader('Authorization','Bearer ' +  userData.UserToken);
-    }                    
-  });  
+        return;
+    }
+
+    var data = new Object();
+    data.oldpassword = oldPassword;
+    data.newpassword = newPassword;
+
+
+    console.log(_userMsUrl + "/users/" +  userData._id + "/actions/setpassword");
+
+
+    jQuery.ajax({
+        url: _userMsUrl + "/users/" +  userData._id + "/actions/setpassword",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: function(dataResp, textStatus, xhr)
+        {
+            respBlock.addClass("hidden");
+            jQuery('#tabProfile').click();
+            jQuery("#oldPassword").val("");
+            jQuery("#newPassword1").val("");
+            jQuery("#newPassword2").val("");
+            jQuery.jGrowl(i18next.t("profile.passwordSaved"), {theme:'bg-color-green1', life: 5000});
+
+        },
+        error: function(xhr, status)
+        {
+            var msg;
+
+            console.log("$$$$$$$$$$$$$$$$$$ RESET PAssword");
+            console.log(xhr);
+            console.log(status);
+
+            try
+            {
+                msg = xhr.responseJSON.error_message;
+            }
+            catch(err)
+            {
+                msg = i18next.t("error.internal_server_error");
+            }
+
+            respBlock.html(msg);
+            respBlock.removeClass("hidden");
+
+            return;
+        },
+        beforeSend: function(xhr, settings)
+        {
+            xhr.setRequestHeader('Authorization','Bearer ' +  userData.UserToken);
+        }
+    });
 
 }
+
+
+
 
 

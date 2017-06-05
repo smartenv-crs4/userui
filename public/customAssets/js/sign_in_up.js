@@ -267,3 +267,78 @@ function resetPassword(){
         }
     });
 }
+
+
+function setPassword(resetToken,userID)
+{
+
+    console.log("??????????????????????????????????????????");
+    console.log(resetToken);
+    console.log(userID);
+
+    var newPassword = jQuery("#newPassword1").val();
+    var newPassword2 = jQuery("#newPassword2").val();
+
+    var respBlock = jQuery("#responseBlock");
+
+    if(newPassword !== newPassword2 || newPassword === "")
+    {
+
+        respBlock.html(i18next.t("error.password_differs"));
+        respBlock.removeClass("hidden");
+        return;
+    }
+
+    var data = new Object();
+    data.reset_token = resetToken;
+    data.newpassword = newPassword;
+
+
+    console.log(_userMsUrl + "/users/" +  userID + "/actions/setpassword");
+
+
+    jQuery.ajax({
+        url: _userMsUrl + "/users/" + userID + "/actions/setpassword",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: function(dataResp, textStatus, xhr)
+        {
+            respBlock.addClass("hidden");
+            jQuery('#tabProfile').click();
+            jQuery("#oldPassword").val("");
+            jQuery("#newPassword1").val("");
+            jQuery("#newPassword2").val("");
+            jQuery.jGrowl(i18next.t("profile.passwordSaved"), {theme:'bg-color-green1', life: 5000});
+
+        },
+        error: function(xhr, status)
+        {
+            var msg;
+
+            console.log("$$$$$$$$$$$$$$$$$$ RESET PAssword");
+            console.log(xhr);
+            console.log(status);
+
+            try
+            {
+                msg = xhr.responseJSON.error_message;
+            }
+            catch(err)
+            {
+                msg = i18next.t("error.internal_server_error");
+            }
+
+            respBlock.html(msg);
+            respBlock.removeClass("hidden");
+
+            return;
+         } ,
+        beforeSend: function(xhr, settings)
+        {
+            xhr.setRequestHeader('Authorization','Bearer ' +  _access_token);
+        }
+    });
+
+}
