@@ -109,7 +109,7 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
                             return res.status(er).send(commonUIItem);;
                         } else {
                             commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null});
+                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null,openPassordTab:true});
                         }
                     });
 
@@ -120,7 +120,7 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
                             return res.status(er).send(commonUIItem);
                         } else {
                             commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user:null ,error:bodyJson});
+                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user:null ,error:bodyJson, openPassordTab:false});
                         }
                     });
                 }
@@ -188,7 +188,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                             return res.status(er).send(commonUIItem);;
                         } else {
                             commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null});
+                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null,openPassordTab:false});
                         }
                     });
 
@@ -199,7 +199,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                             return res.status(er).send(commonUIItem);
                         } else {
                             commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user:null ,error:bodyJson});
+                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user:null ,error:bodyJson,openPassordTab:false});
                         }
                     });
                 }
