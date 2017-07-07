@@ -208,10 +208,19 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
         redirectTo= req.headers['redirectTo'];
     }
 
+
+    var homeRedirect=(req.query && req.query.homeRedirect) || null;
+    if (req.headers['homeRedirect']) {
+        homeRedirect= req.headers['homeRedirect'];
+    }
+
+
+    var hAndF=homeRedirect !=null ? "/headerAndFooter" :"/headerAndFooter?homePage=" + homeRedirect;
+
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
 
         console.log("######################################################################################### Login because not Access_token --->" + req.UserToken.error_message);
-        getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+        getCommonUiResource(hAndF,function(er,commonUIItem){
             if(er){
                 return res.status(er).send(commonUIItem);
             } else {
@@ -225,7 +234,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
             // go to login
             console.log("######################################################################################### Login because not valid Access_token --> " + req.UserToken.error_message);
-            getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+            getCommonUiResource(hAndF,function(er,commonUIItem){
                 if(er){
                     return res.status(er).send(commonUIItem);
                 } else {
@@ -242,6 +251,8 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                 headers: {'content-type': 'application/json','Authorization': "Bearer " + req.UserToken.access_token},
             };
 
+
+
             request.get(rqparams, function (error, response, body) {
                 var bodyJson=JSON.parse(body);
                 if(response.statusCode==200) {
@@ -249,7 +260,11 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
                     console.log("######################################################################################### Logged User" + bodyJson);
                     bodyJson.type=req.UserToken.token.type;
-                    getCommonUiResource("/headerAndFooter?logout=logout();&access_token=" + bodyJson.UserToken,function(er,commonUIItem){
+                    if(hAndF.indexOf("?")>=0)
+                        hAndF=hAndF+"logout=logout();&access_token=" + bodyJson.UserToken;
+                    else
+                        hAndF=hAndF+"?logout=logout();&access_token=" + bodyJson.UserToken;
+                    getCommonUiResource(hAndF,function(er,commonUIItem){
                         if(er){
                             return res.status(er).send(commonUIItem);;
                         } else {
@@ -260,7 +275,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
                 }else{
                     console.log("######################################################################################### " + bodyJson);
-                    getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+                    getCommonUiResource(hAndF,function(er,commonUIItem){
                         if(er){
                             return res.status(er).send(commonUIItem);
                         } else {
