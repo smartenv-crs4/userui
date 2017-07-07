@@ -218,7 +218,10 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
         homeRedirect=null;
 
 
-    var hAndF=homeRedirect !=null ? "/headerAndFooter" :"/headerAndFooter?homePage=" + homeRedirect;
+    var hAndF= (homeRedirect ==null) ? "/headerAndFooter" :"/headerAndFooter?homePage=" + homeRedirect;
+
+    console.log("çççççççççççççççççç");
+    console.log(hAndF);
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
 
