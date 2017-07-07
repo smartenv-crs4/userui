@@ -214,6 +214,9 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
         homeRedirect= req.headers['homeRedirect'];
     }
 
+    if(homeRedirect && ((homeRedirect.indexOf("null")>=0)||(homeRedirect.indexOf("false")>=0)))
+        homeRedirect=null;
+
 
     var hAndF=homeRedirect !=null ? "/headerAndFooter" :"/headerAndFooter?homePage=" + homeRedirect;
 
