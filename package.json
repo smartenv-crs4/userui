@@ -25,18 +25,5 @@
   },
   "devDependencies": {
     "should": "^4.0.4"
-  },
-  "apidoc": {
-    "title": "Caport2020 User WebUI",
-    "url": "http://smartapi.crs4.it/auth/v1",
-    "header": {
-      "title": "API Overview",
-      "filename": "header.md"
-    },
-    "footer": {
-      "title": "Maintained by CRS4",
-      "filename": "footer.md"
-    },
-    "sampleUrl": "http://smartapi.crs4.it/api/authdemo/v1"
   }
 }
