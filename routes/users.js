@@ -28,10 +28,7 @@ router.post('/signup', function(req, res) {
         body: JSON.stringify(req.body)
     };
 
-    console.log("°°°°°" + userMsUrl + '/users/signup' + "òòòòòòò");
-
     request.post(rqparams, function (error, response, body) {
-        console.log(body);
         return res.status(response.statusCode).send(body);
     });
 });

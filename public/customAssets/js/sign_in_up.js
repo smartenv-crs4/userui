@@ -73,26 +73,28 @@ function signIn()
     error: function(xhr, status)
     {
       console.log(xhr.status);
-      switch(xhr.status)
-      {
-        case 400:
-          if(xhr.responseJSON.error == "invalid_token")
-            respBlock.html(i18next.t("error.unauthorized"))
-          else if(xhr.responseJSON.error == "BadRequest")
-            respBlock.html(i18next.t("error.missing_user_or_password"));
-          else
-            respBlock.html(xhr.responseJSON.error_message);
-          break;
-        case 500:
-          respBlock.html(i18next.t("error.internal_server_error"));
-          break;
-        case 403:
-          respBlock.html(i18next.t("error.invalid_auth"));
-          break;
-        default:
-          console.log(xhr);
-          respBlock.html(xhr.responseJSON.error_message);
-      }
+        switch (xhr.status) {
+            case 400:
+                if (xhr.responseJSON.error && xhr.responseJSON.error == "invalid_token")
+                    respBlock.html(i18next.t("error.unauthorized"))
+                else if (xhr.responseJSON.error && xhr.responseJSON.error == "BadRequest")
+                    respBlock.html(i18next.t("error.missing_user_or_password"));
+                else if (xhr.responseJSON.error_message)
+                    respBlock.html(xhr.responseJSON.error_message);
+                else if (xhr.responseText)
+                    respBlock.html(xhr.responseText);
+                else respBlock.html(JSON.stringify(xhr));
+                break;
+            case 500:
+                respBlock.html(i18next.t("error.internal_server_error"));
+                break;
+            case 403:
+                respBlock.html(i18next.t("error.invalid_auth"));
+                break;
+            default:
+                console.log(xhr);
+                respBlock.html(xhr.responseJSON.error_message);
+        }
       respBlock.removeClass("invisible");
       return;
     }
@@ -177,12 +179,15 @@ function signUp()
       {
 
         case 400:
-          if(xhr.responseJSON.error == "invalid_token")
+          if(xhr.responseJSON.error && xhr.responseJSON.error == "invalid_token")
             respBlock.html(i18next.t("error.unauthorized"))
-          else if(xhr.responseJSON.error == "BadRequest")
+          else if(xhr.responseJSON.error && xhr.responseJSON.error == "BadRequest")
             respBlock.html(i18next.t("error.missing_user_or_password"));
-          else
+          else  if(xhr.responseJSON.error_message)
             respBlock.html(xhr.responseJSON.error_message);
+          else if (xhr.responseText)
+              respBlock.html(xhr.responseText);
+          else respBlock.html(JSON.stringify(xhr));
           break;
         case 401:
           respBlock.html(i18next.t("error.bad_request"));
