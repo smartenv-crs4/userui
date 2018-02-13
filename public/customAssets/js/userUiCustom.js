@@ -23,7 +23,7 @@ jQuery(document).ready(function(){
               profileImage=_userMsUrl + "/users/actions/getprofileimage/" +userData.avatar+"?access_token=" + userData.UserToken;
 
 
-            console.log("PROFILE IMG " + profileImage );
+            //console.log("PROFILE IMG " + profileImage );
 
             jQuery("#sidebar").html(sbT({
                 avatar : profileImage,
@@ -75,9 +75,15 @@ function redirectToResetPassword()
 
 function redirectToPrevPage(access_token)
 {
+    // console.log(redirectTo + "?access_token=" + access_token);
     // redirect is set from ejs rendering
-    console.log(redirectTo + "?access_token=" + access_token);
-    window.location.href = redirectTo + "?access_token=" + access_token;
+
+    if(redirectTo.indexOf('?')>=0)
+        window.location.href = redirectTo + "&access_token=" + access_token;
+    else
+        window.location.href = redirectTo + "?access_token=" + access_token;
+
+
 }
 
 
