@@ -220,8 +220,6 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
     var hAndF= (homeRedirect ==null) ? "/headerAndFooter" :"/headerAndFooter?homePage=" + homeRedirect;
 
-    console.log("çççççççççççççççççç");
-    console.log(hAndF);
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
 
@@ -258,8 +256,10 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
             };
 
 
+console.log(rqparams.url);
 
             request.get(rqparams, function (error, response, body) {
+
                 var bodyJson=JSON.parse(body);
                 if(response.statusCode==200) {
                     bodyJson.UserToken=req.UserToken.access_token;

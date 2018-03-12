@@ -19,8 +19,9 @@ jQuery(document).ready(function(){
             var sbT = Handlebars.compile(sidebarTemplate);
             var profileImage="assets/img/team/img32-md.jpg";
 
-            if(! _.isEmpty(userData.avatar))
-              profileImage=_userMsUrl + "/users/actions/getprofileimage/" +userData.avatar+"?access_token=" + userData.UserToken;
+            if(! _.isEmpty(userData.avatar)) {
+                profileImage = _userMsUrl + "/users/actions/getprofileimage/" + userData.avatar + "?access_token=" + userData.UserToken;
+            }
 
 
             //console.log("PROFILE IMG " + profileImage );

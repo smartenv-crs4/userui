@@ -93,8 +93,9 @@ function updateProfile()
               userData[key]=value;
             });
 
-            if(!_.isEmpty(data.user.avatar))
-              jQuery('#imgBox').attr("src", _userMsUrl + "/users/actions/getprofileimage/" +userData.avatar+"?access_token=" + userData.UserToken);
+            if(!_.isEmpty(data.user.avatar)) {
+                jQuery('#imgBox').attr("src", _userMsUrl + "/users/actions/getprofileimage/" + userData.avatar + "?access_token=" + userData.UserToken);
+            }
 
 
             // var defaultImg = "assets/img/team/img32-md.jpg";
@@ -143,7 +144,7 @@ function loadProfileImage(){
     fd.append( file.name.split(".")[0], file);
 
     jQuery.ajax({
-        url: _userMsUrl + "/users/actions/uploadprofileimage",
+        url: _userMsUrl + "/users/actions/uploadprofileimage?access_token=" + userData.UserToken,
         data: fd,
         processData: false,
         contentType: false,

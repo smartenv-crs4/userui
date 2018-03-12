@@ -201,6 +201,7 @@ router.post('/actions/uploadprofileimage', function(req, res) {
         var options ={
             url: uploadMsUrl + "/file",
             method: "POST",
+            headers: {'Authorization': "Bearer " + (getToken(req) || "")},
             formData:formData,
             preambleCRLF: true,
             postambleCRLF: true
@@ -209,7 +210,7 @@ router.post('/actions/uploadprofileimage', function(req, res) {
         request.post(options,function(err,response,body){
             if(err)
                 return res.status(500).send({error_code:500, error:"Internalerror", error_message:err});
-            res.status(201).send(JSON.parse(body));
+            res.status(response.statusCode).send(JSON.parse(body));
         });
 
     });
@@ -221,7 +222,7 @@ router.get('/actions/getprofileimage/:id', function(req, res) {
 
     var rqparams = {
         url:  uploadMsUrl + "/file/" + imageId,
-        headers: {'Authorization': "Bearer " + (req.query.access_token || "")},
+        headers: {'Authorization': "Bearer " + (getToken(req) || "")},
     };
     request.get(rqparams).pipe(res);
 });
