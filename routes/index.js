@@ -264,15 +264,23 @@ console.log(rqparams.url);
                 if(response.statusCode==200) {
                     bodyJson.UserToken=req.UserToken.access_token;
 
+                    var logOutFunc=(req.query && req.query.logout) || "/";
+                    if (req.headers['logout']) {
+                        logOutFunc= req.headers['logout'];
+                    }
+
+                    if(logOutFunc && ((logOutFunc.indexOf("null")>=0)||(logOutFunc.indexOf("false")>=0)))
+                        logOutFunc="/";
+
                     console.log("######################################################################################### Logged User" + bodyJson);
                     bodyJson.type=req.UserToken.token.type;
                     if(hAndF.indexOf("?")>=0)
-                        hAndF=hAndF+"logout=logout();&access_token=" + bodyJson.UserToken;
+                        hAndF=hAndF+"logout=logout('"+ logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;
                     else
-                        hAndF=hAndF+"?logout=logout();&access_token=" + bodyJson.UserToken;
+                        hAndF=hAndF+"?logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;;
                     getCommonUiResource(hAndF,function(er,commonUIItem){
                         if(er){
-                            return res.status(er).send(commonUIItem);;
+                            return res.status(er).send(commonUIItem);
                         } else {
                             commonUIItem.languagemanager=properties.languageManagerLibUrl;
                             return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null,openPassordTab:false});

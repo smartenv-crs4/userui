@@ -45,10 +45,9 @@ jQuery(document).ready(function(){
 
 
 
-function logout(){
-    window.location.replace("/");
+function logout(logOutFunc){
+    window.location.replace(logOutFunc);
 }
-
 
 
 /*******************************************
