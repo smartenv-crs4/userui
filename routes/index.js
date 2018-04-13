@@ -272,12 +272,28 @@ console.log(rqparams.url);
                     if(logOutFunc && ((logOutFunc.indexOf("null")>=0)||(logOutFunc.indexOf("false")>=0)))
                         logOutFunc="/";
 
+
+                    var loginHomeRedirect=(req.query && req.query.loginHomeRedirect) || "null";
+                    if (req.headers['loginHomeRedirect']) {
+                        loginHomeRedirect= req.headers['loginHomeRedirect'];
+                    }
+
+                    if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)))
+                        loginHomeRedirect="null";
+
+
+
+
+
                     console.log("######################################################################################### Logged User" + bodyJson);
                     bodyJson.type=req.UserToken.token.type;
                     if(hAndF.indexOf("?")>=0)
-                        hAndF=hAndF+"logout=logout('"+ logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;
+                        hAndF=hAndF+"&logout=logout('"+ logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc + "&loginHomeRedirect=" + loginHomeRedirect;
                     else
-                        hAndF=hAndF+"?logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;;
+                        hAndF=hAndF+"?logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc + "&loginHomeRedirect=" + loginHomeRedirect;
+
+                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! loginHomeRedirect:" + hAndF);
+
                     getCommonUiResource(hAndF,function(er,commonUIItem){
                         if(er){
                             return res.status(er).send(commonUIItem);
