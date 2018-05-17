@@ -104,7 +104,28 @@ function signIn()
 
 
 
+function errorMessageDisplay(xhr){
+    switch(xhr.status)
+    {
 
+        case 400:
+            respBlock.html(i18next.t("error.400"));
+            break;
+        case 401:
+            respBlock.html(i18next.t("error.401"));
+            break;
+        case 403:
+            respBlock.html(i18next.t("error.403"));
+            break;
+        case 500:
+            respBlock.html(i18next.t("error.500"));
+            break;
+        default:
+            respBlock.html(JSON.stringify(xhr));
+            break;
+
+    }
+}
 
 
 function signUp()
@@ -175,34 +196,22 @@ function signUp()
     error: function(xhr, status)
     {
         console.log(xhr);
-      switch(xhr.status)
-      {
 
-        case 400:
-          if(xhr.responseJSON.error && xhr.responseJSON.error == "invalid_token")
-            respBlock.html(i18next.t("error.unauthorized"))
-          else if(xhr.responseJSON.error && xhr.responseJSON.error == "BadRequest")
-            respBlock.html(i18next.t("error.missing_user_or_password"));
-          else  if(xhr.responseJSON.error_message)
-            respBlock.html(xhr.responseJSON.error_message);
-          else if (xhr.responseText)
-              respBlock.html(xhr.responseText);
-          else respBlock.html(JSON.stringify(xhr));
-          break;
-        case 401:
-          respBlock.html(i18next.t("error.bad_request"));
-          break;
-        case 403:
-          respBlock.html(i18next.t("error.invalid_auth"));
-          break;
-        case 500:
-          respBlock.html(i18next.t("error.internal_server_error"));
-          break;
-        default:
-          respBlock.html(xhr.responseJSON.error_message);
+        if(xhr.responseJSON && xhr.responseJSON.error){
+            if(xhr.responseJSON.error == "invalid_token")
+                respBlock.html(i18next.t("error.unauthorized"))
+            else if(xhr.responseJSON.error == "BadRequest")
+                respBlock.html(i18next.t("error.missing_user_or_password"));
+            else  if(xhr.responseJSON.error_message)
+                respBlock.html(xhr.responseJSON.error_message);
+            else if (xhr.responseText)
+                respBlock.html(xhr.responseText);
+            else
+                errorMessageDisplay(xhr);
 
-
-      }
+        }else{
+            errorMessageDisplay(xhr);
+        }
       respBlock.removeClass("invisible");
       return;
     },
