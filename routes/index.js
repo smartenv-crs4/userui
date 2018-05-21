@@ -202,7 +202,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
     console.log(req.UserToken);
 
-    var redirectTo=(req.query && req.query.redirectTo);
+    var redirectTo=(req.query && req.query.redirectTo) || null;
 
     if (req.headers['redirectTo']) {
         redirectTo= req.headers['redirectTo'];
@@ -218,7 +218,18 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
         homeRedirect=null;
 
 
-    var hAndF= (homeRedirect ==null) ? "/headerAndFooter" :"/headerAndFooter?homePage=" + homeRedirect;
+    var loginHomeRedirect=(req.query && req.query.loginHomeRedirect) || "null";
+    if (req.headers['loginHomeRedirect']) {
+        loginHomeRedirect= req.headers['loginHomeRedirect'];
+    }
+
+    if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)))
+        loginHomeRedirect="null";
+
+
+
+    var hAndF= (homeRedirect ==null) ? "/headerAndFooter" :"/headerAndFooter?homePage=" + homeRedirect+ "&loginHomeRedirect=" + loginHomeRedirect;
+    hAndF= (redirectTo ==null) ? hAndF :  hAndF+"&afterLoginRedirectTo="+redirectTo;
 
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
@@ -256,7 +267,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
             };
 
 
-console.log(rqparams.url);
+            console.log(rqparams.url);
 
             request.get(rqparams, function (error, response, body) {
 
@@ -273,13 +284,13 @@ console.log(rqparams.url);
                         logOutFunc="/";
 
 
-                    var loginHomeRedirect=(req.query && req.query.loginHomeRedirect) || "null";
-                    if (req.headers['loginHomeRedirect']) {
-                        loginHomeRedirect= req.headers['loginHomeRedirect'];
-                    }
-
-                    if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)))
-                        loginHomeRedirect="null";
+                    // var loginHomeRedirect=(req.query && req.query.loginHomeRedirect) || "null";
+                    // if (req.headers['loginHomeRedirect']) {
+                    //     loginHomeRedirect= req.headers['loginHomeRedirect'];
+                    // }
+                    //
+                    // if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)))
+                    //     loginHomeRedirect="null";
 
 
 
@@ -288,9 +299,9 @@ console.log(rqparams.url);
                     console.log("######################################################################################### Logged User" + bodyJson);
                     bodyJson.type=req.UserToken.token.type;
                     if(hAndF.indexOf("?")>=0)
-                        hAndF=hAndF+"&logout=logout('"+ logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc + "&loginHomeRedirect=" + loginHomeRedirect;
+                        hAndF=hAndF+"&logout=logout('"+ logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;
                     else
-                        hAndF=hAndF+"?logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc + "&loginHomeRedirect=" + loginHomeRedirect;
+                        hAndF=hAndF+"?logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;
 
                     console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! loginHomeRedirect:" + hAndF);
 
