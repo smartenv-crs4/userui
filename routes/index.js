@@ -3,23 +3,16 @@ var router = express.Router();
 var request=require("request");
 var _ = require('underscore')._;
 var properties = require('propertiesmanager').conf;
-var tokenManager = require('tokenmanager');
+var tokenManager = require('./commonFunctions').tokenManager;
 var util=require('util');
 var commonFunctions=require('./commonFunctions');
+var codified_data=require('codified_data');
 
 
 var authMsUrl  = properties.authUrl; //"http://seidue.crs4.it/api/user/v1/";
 var userMsUrl  = properties.userUrl; //"http://seidue.crs4.it/api/user/v1/";
 var userWebUiMsUrl  = properties.userUIUrl; //"http://seidue.crs4.it/api/user/v1/";
 
-
-tokenManager.configure( {
-    "decodedTokenFieldName":"UserToken", // Add token in UserToken field
-    "exampleUrl":userWebUiMsUrl,
-    "authorizationMicroserviceUrl":authMsUrl+ "/tokenactions/checkiftokenisauth",
-    "authorizationMicroserviceEncodeTokenUrl":authMsUrl+ "/tokenactions/decodeToken",
-    "authorizationMicroserviceToken":properties.myMicroserviceToken,
-});
 
 
 function getCommonUiResource(resource,callback){
@@ -202,6 +195,8 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
     console.log(req.UserToken);
 
+
+
     var redirectTo=(req.query && req.query.redirectTo) || null;
 
     if (req.headers['redirectTo']) {
@@ -254,10 +249,9 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                     return res.status(er).send(commonUIItem);
                 } else {
                     commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                    return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: properties, redirectTo:userWebUiMsUrl});
+                    return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
                 }
             });
-
         }
         else{ // load page profile
 
@@ -293,9 +287,6 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                     //     loginHomeRedirect="null";
 
 
-
-
-
                     console.log("######################################################################################### Logged User" + bodyJson);
                     bodyJson.type=req.UserToken.token.type;
                     if(hAndF.indexOf("?")>=0)
@@ -303,14 +294,31 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                     else
                         hAndF=hAndF+"?logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;
 
-                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! loginHomeRedirect:" + hAndF);
+
+                    var customProperties=_.clone(properties);
+
+                    if(req.query.enableUserUpgrade){
+                        customProperties.enableUserUpgrade=req.query.enableUserUpgrade;
+                        hAndF=hAndF+"&enableUserUpgrade="+customProperties.enableUserUpgrade;
+                    }
+
+                    if(req.query.applicationSettings){
+                        customProperties.applicationSettings=JSON.parse(req.query.applicationSettings);
+                        hAndF=hAndF+"&applicationSettings="+req.query.applicationSettings;
+                    }
+
+
+
+                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! loginHomeRedirect: !!!!!!!!!!!!!!! " + hAndF);
+                    console.log(customProperties);
+                    console.log(req.query.enableUserUpgrade);
 
                     getCommonUiResource(hAndF,function(er,commonUIItem){
                         if(er){
                             return res.status(er).send(commonUIItem);
                         } else {
                             commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null,openPassordTab:false});
+                            return res.render('profile', {commonUI:commonUIItem,properties: customProperties, user: bodyJson, error: null,openPassordTab:false});
                         }
                     });
 
@@ -328,6 +336,143 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
             });
         }
     }
+});
+
+// need appDmins Array to check in /userprofileAsAdmin/:id route
+router.post('/actions/getcodeforsecurecalls',tokenManager.checkAuthorization,function(req,res){
+    if(!req.body) return res.status(400).send({error:"BadRequest",error_message:"no body in your request"});
+    if(!req.body.appAdmins) return res.status(400).send({error:"BadRequest",error_message:"no mandatory appAdmins field in your body request"});
+
+    codified_data.setKey(req.body,function(err,secret){
+        if(err) return res.status(500).send({error:"InternalError",error_message:err});
+        res.status(200).send({secret:secret});
+    });
+});
+
+
+
+/* GET home page. */
+router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorization, function(req, res) {
+
+    var secret=(req.query && req.query.secret)||null;
+
+    if(!secret || (secret.toLocaleUpperCase()=="UNDEFINED") || (secret.toLocaleUpperCase()=="NULL")){
+        commonFunctions.getErrorPage(400,"BadRequest","query field “secret” is mandatory in the request",function(statusCode,content){
+            return res.status(statusCode).send(content);
+        });
+    }
+
+
+
+    codified_data.getKey(secret,function(err,appAdmin){
+        if(err){
+            commonFunctions.getErrorPage(500,"InternalError",err,function(statusCode,content){
+                return res.status(statusCode).send(content);
+            });
+        }
+
+        if(appAdmin) {
+            if (appAdmin.appAdmins.indexOf(req.UserToken.token.type) >= 0) {
+
+                var redirectTo = (req.query && req.query.redirectTo) || null;
+
+                if (req.headers['redirectTo']) {
+                    redirectTo = req.headers['redirectTo'];
+                }
+
+
+                var homeRedirect = (req.query && req.query.homeRedirect) || null;
+                if (req.headers['homeRedirect']) {
+                    homeRedirect = req.headers['homeRedirect'];
+                }
+
+                if (homeRedirect && ((homeRedirect.indexOf("null") >= 0) || (homeRedirect.indexOf("false") >= 0)))
+                    homeRedirect = null;
+
+
+                var loginHomeRedirect = (req.query && req.query.loginHomeRedirect) || "null";
+                if (req.headers['loginHomeRedirect']) {
+                    loginHomeRedirect = req.headers['loginHomeRedirect'];
+                }
+
+                if (loginHomeRedirect && ((loginHomeRedirect.indexOf("null") >= 0) || (loginHomeRedirect.indexOf("false") >= 0)))
+                    loginHomeRedirect = "null";
+
+
+                var hAndF = (homeRedirect == null) ? "/headerAndFooter" : "/headerAndFooter?homePage=" + homeRedirect + "&loginHomeRedirect=" + loginHomeRedirect;
+                hAndF = (redirectTo == null) ? hAndF : hAndF + "&afterLoginRedirectTo=" + redirectTo;
+
+
+                var rqparams = {
+                    url: userMsUrl + '/users/' + req.params.id,
+                    headers: {
+                        'content-type': 'application/json',
+                        'Authorization': "Bearer " + req.UserToken.access_token
+                    },
+                };
+
+                console.log(rqparams.url);
+
+                request.get(rqparams, function (error, response, body) {
+
+                    var bodyJson = JSON.parse(body);
+                    if (response.statusCode == 200) {
+
+                        bodyJson.UserToken = req.UserToken.access_token;
+
+                        var logOutFunc = (req.query && req.query.logout) || "/";
+                        if (req.headers['logout']) {
+                            logOutFunc = req.headers['logout'];
+                        }
+
+                        if (logOutFunc && ((logOutFunc.indexOf("null") >= 0) || (logOutFunc.indexOf("false") >= 0)))
+                            logOutFunc = "/";
+
+                        if (hAndF.indexOf("?") >= 0)
+                            hAndF = hAndF + "&logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken + "&userUiLogoutRedirect=" + logOutFunc;
+                        else
+                            hAndF = hAndF + "?logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken + "&userUiLogoutRedirect=" + logOutFunc;
+
+                        bodyJson.ptitle=bodyJson.email+"[" + bodyJson.name + " " + bodyJson.surname + "]";
+                        bodyJson.ApplicationTokenTypes=appAdmin.ApplicationTokenTypes;
+
+                        getCommonUiResource(hAndF, function (er, commonUIItem) {
+                            if (er) {
+                                commonFunctions.getErrorPage(500,"InternalError",(commonUIItem.error_message || "error in get commonui resource"),function(statusCode,content){
+                                    return res.status(statusCode).send(content);
+                                });
+                            } else {
+                                commonUIItem.languagemanager = properties.languageManagerLibUrl;
+                                return res.render('profile', {
+                                    commonUI: commonUIItem,
+                                    properties: properties,
+                                    user: bodyJson,
+                                    error: null,
+                                    openPassordTab: false
+                                });
+                            }
+                        });
+
+                    } else {
+                        commonFunctions.getErrorPage(404,"Not Found","User Not Found",function(statusCode,content){
+                            return res.status(statusCode).send(content);
+                        });
+                    }
+                });
+
+            } else {
+                commonFunctions.getErrorPage(401,"Unauthorised","You are not unauthorised to access this resource. Login as"+ appAdmin.appAdmins.toString(),function(statusCode,content){
+                    return res.status(statusCode).send(content);
+                });
+            }
+        } else {
+            commonFunctions.getErrorPage(500,"InternalError","Is not possible to get secret code",function(statusCode,content){
+                return res.status(statusCode).send(content);
+            });
+        }
+
+    });
+
 });
 
 

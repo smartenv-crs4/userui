@@ -12,13 +12,22 @@ function compileProfile(){
         jQuery('#passwordTab').html(templatePassword());
         jQuery('#passwordTab').localize();
 
-        var defaultImg = "assets/img/team/img32-md.jpg";
+        // var defaultImg = config.userUiUrl+"/assets/img/team/img32-md.jpg";
 
         // translate user Type
 
         userData.typeTranslate = i18next.t("profile."+userData.type);
         if(userData.typeTranslate.indexOf(".")>=0)
             userData.typeTranslate = userData.type;
+
+
+        // console.log("22222222222222222222==============");
+        // console.log(userData);
+
+        if(config.enableUserUpgrade)
+            userData.enableUserUpgrade=config.enableUserUpgrade.split(",");
+        else
+            userData.enableUserUpgrade=[];
 
 
         var template = Handlebars.compile(defaultUserProfileTemplate);
@@ -57,7 +66,25 @@ function getUserProfile()
 }
 
 
+function updateProfileSuccess(data){
+    jQuery.jGrowl(i18next.t("profile.saved"), {theme: 'bg-color-green1', life: 5000});
+    jQuery("#profileCancel").removeClass().addClass("btn-u btn-u-default").attr("disabled", "disabled");
+    jQuery("#profileSave").removeClass().addClass("btn-u btn-u-default").attr("disabled", "disabled");
+    _.each(data.user, function (value, key) {
+        userData[key] = value;
+    });
+}
 
+function updateProfileUnSuccess(xhr){
+    var msg;
+    try{
+        msg = (xhr.responseJSON.error_message || xhr.responseJSON.message);
+    }catch(err){
+        msg = i18next.t("error.internal_server_error");
+    }
+    jQuery.jGrowl(msg, {theme:'bg-color-red', life: 5000});
+    return;
+}
 
 function updateProfile()
 {
@@ -81,53 +108,40 @@ function updateProfile()
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(data),
         dataType: "json",
-        success: function(dataResp, textStatus, xhr)
-        {
+        success: function(dataResp, textStatus, xhr){
 
-            jQuery.jGrowl(i18next.t("profile.saved"), {theme:'bg-color-green1', life: 5000});
 
-            jQuery("#profileCancel").removeClass().addClass("btn-u btn-u-default").attr("disabled","disabled");
-            jQuery("#profileSave").removeClass().addClass("btn-u btn-u-default").attr("disabled","disabled");
+            if($('#pType').attr('data-accountType')!=$('#ed-type').val()){
+                jQuery.ajax({
+                    url: _userMsUrl + "/users/" + userData._id+"/actions/upgradeusertype/"+$('#ed-type').val()+"?access_token=" + userData.UserToken,
+                    type: "POST",
+                    success: function(dataResp, textStatus, xhr){
+                        updateProfileSuccess(data);
 
-            _.each(data.user,function(value,key){
-              userData[key]=value;
-            });
-
-            if(!_.isEmpty(data.user.avatar)) {
-                jQuery('#imgBox').attr("src", _userMsUrl + "/users/actions/getprofileimage/" + userData.avatar + "?access_token=" + userData.UserToken);
+                    },
+                    error: function(xhr, status){
+                        updateProfileUnSuccess(xhr);
+                    }
+                });
+            }else {
+                updateProfileSuccess(data);
             }
 
+            // if(!_.isEmpty(data.user.avatar)) {
+            //     jQuery('#imgBox').attr("src", _userMsUrl + "/users/actions/getprofileimage/" + userData.avatar + "?access_token=" + userData.UserToken);
+            // }
 
-            // var defaultImg = "assets/img/team/img32-md.jpg";
-            //
-            // if(data.user.logo)
-            // {
-            //     jQuery("#imgBox").attr("src", data.user.logo);
-            //     sessionStorage.logo = data.user.logo;
-            // }
-            // else
-            // {
-            //     jQuery("#imgBox").attr("src", defaultImg);
-            //     sessionStorage.logo = undefined;
-            // }
         },
-        error: function(xhr, status)
-        {
-            var msg;
-            try
-            {
-                msg = xhr.responseJSON.error_message;
-            }
-            catch(err)
-            {
-                msg = i18next.t("error.internal_server_error");
-            }
-
-            jQuery.jGrowl(msg, {theme:'bg-color-red', life: 5000});
-
-            return;
+        error: function(xhr, status){
+           updateProfileUnSuccess(xhr);
         }
     });
+
+
+
+
+
+
 }
 
 
@@ -138,6 +152,8 @@ function openBrowseFile(){
 
 
 function loadProfileImage(){
+
+
     var file=$('#loadThumbnailImageProfile')[0].files[0];
 
     var fd = new FormData();
@@ -153,7 +169,8 @@ function loadProfileImage(){
             jQuery('#ed-avatarButton').click();
 //            console.log(jQuery('#ed-avatar').html());
             jQuery('#ed-avatar').html(data.filecode).blur();
-            jQuery('#profileSave').click();
+            jQuery('#imgBox').attr("src",_userMsUrl+"/users/actions/getprofileimage/"+data.filecode);
+            //jQuery('#profileSave').click();
         },
         error: function(xhr, status)
         {
@@ -162,7 +179,7 @@ function loadProfileImage(){
             var msg=i18next.t(errType);
 
             try{
-                msg = msg + " --> " + xhr.responseJSON.error_message;
+                msg = msg + " --> " + (xhr.responseJSON.error_message || xhr.responseJSON.message || "");
             }
             catch(err){ }
            jQuery.jGrowl(msg, {theme:'bg-color-red', life: 5000});
@@ -247,6 +264,46 @@ function changePassword()
 }
 
 
+function upgradeUserRequest(toUserType){
 
+
+
+    jQuery.ajax({
+        url: _userMsUrl + "/users/actions/upgradeUser?access_token="+userData.UserToken+"&applicationSettings="+JSON.stringify(config.applicationSettings)+"&toUserType="+toUserType,
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function(dataResp, textStatus, xhr){
+
+           jQuery.jGrowl(i18next.t("profile.upgradeRequestDone"), {theme:'bg-color-green1', life: 5000});
+
+        },
+        error: function(xhr, status){
+
+            console.log("Error in upgradeUserRequest() function "+ (xhr.responseJSON && xhr.responseJSON.error_message) || "undefined error");
+            jQuery.jGrowl(i18next.t("error.internal_server_error"), {theme:'bg-color-red', life: 5000});
+
+            return;
+        }
+    });
+}
+
+
+function setTokenType(){
+
+ if($('#pType').attr('data-accountType')!=$('#ed-type').val())
+     enableAssociateButton(tokenTypeAssociatedButtons);
+ else
+     disableAssociateButton(tokenTypeAssociatedButtons);
+}
+
+let tokenTypeAssociatedButtons;
+
+function enableTypeManager(associatedButtons){
+    var element=$('#ed-type');
+    element.removeAttr('disabled');
+    tokenTypeAssociatedButtons=associatedButtons;
+    element.focus();
+
+}
 
 

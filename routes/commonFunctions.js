@@ -4,6 +4,15 @@
 
 var properties = require('propertiesmanager').conf;
 var request=require("request");
+var tokenManager = require('tokenmanager');
+
+tokenManager.configure( {
+    "decodedTokenFieldName":"UserToken", // Add token in UserToken field
+    "exampleUrl":properties.userUIUrl,
+    "authorizationMicroserviceUrl":properties.authUrl+ "/tokenactions/checkiftokenisauth",
+    "authorizationMicroserviceEncodeTokenUrl":properties.authUrl+ "/tokenactions/decodeToken",
+    "authorizationMicroserviceToken":properties.myMicroserviceToken,
+});
 
 exports.getErrorPage=function (errorCode,errorMessage,showMore,callback){
     var url=properties.commonUIUrl+"/errorPage?error_code="+errorCode+"&error_message="+ errorMessage +"&showMore_message="+showMore;
@@ -14,3 +23,6 @@ exports.getErrorPage=function (errorCode,errorMessage,showMore,callback){
         }
     });
 }
+
+
+exports.tokenManager=tokenManager;

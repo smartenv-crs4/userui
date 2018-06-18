@@ -3,12 +3,13 @@ var router = express.Router();
 var request=require("request");
 var _ = require('underscore')._;
 var properties = require('propertiesmanager').conf;
-var FormData = require('form-data');
 var multiparty = require('multiparty');
 var magic = require('stream-mmmagic');
 var fs=require('fs');
 var Buffer=require('buffer').Buffer;
 var commonFunctions=require('./commonFunctions');
+var tokenManager = require('./commonFunctions').tokenManager;
+
 
 var userMsUrl  = properties.userUrl;
 
@@ -20,7 +21,6 @@ var uploadMsUrl  = properties.uploadUrl; //"http://seidue.crs4.it/api/user/v1/";
 
 router.post('/signup', function(req, res) {
 
-    console.log("BODY TYPE "+typeof  req.body + " --> " + JSON.stringify(req.body));
 
     var rqparams = {
         url:  userMsUrl + '/users/signup',
@@ -37,7 +37,6 @@ router.post('/signup', function(req, res) {
 
 router.post('/signin', function(req, res) {
 
-    console.log("BODY TYPE "+typeof  req.body + " --> " + JSON.stringify(req.body));
 
     var rqparams = {
         url:  userMsUrl + '/users/signin',
@@ -201,7 +200,7 @@ router.post('/actions/uploadprofileimage', function(req, res) {
         var options ={
             url: uploadMsUrl + "/file",
             method: "POST",
-            headers: {'Authorization': "Bearer " + (getToken(req) || "")},
+            headers: {'Authorization': "Bearer " + properties.myMicroserviceToken || (getToken(req) || "")},
             formData:formData,
             preambleCRLF: true,
             postambleCRLF: true
@@ -222,7 +221,7 @@ router.get('/actions/getprofileimage/:id', function(req, res) {
 
     var rqparams = {
         url:  uploadMsUrl + "/file/" + imageId,
-        headers: {'Authorization': "Bearer " + (getToken(req) || "")},
+        headers: {'Authorization': "Bearer " +  properties.myMicroserviceToken || (getToken(req) || "")},
     };
     request.get(rqparams).pipe(res);
 });
@@ -276,7 +275,7 @@ router.post('/actions/resetPassword/:email', function(req, res) {
 
 
 
-                var bodyMail="<p>"+ properties.resetPasswordMail.htmlMessage +"<br> <a href=\""+ resetLink + " style=\"color:#2A5685\">Click Here</a></p>";
+                var bodyMail="<p>"+ properties.resetPasswordMail.htmlMessage +"<br> <a href=\""+ resetLink + "\" style=\"color:#2A5685\">Click Here</a></p>";
 
                 var mail={
                          "from":properties.resetPasswordMail.from,
@@ -310,5 +309,119 @@ router.post('/actions/resetPassword/:email', function(req, res) {
     });
 });
 
+
+
+router.post('/:id/actions/upgradeusertype/:type',tokenManager.checkAuthorization,function(req,res){
+
+    var id=req.params.id;
+    var upgradeType=req.params.type;
+
+    var rqparams = {
+        url:  userMsUrl + '/users/' +id+ '/actions/setusertype/'+upgradeType,
+        headers: {'content-type': 'application/json','Authorization': "Bearer " + properties.myMicroserviceToken},
+        body: JSON.stringify(req.body)
+    };
+
+    request.post(rqparams).pipe(res);
+
+});
+
+
+
+// applicationSettings={mailFrom:{name":"Cagliari Port", "address":"cport2020@gmail.com"}, appAdmins:["tokentype"],appName:"NomeApp", appBaseUrl:"http://localhost.....",};
+router.post('/actions/upgradeUser', function(req, res) {
+
+
+    console.log("send email request");
+
+    let applicationSettings=JSON.parse(req.query.applicationSettings);
+    let toUserType=req.query.toUserType;
+
+    console.log(applicationSettings);
+
+    var resetLink=applicationSettings.appBaseUrl + "/upgradeuser/"+ req.query.access_token;
+
+    console.log(resetLink);
+
+    var bodyMail="<p>"+ properties.upgradeUsermailConf.htmlMessage +"<br> <a href=\""+ resetLink + "\" style=\"color:#2A5685\">Click Here</a></p>";
+
+    console.log(bodyMail);
+
+
+    // get Application user Admins
+    var rqparams = {
+        url:  properties.userUrl + "/users/actions/search",
+        headers: {'content-type': 'application/json','Authorization': "Bearer " + properties.myMicroserviceToken },
+        body:JSON.stringify({searchterm:{type:applicationSettings.appAdmins}})
+    };
+
+    console.log(rqparams);
+
+    request.post(rqparams,function(err,response,body){ //check if default admin user exist
+        if(err) {
+            console.log(err);
+            return res.status(500).send({error: "InternalError", error_message: err});
+        }
+
+        var responseBody=JSON.parse(body);
+
+        console.log(body);
+
+        if(response.statusCode==200){
+            if(responseBody._metadata.totalCount==0){ // if not user  exist
+                return res.status(500).send({error:"InternalError",error_message:"Application administrator not found"});
+            }else{ // send email to all admin user
+
+
+                let to=[];
+
+                responseBody.users.forEach(function(userElement) {
+                   to.push(userElement.email);
+                });
+
+
+                var mail={
+                    "from":applicationSettings.mailFrom,
+                    "to":to,
+                    "subject":applicationSettings.appName+ " " +properties.upgradeUsermailConf.subject + " " + toUserType,
+                    "htmlBody":bodyMail
+                };
+
+                console.log(mail);
+
+                var options={
+                    url:  properties.mailUrl + "/email",
+                    headers: {'Authorization': "Bearer " + properties.myMicroserviceToken, 'content-type': 'application/json'},
+                    body: JSON.stringify(mail)
+                };
+
+                console.log(options);
+
+                request.post(options,function(err,resp,body){
+                    if(err){
+                        return res.status(500).send({error:"InternalError",error_message:err});
+                    }else{
+                        console.log(body);
+                        var respBody=JSON.parse(body);
+                        if(resp.statusCode!=200){
+                            return res.status(resp.statusCode).send({error:respBody.error,error_message:body});
+                        }else{
+                            return res.status(200).send(respBody);
+                        }
+                    }
+                });
+
+            }
+        }else{
+            responseBody.error_message+=" in " + properties.userUrl + "/users/actions/search";
+            return res.status(response.statusCode).send(responseBody);
+        }
+    });
+
+
+
+
+
+});
 
 module.exports = router;

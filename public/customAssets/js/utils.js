@@ -57,25 +57,43 @@ function isSearchVisible() {
 }
 
 
+
+
+function enableAssociateButton(associatedButtons){
+    associatedButtons.forEach(function (associatebutton) {
+        $('#'+associatebutton.id).removeClass(associatebutton.removeClass).addClass(associatebutton.addClass).removeAttr('disabled');
+    });
+}
+
+function disableAssociateButton(associatedButtons){
+    associatedButtons.forEach(function (associatebutton) {
+        $('#'+associatebutton.id).removeClass(associatebutton.addClass).addClass(associatebutton.removeClass).attr('disabled',true);
+    });
+}
+
 function setEditable(elementId,associatedButtons){
     var element=$('#'+elementId);
     var oldContent=element.html();
     element.attr('contentEditable',true);
 
-    console.log("EDITABLE " + elementId);
 
-    element.blur(function() {
+    if(!element.attr('data-blur')){
+        element.blur(function() {
             var newContent=element.html();
             element.attr('contentEditable', false);
             if((oldContent!=newContent) && (!(~(newContent.indexOf("mark"))))) {
                 element.html("<mark>" + newContent + "</mark>");
                 element.addClass("updatable");
+                enableAssociateButton(associatedButtons);
+            }else{
+                element.html(element.text());
+                element.removeClass("updatable");
+                disableAssociateButton(associatedButtons);
             }
-    });
+        });
+    }
 
-    associatedButtons.forEach(function (associatebutton) {
-        $('#'+associatebutton.id).removeClass(associatebutton.removeClass).addClass(associatebutton.addClass).removeAttr('disabled');
-    });
+    element.attr('data-blur',true);
     element.focus();
 }
 

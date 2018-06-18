@@ -1,5 +1,9 @@
 var defaultUserProfileTemplate = `
-<h2 class="heading-md" data-i18n="profile.title"></h2>
+{{#if ptitle}}
+    <h2 class="heading-md"><span data-i18n="profile.smalltitle"></span> <span>{{ptitle}}</span></h2>
+{{else}}
+    <h2 class="heading-md" data-i18n="profile.title"></h2>
+{{/if}}
 <br>
 <dl class="dl-horizontal">
     <dt><strong data-i18n="profile.email"></strong></dt>
@@ -14,8 +18,39 @@ var defaultUserProfileTemplate = `
     <hr>
     <dt><strong data-i18n="profile.type"></strong></dt>
     <dd id="pType" data-accountType={{type}}>
-        {{typeTranslate}}
-    </dd>
+    {{#if ApplicationTokenTypes}}            
+        <label class="select">
+            <select id="ed-type" disabled name="tokentypes" onchange="setTokenType()">
+    	        <option value="none" selected="" disabled="">{{typeTranslate}}</option>
+                {{#each ApplicationTokenTypes}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}                
+            </select>
+            <i></i>
+        </label>
+        <a class="pull-right" href="javascript:enableTypeManager({{profileEditParams}})"><i class="fa fa-pencil"></i></a>
+    {{else}}
+        <span>{{typeTranslate}}</span>
+         {{#if enableUserUpgrade}}        
+            <div class="pull-right btn-group">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                    <span data-i18n="profile.upgrade"></span>                                
+                    <i class="fa fa-angle-down"></i>
+                </button>
+                    
+                <ul class="dropdown-menu" role="menu">
+                    {{#each enableUserUpgrade}}
+                        <li><a onclick="upgradeUserRequest('{{this}}')">{{this}}</a></li>                        
+                    {{/each}}
+                    <li class="divider"></li>
+                    <li><a onclick="upgradeUserRequest('Administrator')">Administrator</a></li>                    
+                </ul>
+            </div>
+            <!--<button onclick="upgradeUserRequest()" class="pull-right btn-u btn-u-red" type="button"><i class="fa  fa-briefcase"></i><span>  </span><span data-i18n="profile.upgrade"></span></button>-->
+        {{/if}}
+    {{/if}}   
+        <!--<a class="pull-right" href=""><i class="fa fa-pencil">Upgrade</i></a>-->        
+    </dd>    
     <hr>
     <dt><strong data-i18n="profile.Name"></strong></dt>
     <dd>

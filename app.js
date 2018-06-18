@@ -10,8 +10,6 @@ var routes = require('./routes/index');
 var users= require('./routes/users');
 
 
-//TODO remove
-var FormData = require("form-data");
 var request = require("request");
 var multiparty = require("multiparty");
 var crossOrigin=require('./routes/middlewares').crossOrigin;

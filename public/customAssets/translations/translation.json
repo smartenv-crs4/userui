@@ -184,6 +184,14 @@
       "en": "Email",
       "it": "Email"
     },
+    "upgradeRequestDone": {
+      "en": "You request to change user type completed successfully",
+      "it": "La tua richiesta di modifica del tipo utente è stata completata con successo "
+    },
+    "upgrade": {
+      "en": "Change my user Type to:",
+      "it": "Cambia il mio utente in:"
+    },
     "type": {
       "en": "Account type",
       "it": "Tipo di account"
@@ -255,6 +263,10 @@
     "title": {
       "en": "Manage your profile information",
       "it": "Gestisci le informazioni del tuo profilo"
+    },
+    "smalltitle": {
+      "en": "Manage profile information of:",
+      "it": "Gestisci le informazioni del profilo:"
     },
     "edit": {
       "en": "Edit profile",
