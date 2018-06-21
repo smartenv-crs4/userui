@@ -22,38 +22,38 @@
 	<meta name="author" content="">
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="shortcut icon" href="<%=properties.userUIUrl%>/favicon.ico">
 
 	<!-- Web Fonts -->
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700&amp;subset=cyrillic,latin">
 
 	<!-- CSS Global Compulsory -->
-	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="customAssets/css/style.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/customAssets/css/style.css">
 
 	<!-- CSS Header and Footer -->
 	<!-- link rel="stylesheet" href="assets/css/headers/header-v6.css" -->
-	<link rel="stylesheet" href="assets/css/headers/header-default.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/css/headers/header-default.css">
 
-	<link rel="stylesheet" href="assets/css/footers/sticky-footer-navbar.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/css/footers/sticky-footer-navbar.css">
 
 	<!-- CSS Implementing Plugins -->
-	<link rel="stylesheet" href="assets/plugins/animate.css">
-	<link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css">
-	<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="assets/plugins/brand-buttons/brand-buttons-inversed.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/plugins/animate.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/plugins/line-icons/line-icons.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/plugins/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/plugins/brand-buttons/brand-buttons-inversed.css">
 
 	<!-- CSS Theme -->
-	<link rel="stylesheet" href="assets/css/theme-skins/dark.css" id="style_color">
-	<link rel="stylesheet" href="assets/css/theme-colors/dark-red.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/css/theme-skins/dark.css" id="style_color">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/css/theme-colors/dark-red.css">
 
 	<!-- CSS Page Style -->
-	<link rel="stylesheet" href="assets/css/pages/page_log_reg_v3.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/css/pages/page_log_reg_v3.css">
 
 	<!-- CSS Customization -->
-	<link rel="stylesheet" href="assets/css/custom.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/css/custom.css">
 
-	<link rel="stylesheet" href="assets/css/plugins/bootstrap-select.min.css">
+	<link rel="stylesheet" href="<%=properties.userUIUrl%>/assets/css/plugins/bootstrap-select.min.css">
 
 	<link rel="stylesheet" href="<%= commonUI.headerCss %>">
 
@@ -99,7 +99,7 @@
 						<hr>
 						<h4 style="color:white" data-i18n="login.forgetpassword" ></h4>
 						<!--<p style="color:white">no worries, <a style="background-color: red;color: white" href="#">click here</a> to reset your password.</p>-->
-						<p><span style="color:white" data-i18n="login.noworries"></span> <a style="background-color: red;color: white" href="resetPassword" data-i18n="login.clickhere"></a></p>
+						<p><span style="color:white" data-i18n="login.noworries"></span> <a style="background-color: red;color: white" href="resetPassword<%=properties.resetLinkApplicationSettings%>" data-i18n="login.clickhere"></a></p>
 					</div>
 
 					<!--div class="social-login">
@@ -192,17 +192,17 @@
 
 
 <!-- JS Global Compulsory -->
-<script src="assets/plugins/jquery/jquery.min.js"></script>
-<script src="assets/plugins/jquery/jquery-migrate.min.js"></script>
-<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/plugins/jquery/jquery.min.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/plugins/jquery/jquery-migrate.min.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- JS Implementing Plugins -->
-<script src="assets/plugins/back-to-top.js"></script>
-<script src="assets/plugins/backstretch/jquery.backstretch.min.js"></script>
-<script type="text/javascript" src="assets/js/plugins/style-switcher.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/plugins/back-to-top.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/plugins/backstretch/jquery.backstretch.min.js"></script>
+<script type="text/javascript" src="<%=properties.userUIUrl%>/assets/js/plugins/style-switcher.js"></script>
 
 
-<script type="text/javascript" src="assets/js/plugins/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="<%=properties.userUIUrl%>/assets/js/plugins/bootstrap-select.min.js"></script>
 
 <!--<script src="customAssets/translations/translation.json"></script>-->
 <!--<script type="text/javascript" src="assets/js/plugins/i18next.min.js"></script>-->
@@ -210,14 +210,14 @@
 
 
 <!-- JS Customization -->
-<script type="text/javascript" src="node_modules/underscore/underscore-min.js"></script>
-<script type="text/javascript" src="customAssets/js/utils.js"></script>
-<script type="text/javascript" src="assets/js/plugins/handlebars.min.js"></script>
-<script src="customAssets/js/userUiCustom.js"></script>
-<script src="customAssets/js/sign_in_up.js"></script>
+<script type="text/javascript" src="<%=properties.userUIUrl%>/node_modules/underscore/underscore-min.js"></script>
+<script type="text/javascript" src="<%=properties.userUIUrl%>/customAssets/js/utils.js"></script>
+<script type="text/javascript" src="<%=properties.userUIUrl%>/assets/js/plugins/handlebars.min.js"></script>
+<script src="<%=properties.userUIUrl%>/customAssets/js/userUiCustom.js"></script>
+<script src="<%=properties.userUIUrl%>/customAssets/js/sign_in_up.js"></script>
 
 <!-- JS Page Level -->
-<script src="assets/js/app.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/js/app.js"></script>
 
 <script src="<%- commonUI.headerScript %>"></script>
 <script src="<%- commonUI.footerScript %>"></script>
@@ -278,9 +278,9 @@
 
 
 <!--[if lt IE 9]>
-<script src="assets/plugins/respond.js"></script>
-<script src="assets/plugins/html5shiv.js"></script>
-<script src="assets/plugins/placeholder-IE-fixes.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/plugins/respond.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/plugins/html5shiv.js"></script>
+<script src="<%=properties.userUIUrl%>/assets/plugins/placeholder-IE-fixes.js"></script>
 <![endif]-->
 </body>
 </html>

@@ -48,6 +48,18 @@
     }
   },
   "error": {
+    "resetPassword401":{
+      "en": "The reset token is not valid. Try again",
+      "it": "Il reset token non è valido. Riprova"
+    },
+    "resetPassword500":{
+      "en": "Internal Server error in reset token decode request",
+      "it": "Errore interno al sever durante la richiesta di decodifica del reset token"
+    },
+    "nothing":{
+      "en": "No More",
+      "it": "Nessun ulteriore informazione"
+    },
     "400": {
       "en": "Bad request",
       "it": "Richiesta non valida"

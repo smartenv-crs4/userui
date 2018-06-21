@@ -133,11 +133,6 @@ function readStream(allowedMime,req,callback){
 
 
 
-
-
-
-
-
 router.post('/actions/upload', function(req, response, next) {
     var form = new multiparty.Form();
 
@@ -258,11 +253,25 @@ router.post('/actions/resetPassword/:email', function(req, res) {
 
     var email=req.params.email;
 
+
+    let applicationSettings={};
+    if(!req.query.applicationSettings)
+        return res.status(500).send({error:"Internal Server Error",error_message:"No applicationSettings query field"});
+
+    try {
+        applicationSettings = JSON.parse(req.query.applicationSettings);
+    }catch (ex) {
+        return res.status(500).send({error:"Internal Server Error",error_message:"Bad applicationSettings query field"});
+    }
+
+
+
+
     var rqparams = {
         url:  userMsUrl + "/users/"+email+"/actions/resetpassword",
         headers: {'Authorization': "Bearer " + properties.myMicroserviceToken},
     };
-    request.post(rqparams,function(err,response,body){
+    request.post(rqparams,function(err,response,body){ // get reset password token
         if(err){ // internla Error
                 return res.status(500).send({error:"InternalError",error_message:err});
         }else{
@@ -271,16 +280,20 @@ router.post('/actions/resetPassword/:email', function(req, res) {
                 return res.status(response.statusCode).send(bodyJson);
             }else{
 
-                var resetLink=properties.userUIUrl + "/setNewPassword/"+ bodyJson.reset_token;
+                var resetLink=properties.userUIUrl + "/setNewPassword/"+ bodyJson.reset_token +"?homeRedirect=" + applicationSettings.appBaseUrl;
+                resetLink+= ("&loginHomeRedirect=" + applicationSettings.appBaseUrl + "&redirectTo="+applicationSettings.appBaseUrl);
+                resetLink+=("&applicationSettings="+ encodeURIComponent(JSON.stringify(applicationSettings)));
 
 
+                console.log("REAETLINKKKKKKKKKKKKKKKKKKKKKKK");
+                console.log(resetLink);
 
                 var bodyMail="<p>"+ properties.resetPasswordMail.htmlMessage +"<br> <a href=\""+ resetLink + "\" style=\"color:#2A5685\">Click Here</a></p>";
 
                 var mail={
-                         "from":properties.resetPasswordMail.from,
+                         "from":applicationSettings.mailFrom,
                          "to":[email],
-                         "subject":properties.resetPasswordMail.subject,
+                         "subject":applicationSettings.appName + " " + properties.resetPasswordMail.subject,
                          "htmlBody":bodyMail
                 };
 

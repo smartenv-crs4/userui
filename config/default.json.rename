@@ -15,8 +15,7 @@
     "defaultUserType":"cruiser",
     "languageManagerLibUrl":"languageManager.js Path || URL",
     "resetPasswordMail":{
-      "from":{"name":"Cagliari Port", "address":"cport2020@gmail.com"},
-      "subject":"Cagliari Port reset password",
+      "subject":"Reset password",
       "htmlMessage":"To change your password, click on the following link:"
     },
     "upgradeUsermailConf":{
@@ -41,15 +40,13 @@
     "defaultUserType":"cruiser",
     "languageManagerLibUrl":"languageManager.js Path || URL",
     "resetPasswordMail":{
-      "from":{"name":"Cagliari Port", "address":"cport2020@gmail.com"},
-      "subject":"Cagliari Port reset password",
+      "subject":"Reset password",
       "htmlMessage":"To change your password, click on the following link:"
     },
     "upgradeUsermailConf":{
       "subject":"upgrade user to",
       "htmlMessage":"To upgrade user type, click on the following link:"
     }
-    
   }
 }
 

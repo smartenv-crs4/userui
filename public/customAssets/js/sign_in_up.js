@@ -231,7 +231,7 @@ function resetPassword(){
 
     //console.log(sessionStorage.token);
     jQuery.ajax({
-        url: _userMsUrl + "/users/actions/resetPassword/"+ email,
+        url: _userMsUrl + "/users/actions/resetPassword/"+ email+"?applicationSettings="+JSON.stringify(config.applicationSettings),
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function(dataResp, textStatus, xhr)
@@ -250,16 +250,16 @@ function resetPassword(){
             {
 
                 case 400:
-                    msg = i18next.t("error.400");
+                    msg =i18next.t("error.500") + "-->" + i18next.t("error.400");
                     break;
                 case 401:
-                    msg =i18next.t("error.401");
+                    msg =i18next.t("error.500") + "-->" +i18next.t("error.401");
                     break;
                 case 403:
-                    msg =i18next.t("error.403");
+                    msg =i18next.t("error.500") + "-->" +i18next.t("error.403");
                     break;
                 case 404:
-                    msg =i18next.t("error.404");
+                    msg =i18next.t("error.500") + "-->" +i18next.t("error.404");
                     break;
                 case 500:
                     msg =i18next.t("error.500");
@@ -274,7 +274,11 @@ function resetPassword(){
             jQuery('#reseterror').removeClass("hidden");
             console.log(xhr);
             jQuery('#resetPasswordErrorMessage').text(msg);
-            jQuery('#showmore').text(JSON.stringify(xhr.responseJSON.error_message));
+            let showMore;
+            if(xhr.responseJSON.error_message)
+                showMore=JSON.stringify(xhr.responseJSON.error_message);
+            else showMore=i18next.t("error.nothing");
+            jQuery('#showmore').text(showMore);
 
 
             return;

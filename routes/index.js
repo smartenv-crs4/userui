@@ -44,18 +44,108 @@ function getCommonUiResource(resource,callback){
     });
 }
 
+function addParamstoURL(url,paramKey,paramValue){
+    if(paramValue){
+        let op= url.indexOf('?')>=0 ? "&" : "?";
+        url= url + op + paramKey +"=" + paramValue
+    }
 
+    return url;
+}
+
+function getDefaultRequestParams(req){
+
+    let queryparams={};
+
+    let redirectTo=(req.query && req.query.redirectTo) || null;
+    if (req.headers['redirectTo']) {
+        redirectTo= req.headers['redirectTo'];
+    }
+    if(redirectTo && ((redirectTo.indexOf("null")>=0)||(redirectTo.indexOf("false")>=0)))
+        redirectTo=null;
+
+    queryparams.redirectTo=redirectTo;
+
+    let homeRedirect=(req.query && req.query.homeRedirect) || null;
+    if (req.headers['homeRedirect']) {
+        homeRedirect= req.headers['homeRedirect'];
+    }
+    if(homeRedirect && ((homeRedirect.indexOf("null")>=0)||(homeRedirect.indexOf("false")>=0)))
+        homeRedirect=null;
+
+    queryparams.homeRedirect=homeRedirect;
+
+    let loginHomeRedirect=(req.query && req.query.loginHomeRedirect) || null;
+    if (req.headers['loginHomeRedirect']) {
+        loginHomeRedirect= req.headers['loginHomeRedirect'];
+    }
+    if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)))
+        loginHomeRedirect=null;
+
+    queryparams.loginHomeRedirect=loginHomeRedirect;
+
+    let enableUserUpgrade=(req.query && req.query.enableUserUpgrade) || null;
+    if (req.headers['enableUserUpgrade']) {
+        enableUserUpgrade= req.headers['enableUserUpgrade'];
+    }
+    if(enableUserUpgrade && ((enableUserUpgrade.indexOf("null")>=0)||(enableUserUpgrade.indexOf("false")>=0)))
+        enableUserUpgrade=null;
+
+    queryparams.enableUserUpgrade=enableUserUpgrade;
+
+    let applicationSettings=(req.query && req.query.applicationSettings) || null;
+    if (req.headers['applicationSettings']) {
+        applicationSettings= req.headers['applicationSettings'];
+    }
+    if(applicationSettings && ((applicationSettings.indexOf("null")>=0)||(applicationSettings.indexOf("false")>=0)))
+        applicationSettings=null;
+
+    queryparams.applicationSettings=applicationSettings;
+
+
+    let hAndF="/headerAndFooter";
+    hAndF=addParamstoURL(hAndF,"homePage",homeRedirect);
+    hAndF=addParamstoURL(hAndF,"loginHomeRedirect",loginHomeRedirect);
+    hAndF=addParamstoURL(hAndF,"afterLoginRedirectTo",redirectTo);
+    hAndF=addParamstoURL(hAndF,"enableUserUpgrade",enableUserUpgrade);
+    hAndF=addParamstoURL(hAndF,"applicationSettings",applicationSettings);
+
+    queryparams.hAndF=hAndF;
+
+    return queryparams;
+
+
+}
+
+
+function getLoggedInUserDefaultRequestParams(req,queryparams,userToken){
+
+    let logOutFunc=(req.query && req.query.logout) || null;
+    if (req.headers['logout']) {
+        logOutFunc= req.headers['logout'];
+    }
+    if(logOutFunc && ((logOutFunc.indexOf("null")>=0)||(logOutFunc.indexOf("false")>=0)))
+        logOutFunc=null;
+
+    queryparams.logOutFunc=logOutFunc;
+
+    let hAndF=queryparams.hAndF;
+    hAndF=addParamstoURL(hAndF,"logout","logout('"+ logOutFunc + "');");
+    hAndF=addParamstoURL(hAndF,"access_token",userToken);
+    hAndF=addParamstoURL(hAndF,"userUiLogoutRedirect",logOutFunc);
+
+    queryparams.hAndF=hAndF;
+
+    return queryparams;
+
+
+}
 
 
 router.get('/setNewPassword/:resetToken', function(req, res) {
 
     var resetToken=req.params.resetToken;
-
-    var redirectTo=(req.query && req.query.redirectTo);
-
-    if (req.headers['redirectTo']) {
-        redirectTo= req.headers['redirectTo'];
-    }
+    let queryParams=getDefaultRequestParams(req);
 
 
 
@@ -68,41 +158,45 @@ router.get('/setNewPassword/:resetToken', function(req, res) {
 
     request.get(rqparams, function (error, response, body) {
 
-        var bodyJson=JSON.parse(body);
-        console.log("????????????????????????????????????????????????????????????????????????????????????????");
-        console.log(body);
-        console.log(bodyJson.valid);
-        console.log(bodyJson.token._id);
-        console.log(resetToken);
+        try {
+            var bodyJson = JSON.parse(body);
+        }catch (ex) {
+            commonFunctions.getErrorPage(500,"Internal Server Error","Response has no body",function(statusCode,content){
+                return res.status(statusCode).send(content);
+            });
+        }
 
         if(response.statusCode==200) {
            if(bodyJson.valid==true){
-               getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+               getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
                    if(er){
+                       // return error page from commonUI
                        return res.status(er).send(commonUIItem);
                    } else {
                        commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                       return res.render('resetPassword', {resetTokenuserId:bodyJson.token._id,resetToken:resetToken,resetPassword:true,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                       return res.render('resetPassword', {error_message:null,resetTokenuserId:bodyJson.token._id,resetToken:resetToken,resetPassword:true,commonUI:commonUIItem,properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                    }
                });
            }else{
-               getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+               getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
                    if(er){
+                       // return error page from commonUI
                        return res.status(er).send(commonUIItem);
                    } else {
                        commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                       return res.render('resetPassword', {resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                       return res.render('resetPassword', {error_message:"error.resetPassword401",resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                    }
                });
            }
 
         }else{
-            getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+            getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
                 if(er){
+                    // return error page from commonUI
                     return res.status(er).send(commonUIItem);
                 } else {
                     commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                    return res.render('resetPassword', {resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                    return res.render('resetPassword', {error_message:"error.resetPassword500",resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                 }
             });
         }
@@ -116,21 +210,25 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
 
     console.log(req.UserToken);
 
-    var redirectTo=(req.query && req.query.redirectTo);
+    let queryParams=getDefaultRequestParams(req);
 
-    if (req.headers['redirectTo']) {
-        redirectTo= req.headers['redirectTo'];
-    }
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to reset
 
+
+        var customProperties=_.clone(properties);
+        if(queryParams.applicationSettings) {
+            customProperties.applicationSettings =  JSON.parse(req.query.applicationSettings);
+        }
+
         console.log("######################################################################################### reset because not Access_token --->" + req.UserToken.error_message);
-        getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+        getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
            if(er){
+               // return error page from commonUI
                return res.status(er).send(commonUIItem);
            } else {
                commonUIItem.languagemanager=properties.languageManagerLibUrl;
-               return res.render('resetPassword', {resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+               return res.render('resetPassword', {error_message:null,resetPassword:false,commonUI:commonUIItem,properties: customProperties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
            }
         });
 
@@ -139,12 +237,13 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
             // go to login
             console.log("######################################################################################### Login because not valid Access_token --> " + req.UserToken.error_message);
-            getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
+            getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
                 if(er){
+                    // return error page from commonUI
                     return res.status(er).send(commonUIItem);
                 } else {
                     commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                    return res.render('resetPassword', {resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                    return res.render('resetPassword', {error_message:null,resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                 }
             });
 
@@ -159,28 +258,37 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
             request.get(rqparams, function (error, response, body) {
                 var bodyJson=JSON.parse(body);
                 if(response.statusCode==200) {
+
                     bodyJson.UserToken=req.UserToken.access_token;
+                    bodyJson.type=req.UserToken.token.type;
+                    queryParams=getLoggedInUserDefaultRequestParams(req,queryParams,bodyJson.UserToken);
+
+
+                    var customProperties=_.clone(properties);
+                    if(queryParams.enableUserUpgrade){
+                        customProperties.enableUserUpgrade=queryParams.enableUserUpgrade;
+                    }
+
+                    if(queryParams.applicationSettings){
+                        customProperties.applicationSettings=JSON.parse(queryParams.applicationSettings);
+                    }
+
 
                     console.log("######################################################################################### Logged User" + bodyJson);
-                    bodyJson.type=req.UserToken.token.type;
-                    getCommonUiResource("/headerAndFooter?logout=logout();&access_token=" + bodyJson.UserToken,function(er,commonUIItem){
+                    getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
                         if(er){
-                            return res.status(er).send(commonUIItem);;
+                            // return error page from commonUI
+                            return res.status(er).send(commonUIItem);
                         } else {
                             commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user: bodyJson, error: null,openPassordTab:true});
+                            return res.render('profile', {commonUI:commonUIItem,properties: customProperties, user: bodyJson, error: null,openPassordTab:true});
                         }
                     });
 
                 }else{
-                    console.log("######################################################################################### " + bodyJson);
-                    getCommonUiResource("/headerAndFooter",function(er,commonUIItem){
-                        if(er){
-                            return res.status(er).send(commonUIItem);
-                        } else {
-                            commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user:null ,error:bodyJson, openPassordTab:false});
-                        }
+
+                    commonFunctions.getErrorPage(500,"Internal Server Error",body,function(statusCode,content){
+                        return res.status(statusCode).send(content);
                     });
                 }
             });
@@ -193,49 +301,27 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
 /* GET home page. */
 router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
-    console.log(req.UserToken);
 
 
-
-    var redirectTo=(req.query && req.query.redirectTo) || null;
-
-    if (req.headers['redirectTo']) {
-        redirectTo= req.headers['redirectTo'];
-    }
-
-
-    var homeRedirect=(req.query && req.query.homeRedirect) || null;
-    if (req.headers['homeRedirect']) {
-        homeRedirect= req.headers['homeRedirect'];
-    }
-
-    if(homeRedirect && ((homeRedirect.indexOf("null")>=0)||(homeRedirect.indexOf("false")>=0)))
-        homeRedirect=null;
-
-
-    var loginHomeRedirect=(req.query && req.query.loginHomeRedirect) || "null";
-    if (req.headers['loginHomeRedirect']) {
-        loginHomeRedirect= req.headers['loginHomeRedirect'];
-    }
-
-    if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)))
-        loginHomeRedirect="null";
-
-
-
-    var hAndF= (homeRedirect ==null) ? "/headerAndFooter" :"/headerAndFooter?homePage=" + homeRedirect+ "&loginHomeRedirect=" + loginHomeRedirect;
-    hAndF= (redirectTo ==null) ? hAndF :  hAndF+"&afterLoginRedirectTo="+redirectTo;
-
+    let queryParams=getDefaultRequestParams(req);
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
 
+        var customProperties=_.clone(properties);
+        customProperties.resetLinkApplicationSettings="?loginHomeRedirect=" + queryParams.loginHomeRedirect+ "&homeRedirect="+queryParams.homeRedirect+"&redirectTo="+queryParams.redirectTo;
+        if(req.query.applicationSettings) {
+            customProperties.resetLinkApplicationSettings += "&applicationSettings=" + encodeURIComponent(req.query.applicationSettings);
+        }
+
         console.log("######################################################################################### Login because not Access_token --->" + req.UserToken.error_message);
-        getCommonUiResource(hAndF,function(er,commonUIItem){
+        console.log(queryParams);
+        getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
             if(er){
+                // return error page from commonUI
                 return res.status(er).send(commonUIItem);
             } else {
                 commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                return res.render('login', {commonUI:commonUIItem,options:{error:false},properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                return res.render('login', {commonUI:commonUIItem,options:{error:false},properties: customProperties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
             }
         });
 
@@ -244,12 +330,13 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
             // go to login
             console.log("######################################################################################### Login because not valid Access_token --> " + req.UserToken.error_message);
-            getCommonUiResource(hAndF,function(er,commonUIItem){
+            getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
                 if(er){
+                    // return error page from commonUI
                     return res.status(er).send(commonUIItem);
                 } else {
                     commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                    return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: properties, redirectTo:redirectTo || properties.defaultHomeRedirect});
+                    return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                 }
             });
         }
@@ -260,61 +347,29 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                 headers: {'content-type': 'application/json','Authorization': "Bearer " + req.UserToken.access_token},
             };
 
-
-            console.log(rqparams.url);
-
             request.get(rqparams, function (error, response, body) {
 
                 var bodyJson=JSON.parse(body);
                 if(response.statusCode==200) {
+
                     bodyJson.UserToken=req.UserToken.access_token;
-
-                    var logOutFunc=(req.query && req.query.logout) || "/";
-                    if (req.headers['logout']) {
-                        logOutFunc= req.headers['logout'];
-                    }
-
-                    if(logOutFunc && ((logOutFunc.indexOf("null")>=0)||(logOutFunc.indexOf("false")>=0)))
-                        logOutFunc="/";
-
-
-                    // var loginHomeRedirect=(req.query && req.query.loginHomeRedirect) || "null";
-                    // if (req.headers['loginHomeRedirect']) {
-                    //     loginHomeRedirect= req.headers['loginHomeRedirect'];
-                    // }
-                    //
-                    // if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)))
-                    //     loginHomeRedirect="null";
-
+                    queryParams=getLoggedInUserDefaultRequestParams(req,queryParams,bodyJson.UserToken);
 
                     console.log("######################################################################################### Logged User" + bodyJson);
                     bodyJson.type=req.UserToken.token.type;
-                    if(hAndF.indexOf("?")>=0)
-                        hAndF=hAndF+"&logout=logout('"+ logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;
-                    else
-                        hAndF=hAndF+"?logout=logout('" + logOutFunc + "');&access_token=" + bodyJson.UserToken+"&userUiLogoutRedirect="+logOutFunc;
-
-
                     var customProperties=_.clone(properties);
 
-                    if(req.query.enableUserUpgrade){
+                    if(queryParams.enableUserUpgrade){
                         customProperties.enableUserUpgrade=req.query.enableUserUpgrade;
-                        hAndF=hAndF+"&enableUserUpgrade="+customProperties.enableUserUpgrade;
                     }
 
-                    if(req.query.applicationSettings){
-                        customProperties.applicationSettings=JSON.parse(req.query.applicationSettings);
-                        hAndF=hAndF+"&applicationSettings="+req.query.applicationSettings;
+                    if(queryParams.applicationSettings){
+                        customProperties.applicationSettings=JSON.parse(queryParams.applicationSettings);
                     }
 
-
-
-                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! loginHomeRedirect: !!!!!!!!!!!!!!! " + hAndF);
-                    console.log(customProperties);
-                    console.log(req.query.enableUserUpgrade);
-
-                    getCommonUiResource(hAndF,function(er,commonUIItem){
+                    getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
                         if(er){
+                            // return error page from commonUI
                             return res.status(er).send(commonUIItem);
                         } else {
                             commonUIItem.languagemanager=properties.languageManagerLibUrl;
@@ -323,14 +378,8 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                     });
 
                 }else{
-                    console.log("######################################################################################### " + bodyJson);
-                    getCommonUiResource(hAndF,function(er,commonUIItem){
-                        if(er){
-                            return res.status(er).send(commonUIItem);
-                        } else {
-                            commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                            return res.render('profile', {commonUI:commonUIItem,properties: properties, user:null ,error:bodyJson,openPassordTab:false});
-                        }
+                    commonFunctions.getErrorPage(500,"Internal Server Error",body,function(statusCode,content){
+                        return res.status(statusCode).send(content);
                     });
                 }
             });
