@@ -216,6 +216,7 @@
                 type:"get",
                 contentType:"application/json",
                 success: function(data) {
+                    customizeDictionary(data,config.applicationSettings.userTokentypesTranslations);
                     initDictionary(data,config.commonUIUrl,"profileLanguageManagerInitialized");
                     //wai to languageManager to be loaded then tranlsalte
                     addEventListener('profileLanguageManagerInitialized', function (e) {

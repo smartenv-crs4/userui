@@ -17,12 +17,17 @@ function compileProfile(){
         // translate user Type
 
         userData.typeTranslate = i18next.t("profile."+userData.type);
-        if(userData.typeTranslate.indexOf(".")>=0)
+        if(userData.typeTranslate.indexOf(".")>=0) {
             userData.typeTranslate = userData.type;
+            userData.typeTranslatei18n="undefValue";
+        }
+        else
+            userData.typeTranslatei18n="profile."+userData.type;
+
 
 
         // console.log("22222222222222222222==============");
-        // console.log(userData);
+         console.log(userData);
 
         if(config.enableUserUpgrade)
             userData.enableUserUpgrade=config.enableUserUpgrade.split(",");
@@ -214,7 +219,7 @@ function changePassword()
     data.newpassword = newPassword;
 
 
-    console.log(_userMsUrl + "/users/" +  userData._id + "/actions/setpassword");
+    //console.log(_userMsUrl + "/users/" +  userData._id + "/actions/setpassword");
 
 
     jQuery.ajax({

@@ -48,6 +48,10 @@
     }
   },
   "error": {
+    "notValidTokenType":{
+      "en": "Internal Server Error due to not valid user token type to create new user",
+      "it": "Errore interno del serve. Il tipo di token dell'utente che si sta creando non è valido"
+    },
     "resetPassword401":{
       "en": "The reset token is not valid. Try again",
       "it": "Il reset token non è valido. Riprova"

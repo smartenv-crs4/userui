@@ -104,7 +104,7 @@ function signIn()
 
 
 
-function errorMessageDisplay(xhr){
+function errorMessageDisplay(xhr,respBlock){
     switch(xhr.status)
     {
 
@@ -116,6 +116,9 @@ function errorMessageDisplay(xhr){
             break;
         case 403:
             respBlock.html(i18next.t("error.403"));
+            break;
+        case 404:
+            respBlock.html(i18next.t("error.404"));
             break;
         case 500:
             respBlock.html(i18next.t("error.500"));
@@ -130,96 +133,113 @@ function errorMessageDisplay(xhr){
 
 function signUp()
 {
-  var email = jQuery("#signUpEmail").val();
-  var name = jQuery("#signUpName").val();
-  var password = jQuery("#signUpPassword").val();
-  var password2 = jQuery("#signUpPassword2").val();
-  var userType=config.defaultUserType;
+    var email = jQuery("#signUpEmail").val();
+    var name = jQuery("#signUpName").val();
+    var password = jQuery("#signUpPassword").val();
+    var password2 = jQuery("#signUpPassword2").val();
+    var userType = (config.applicationSettings && config.applicationSettings.defaultUserType) || config.defaultUserType;
 
 
-  var respBlock = jQuery("#signUpResponse");
+    jQuery.ajax({
+        url: _userMsUrl + "/users/actions/checkIftokenexixt/" + userType,
+        type: "POST",
+        success: function (data, textStatus, xhr) {// valid user Type
 
-  if(respBlock.is(":visible"))
-  {
-    respBlock.addClass("invisible");
-  }
+            if (xhr.status != 204) {
+                var respBlock = jQuery("#signUpResponse");
 
-  if(!isValidEmailAddress(email))
-  {
-    respBlock.html(i18next.t("error.invalid_email"));
-    respBlock.removeClass("invisible");
-    return;
-  }
+                if (respBlock.is(":visible")) {
+                    respBlock.addClass("invisible");
+                }
 
-  if(password === "")
-  {
-      respBlock.html(i18next.t("error.void_password"));
-      respBlock.removeClass("invisible");
-      return;
-  }
+                if (!isValidEmailAddress(email)) {
+                    respBlock.html(i18next.t("error.invalid_email"));
+                    respBlock.removeClass("invisible");
+                    return;
+                }
 
-  if(password !== password2)
-  {
-    respBlock.html(i18next.t("error.password_differs"));
-    respBlock.removeClass("invisible");
-    return;
-  }
+                if (password === "") {
+                    respBlock.html(i18next.t("error.void_password"));
+                    respBlock.removeClass("invisible");
+                    return;
+                }
 
-  var data = {"user":{}};
-  data["user"]["email"] = email;
-  data["user"]["name"] = name;
-  data["user"]["password"] = password;
-  data["user"]["type"] = userType;
+                if (password !== password2) {
+                    respBlock.html(i18next.t("error.password_differs"));
+                    respBlock.removeClass("invisible");
+                    return;
+                }
 
-  jQuery.ajax({
-    url: _userMsUrl + "/users/signup",
-    type: "POST",
-    data: JSON.stringify(data),
-    contentType: "application/json; charset=utf-8",
-    dataType:"json",
-    success: function(data, textStatus, xhr)
-    {
-      //console.log(xhr);      
-      // success
-      if(xhr.status == 201)
-      {
-          redirectToPrevPage(data["access_credentials"]["apiKey"]["token"]);
-          return;
-      }
-      else
-      {
-        respBlock.html(xhr.responseJSON.error_message);
-        respBlock.removeClass("invisible");
-        return;
-      }
-    },
-    error: function(xhr, status)
-    {
-        console.log(xhr);
+                var data = {"user": {}};
+                data["user"]["email"] = email;
+                data["user"]["name"] = name;
+                data["user"]["password"] = password;
+                data["user"]["type"] = userType;
 
-        if(xhr.responseJSON && xhr.responseJSON.error){
-            if(xhr.responseJSON.error == "invalid_token")
-                respBlock.html(i18next.t("error.unauthorized"))
-            else if(xhr.responseJSON.error == "BadRequest")
-                respBlock.html(i18next.t("error.missing_user_or_password"));
-            else  if(xhr.responseJSON.error_message)
-                respBlock.html(xhr.responseJSON.error_message);
-            else if (xhr.responseText)
-                respBlock.html(xhr.responseText);
-            else
-                errorMessageDisplay(xhr);
+                jQuery.ajax({
+                    url: _userMsUrl + "/users/signup",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data, textStatus, xhr) {
+                        //console.log(xhr);
+                        // success
+                        if (xhr.status == 201) {
+                            redirectToPrevPage(data["access_credentials"]["apiKey"]["token"]);
+                            return;
+                        }
+                        else {
+                            respBlock.html(xhr.responseJSON.error_message);
+                            respBlock.removeClass("invisible");
+                            return;
+                        }
+                    },
+                    error: function (xhr, status) {
+                        console.log(xhr);
 
-        }else{
-            errorMessageDisplay(xhr);
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            if (xhr.responseJSON.error == "invalid_token")
+                                respBlock.html(i18next.t("error.unauthorized"))
+                            else if (xhr.responseJSON.error == "BadRequest")
+                                respBlock.html(i18next.t("error.missing_user_or_password"));
+                            else if (xhr.responseJSON.error_message)
+                                respBlock.html(xhr.responseJSON.error_message);
+                            else if (xhr.responseText)
+                                respBlock.html(xhr.responseText);
+                            else
+                                errorMessageDisplay(xhr, respBlock);
+
+                        } else {
+                            errorMessageDisplay(xhr, respBlock);
+                        }
+                        respBlock.removeClass("invisible");
+                        return;
+                    }
+                    //todo rimuovere commento di sotto
+                    // ,
+                    // beforeSend: function (xhr, settings) {
+                    //     xhr.setRequestHeader('Authorization', 'Bearer ' + _access_token);
+                    // }
+                });
+            }else{
+                var respBlock = jQuery("#signUpResponse");
+                respBlock.removeClass("invisible");
+                respBlock.html(i18next.t("error.notValidTokenType"));
+                return;
+            }
+
+        },
+        error: function (xhr, status) { // invalid user token type
+
+            var respBlock = jQuery("#signUpResponse");
+            respBlock.removeClass("invisible");
+            respBlock.html(i18next.t("error.notValidTokenType"));
+            return;
         }
-      respBlock.removeClass("invisible");
-      return;
-    },
-    beforeSend: function(xhr, settings)
-    {
-      xhr.setRequestHeader('Authorization','Bearer ' + _access_token);
-    }
-  });
+    });
+
+
 }
 
 
@@ -312,7 +332,7 @@ function setPassword(resetToken,userID)
     data.newpassword = newPassword;
 
 
-    console.log(_userMsUrl + "/users/" +  userID + "/actions/setpassword");
+   // console.log(_userMsUrl + "/users/" +  userID + "/actions/setpassword");
 
 
     jQuery.ajax({
@@ -352,11 +372,13 @@ function setPassword(resetToken,userID)
             respBlock.removeClass("hidden");
 
             return;
-         } ,
-        beforeSend: function(xhr, settings)
-        {
-            xhr.setRequestHeader('Authorization','Bearer ' +  _access_token);
-        }
+         }
+         //todo remove coment after
+        //.
+        // beforeSend: function(xhr, settings)
+        // {
+        //     xhr.setRequestHeader('Authorization','Bearer ' +  _access_token);
+        // }
     });
 
 }

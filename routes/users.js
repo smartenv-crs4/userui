@@ -216,13 +216,13 @@ router.get('/actions/getprofileimage/:id', function(req, res) {
 
     var rqparams = {
         url:  uploadMsUrl + "/file/" + imageId,
-        headers: {'Authorization': "Bearer " +  properties.myMicroserviceToken || (getToken(req) || "")},
+        headers: {'Authorization': "Bearer " +  properties.myMicroserviceToken || (getToken(req))},
     };
     request.get(rqparams).pipe(res);
 });
 
 function getToken(req){
-    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token); // || req.headers['x-access-token'];
+    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token)|| null; // || req.headers['x-access-token'];
     if (req.headers['authorization']) {
         var value = req.headers['authorization'];
         header = value.split(" ");
@@ -242,7 +242,7 @@ router.post('/:id/actions/setpassword', function(req, res) {
 
     var rqparams = {
         url:  userMsUrl+"/users/" +userId + "/actions/setpassword",
-        headers: {'content-type': 'application/json','Authorization': "Bearer " + (getToken(req) || "")},
+        headers: {'content-type': 'application/json','Authorization': "Bearer " + (getToken(req) || properties.myMicroserviceToken)},
         body:JSON.stringify(req.body)
     };
     request.post(rqparams).pipe(res);
@@ -430,11 +430,21 @@ router.post('/actions/upgradeUser', function(req, res) {
             return res.status(response.statusCode).send(responseBody);
         }
     });
+});
 
 
+router.post('/actions/checkIftokenexixt/:name',function(req,res){
 
+    var rqparams = {
+        url:  properties.authUrl + '/usertypes?skip=-1&limit=-1&name='+req.params.name,
+        headers: {'Authorization': "Bearer " + properties.myMicroserviceToken},
+    };
 
+    request.get(rqparams).pipe(res);
 
 });
+
+
+
 
 module.exports = router;

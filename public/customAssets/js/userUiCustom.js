@@ -146,5 +146,27 @@ function getUrlParameter(sParam)
 }
 
 
+function customizeDictionary(dictionary,newEntries){
+
+    console.log(newEntries.profile);
+
+    for(key in newEntries){
+        dictionary.profile[key]=newEntries[key];
+        console.log(dictionary.profile[key]);
+    }
+
+    // async.forEachOf(newEntries, function (value, key, callback) {
+    //     async.forEachOf(value, function (translation, language, callbackTranslation) {
+    //         i18next.addResource(language, "translation", "profile." +key, translation);
+    //         console.log("profile." +key +":" + language+"-->" + translation);
+    //         callbackTranslation();
+    //     }, function (err) {
+    //        callback();
+    //     });
+    // }, function (err) {
+    //     //alert("Updatedictionary");
+    // });
+}
+
 
 

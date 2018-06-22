@@ -30,7 +30,7 @@ var defaultUserProfileTemplate = `
         </label>
         <a class="pull-right" href="javascript:enableTypeManager({{profileEditParams}})"><i class="fa fa-pencil"></i></a>
     {{else}}
-        <span>{{typeTranslate}}</span>
+        <span data-i18n="{{typeTranslatei18n}}">{{typeTranslate}}</span>
          {{#if enableUserUpgrade}}        
             <div class="pull-right btn-group">
                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">

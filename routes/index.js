@@ -53,6 +53,16 @@ function addParamstoURL(url,paramKey,paramValue){
     return url;
 }
 
+
+
+// applicationsettings={
+//     mailFrom:config.contentUiAppAdmin.mailfrom,
+//     appBaseUrl:config.contentUIUrl,
+//     appAdmins:config.ApplicationTokenTypes.adminTokenType,
+//     appName:config.contentUiAppAdmin.applicationName,
+//     userTokentypesTranslations:config.ApplicationTokenTypes.userTokentypesTranslations,
+//     defaultUserType:config.ApplicationTokenTypes.defaultUserType
+// };
 function getDefaultRequestParams(req){
 
     let queryparams={};
@@ -309,8 +319,9 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
         var customProperties=_.clone(properties);
         customProperties.resetLinkApplicationSettings="?loginHomeRedirect=" + queryParams.loginHomeRedirect+ "&homeRedirect="+queryParams.homeRedirect+"&redirectTo="+queryParams.redirectTo;
-        if(req.query.applicationSettings) {
+        if(queryParams.applicationSettings){
             customProperties.resetLinkApplicationSettings += "&applicationSettings=" + encodeURIComponent(req.query.applicationSettings);
+            customProperties.applicationSettings=JSON.parse(queryParams.applicationSettings);
         }
 
         console.log("######################################################################################### Login because not Access_token --->" + req.UserToken.error_message);
@@ -328,6 +339,12 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
     }
     else { // get user profile
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
+            var customProperties=_.clone(properties);
+            customProperties.resetLinkApplicationSettings="?loginHomeRedirect=" + queryParams.loginHomeRedirect+ "&homeRedirect="+queryParams.homeRedirect+"&redirectTo="+queryParams.redirectTo;
+            if(queryParams.applicationSettings){
+                customProperties.resetLinkApplicationSettings += "&applicationSettings=" + encodeURIComponent(req.query.applicationSettings);
+                customProperties.applicationSettings=JSON.parse(queryParams.applicationSettings);
+            }
             // go to login
             console.log("######################################################################################### Login because not valid Access_token --> " + req.UserToken.error_message);
             getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
@@ -336,7 +353,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                     return res.status(er).send(commonUIItem);
                 } else {
                     commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                    return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
+                    return res.render('login', {commonUI:commonUIItem,options:{error:"true"},properties: customProperties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                 }
             });
         }
