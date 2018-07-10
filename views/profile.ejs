@@ -51,16 +51,16 @@
 
 	<!-- CSS Customization -->
 	<!-- CSS Page Style Import-->
+
+
+	<% if(properties.fastSearchUrl && properties.fastSearchUrl.searchCss) { %>
+	<link rel="stylesheet" href="<%=properties.fastSearchUrl.searchCss%>">
+	<% } %>
+
 	<link rel="stylesheet" href="<%=properties.userUiUrl%>/assets/css/pages/page_log_reg_v3.css">
-
 	<link rel="stylesheet" href="<%=properties.userUiUrl%>/assets/css/custom.css">
-
 	<link rel="stylesheet" href="<%=properties.userUiUrl%>/customAssets/css/imgthumbnail.css">
-
   <link rel="stylesheet" href="<%=properties.userUiUrl%>/assets/css/typeaheadjs.css">
-
-
-
 
   
   <style type="text/css">
@@ -174,6 +174,8 @@
 	<script type="text/javascript" src="<%=properties.userUiUrl%>/node_modules/underscore/underscore-min.js"></script>
 	<script type="text/javascript" src="<%=properties.userUiUrl%>/assets/js/plugins/bootstrap-editable.min.js"></script>
 
+	<!--template manager-->
+	<script type="text/javascript" src="<%=properties.commonUIUrl%>/customAssets/js/templateManager.js"></script>
 
 	<!-- <script type="text/javascript" src="assets/js/userUiCustom.js"></script>
 	JS Page Level -->
@@ -199,10 +201,19 @@
 	<script src="<%- commonUI.languagemanager %>"></script>
 
 
+
+	<% if(properties.fastSearchUrl && properties.fastSearchUrl.searchJS) { %>
+		<script src="<%- properties.fastSearchUrl.searchJS %>"></script>
+	<% } %>
+
+
+
 	<script type="text/javascript">
 		var canTranslate=false;
 		jQuery(document).ready(function() {
-			App.init();
+            initApp();
+			// App.init();
+            // StyleSwitcher.initStyleSwitcher();
 			//App.initCounter();
 			//	App.initParallaxBg();
 			//OwlCarousel.initOwlCarousel();
@@ -216,8 +227,11 @@
                 type:"get",
                 contentType:"application/json",
                 success: function(data) {
+                    //todo verificare se è da rimuovere
                     customizeDictionary(data,config.applicationSettings.userTokentypesTranslations);
+
                     initDictionary(data,config.commonUIUrl,"profileLanguageManagerInitialized");
+
                     //wai to languageManager to be loaded then tranlsalte
                     addEventListener('profileLanguageManagerInitialized', function (e) {
                         canTranslate=true;

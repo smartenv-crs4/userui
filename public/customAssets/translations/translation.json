@@ -140,6 +140,14 @@
     }
   },
   "buttons": {
+    "manageUser":{
+      "en": "Manage Users",
+      "it": "Gestisci Utenti"
+    },
+    "userSearch":{
+      "en": "Search for user",
+      "it": "Cerca utenti"
+    },
     "show_more": {
       "en": "Show More",
       "it": "Mostra Ulteriori Dettagli"

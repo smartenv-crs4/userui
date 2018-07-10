@@ -40,7 +40,7 @@ var defaultUserProfileTemplate = `
                     
                 <ul class="dropdown-menu" role="menu">
                     {{#each enableUserUpgrade}}
-                        <li><a onclick="upgradeUserRequest('{{this}}')">{{this}}</a></li>                        
+                        <li><a onclick="upgradeUserRequest('{{this}}')" data-i18n="profile.{{this}}">{{this}}</a></li>                        
                     {{/each}}
                     <li class="divider"></li>
                     <li><a onclick="upgradeUserRequest('Administrator')">Administrator</a></li>                    

@@ -216,7 +216,7 @@ function signUp()
                         respBlock.removeClass("invisible");
                         return;
                     }
-                    //todo rimuovere commento di sotto
+
                     // ,
                     // beforeSend: function (xhr, settings) {
                     //     xhr.setRequestHeader('Authorization', 'Bearer ' + _access_token);
@@ -373,7 +373,7 @@ function setPassword(resetToken,userID)
 
             return;
          }
-         //todo remove coment after
+
         //.
         // beforeSend: function(xhr, settings)
         // {

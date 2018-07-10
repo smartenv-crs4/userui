@@ -22,7 +22,7 @@ exports.getErrorPage=function (errorCode,errorMessage,showMore,callback){
             return callback(200,body);
         }
     });
-}
+};
 
 
 exports.tokenManager=tokenManager;

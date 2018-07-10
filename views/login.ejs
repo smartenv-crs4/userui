@@ -216,6 +216,10 @@
 <script src="<%=properties.userUIUrl%>/customAssets/js/userUiCustom.js"></script>
 <script src="<%=properties.userUIUrl%>/customAssets/js/sign_in_up.js"></script>
 
+
+<!--template manager-->
+<script type="text/javascript" src="<%=properties.commonUIUrl%>/customAssets/js/templateManager.js"></script>
+
 <!-- JS Page Level -->
 <script src="<%=properties.userUIUrl%>/assets/js/app.js"></script>
 
@@ -226,7 +230,7 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        App.init();
+        initApp();
         //App.initCounter();
         //	App.initParallaxBg();
         //OwlCarousel.initOwlCarousel();

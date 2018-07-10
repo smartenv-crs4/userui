@@ -12,9 +12,6 @@ var sidebarTemplate = `
    </div>  
          
  </div>
-  
-  
-  
 
   <ul class="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
       <li class="list-group-item active">
@@ -39,10 +36,22 @@ var sidebarTemplate = `
           <!--<a href="page_rfq_inbox.html"><i class="fa fa-paper-plane"></i><span data-i18n="rfq.myrfqs"></span> </a>-->
       <!--</li>-->
 
-      <li class="list-group-item">
-          <a href="{{profilePage}}"><i class="fa fa-cog"></i> <span data-i18n="profile.profile"></span></a>
-      </li>
+      <!--<li class="list-group-item">-->
+          <!--<a href="{{profilePage}}"><i class="fa fa-cog"></i> <span data-i18n="profile.profile"></span></a>-->
+      <!--</li>-->
+      
+       <li class="list-group-item">        
+            <a href="#">
+                <i class="fa fa-user"></i>
+                <span data-i18n="buttons.manageUser"></span>                                      
+            </a>            
+      </li>       
   </ul>
 
 </div>
 `;
+
+
+
+
+
