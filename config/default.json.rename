@@ -21,6 +21,9 @@
     "upgradeUsermailConf":{
       "subject":"upgrade user to",
       "htmlMessage":"To upgrade user type, click on the following link:"
+    },
+    "redisCache":{
+      "host": 'your_redis_host'
     }
   },
 
@@ -46,6 +49,9 @@
     "upgradeUsermailConf":{
       "subject":"upgrade user to",
       "htmlMessage":"To upgrade user type, click on the following link:"
+    },
+    "redisCache":{
+      "host": 'your_redis_host'
     }
   }
 }

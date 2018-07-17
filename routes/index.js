@@ -14,6 +14,11 @@ var userMsUrl  = properties.userUrl; //"http://seidue.crs4.it/api/user/v1/";
 var userWebUiMsUrl  = properties.userUIUrl; //"http://seidue.crs4.it/api/user/v1/";
 
 
+codified_data.setup({
+    host: properties.redisCache.host, // default value
+});
+
+
 
 function getCommonUiResource(resource,callback){
     request.get(properties.commonUIUrl+resource, function (error, response, body) {
@@ -450,7 +455,7 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
                 return res.status(statusCode).send(content);
             });
         }else{
-            codified_data.getKey(secret,function(err,appAdmin){
+            codified_data.getKey(secret,{delete:true},function(err,appAdmin){
                 if(err){
                     commonFunctions.getErrorPage(500,"InternalError",err,function(statusCode,content){
                         return res.status(statusCode).send(content);

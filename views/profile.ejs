@@ -227,9 +227,9 @@
                 type:"get",
                 contentType:"application/json",
                 success: function(data) {
-                    //todo verificare se è da rimuovere
+                    //customize dictonary of userType translation in change my userType function (example translate
+					// creuser in crocierista etc etc) translation are set by calling application
                     customizeDictionary(data,config.applicationSettings.userTokentypesTranslations);
-
                     initDictionary(data,config.commonUIUrl,"profileLanguageManagerInitialized");
 
                     //wai to languageManager to be loaded then tranlsalte
