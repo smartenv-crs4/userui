@@ -11,6 +11,8 @@ var commonFunctions=require('./commonFunctions');
 var tokenManager = require('./commonFunctions').tokenManager;
 
 
+
+
 var userMsUrl  = properties.userUrl;
 
 var uploadMsUrl  = properties.uploadUrl; //"http://seidue.crs4.it/api/user/v1/";
@@ -211,14 +213,20 @@ router.post('/actions/uploadprofileimage', function(req, res) {
 });
 
 router.get('/actions/getprofileimage/:id', function(req, res) {
-
     var imageId=req.params.id;
 
     var rqparams = {
         url:  uploadMsUrl + "/file/" + imageId,
         headers: {'Authorization': "Bearer " +  properties.myMicroserviceToken || (getToken(req))},
     };
-    request.get(rqparams).pipe(res);
+
+    request.get(rqparams).on('response', function(err) {
+        if(err.statusCode==200)
+            this.pipe(res);
+        else {
+            request.get(properties.userUIUrl + "/customAssets/img/avatar.png").pipe(res);
+        }
+    });
 });
 
 function getToken(req){
@@ -284,9 +292,6 @@ router.post('/actions/resetPassword/:email', function(req, res) {
                 resetLink+= ("&loginHomeRedirect=" + applicationSettings.appBaseUrl + "&redirectTo="+applicationSettings.appBaseUrl);
                 resetLink+=("&applicationSettings="+ encodeURIComponent(JSON.stringify(applicationSettings)));
 
-
-                console.log("REAETLINKKKKKKKKKKKKKKKKKKKKKKK");
-                console.log(resetLink);
 
                 var bodyMail="<p>"+ properties.resetPasswordMail.htmlMessage +"<br> <a href=\""+ resetLink + "\" style=\"color:#2A5685\">Click Here</a></p>";
 
