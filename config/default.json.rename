@@ -23,7 +23,7 @@
       "htmlMessage":"To upgrade user type, click on the following link:"
     },
     "redisCache":{
-      "host": 'your_redis_host'
+      "host": "your_redis_host"
     }
   },
 
@@ -51,7 +51,7 @@
       "htmlMessage":"To upgrade user type, click on the following link:"
     },
     "redisCache":{
-      "host": 'your_redis_host'
+      "host": "your_redis_host"
     }
   }
 }
