@@ -12,7 +12,7 @@ function compileProfile(){
         jQuery('#passwordTab').html(templatePassword());
         jQuery('#passwordTab').localize();
 
-        // var defaultImg = config.userUiUrl+"/assets/img/team/img32-md.jpg";
+        // var defaultImg = config.userUIUrl+"/assets/img/team/img32-md.jpg";
 
         // translate user Type
 
