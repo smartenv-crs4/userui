@@ -220,8 +220,8 @@ router.get('/actions/getprofileimage/:id', function(req, res) {
         headers: {'Authorization': "Bearer " +  properties.myMicroserviceToken || (getToken(req))},
     };
 
-    request.get(rqparams).on('response', function(err) {
-        if(err.statusCode==200)
+    request.get(rqparams).on('response', function(response) {
+        if(response.statusCode==200)
             this.pipe(res);
         else {
             request.get(properties.userUIUrl + "/customAssets/img/avatar.png").pipe(res);
