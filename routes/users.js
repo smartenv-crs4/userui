@@ -424,6 +424,7 @@ router.post('/actions/upgradeUser', function(req, res) {
                         if(resp.statusCode!=200){
                             return res.status(resp.statusCode).send({error:respBody.error,error_message:body});
                         }else{
+                            respBody.error_message+=" in " + properties.mailUrl + "/email";
                             return res.status(200).send(respBody);
                         }
                     }
