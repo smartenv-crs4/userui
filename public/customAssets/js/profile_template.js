@@ -8,7 +8,7 @@ var defaultUserProfileTemplate = `
 <dl class="dl-horizontal">
     <dt><strong data-i18n="profile.email"></strong></dt>
     <dd>
-        {{email}}
+        {{email}}        
         <!-- span>
           <a class="pull-right" href="#">
             <i class="fa fa-pencil"></i>

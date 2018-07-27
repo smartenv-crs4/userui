@@ -312,3 +312,35 @@ function enableTypeManager(associatedButtons){
 }
 
 
+
+function deleteUser(){
+    let data={};
+    if(config.userUiDeleteUserRedirect) {
+        data.applicationTrigger = config.userUiDeleteUserRedirect;
+        data.userToken=userData.UserToken;
+    }
+
+    jQuery.ajax({
+        url: _userMsUrl + "/users/" + userData._id,
+        type: "DELETE",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: function(dataResp, textStatus, xhr){
+
+            // todo redirect to logout
+            logout(config.logOutFunc);
+            //window.location.replace(config.logo);
+
+        },
+        error: function(xhr, status){
+
+            console.log("Error in deleteUser() function "+ (xhr.responseJSON && (xhr.responseJSON.error_message || xhr.responseJSON.message)) || "undefined error");
+            console.log(xhr);
+            jQuery.jGrowl(i18next.t("error.internal_server_error"), {theme:'bg-color-red', life: 5000});
+
+            return;
+        }
+    });
+}
+

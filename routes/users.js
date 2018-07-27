@@ -73,6 +73,48 @@ router.put('/:id', function(req, res) {
 
 
 
+function triggerApplication(body,userId,callback){
+    let applicationTrigger=(body && body.applicationTrigger) || null;
+    let userToken=(body && body.userToken) || null;
+
+    if(applicationTrigger) {
+        var rqparams = {
+            url: applicationTrigger + userId,
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': "Bearer " + (userToken || "")
+            }
+        };
+
+        request.post(rqparams, function (error, response, body) {
+            if (error) return callback(500, {
+                error: "InternalError",
+                error_message: "Internal Error in applicationTrigger in user delete: " + error
+            });
+            if (response.statusCode == 200) {
+                return callback(null);
+            } else {
+                return callback(response.statusCode, body);
+            }
+
+        });
+    }else return callback(null);
+};
+
+
+router.delete('/:id', function(req, res) {
+
+
+    triggerApplication(req.body, req.params.id, function(errCode,response){
+       if(errCode) return res.status(errCode).send(response);
+        var rqparams = {
+            url: userMsUrl + "/users/" + req.params.id ,
+            headers: {'content-type': 'application/json','Authorization': "Bearer " + (properties.myMicroserviceToken || "")},
+        };
+        request.delete(rqparams).pipe(res);
+    });
+
+});
 
 
 

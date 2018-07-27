@@ -151,17 +151,30 @@ function getLoggedInUserDefaultRequestParams(req,queryparams,userToken){
     if(logOutFunc && ((logOutFunc.indexOf("null")>=0)||(logOutFunc.indexOf("false")>=0)))
         logOutFunc=null;
 
+
     queryparams.logOutFunc=logOutFunc;
+
+
+    let userUiDeleteUserRedirect=(req.query && req.query.userUiDeleteUserRedirect) || null;
+    if (req.headers['userUiDeleteUserRedirect']) {
+        logOutFunc= req.headers['userUiDeleteUserRedirect'];
+    }
+    if(userUiDeleteUserRedirect && ((userUiDeleteUserRedirect.indexOf("null")>=0)||(userUiDeleteUserRedirect.indexOf("false")>=0)))
+        userUiDeleteUserRedirect=null;
+
+
+    queryparams.userUiDeleteUserRedirect=userUiDeleteUserRedirect;
+
 
     let hAndF=queryparams.hAndF;
     hAndF=addParamstoURL(hAndF,"logout","logout('"+ logOutFunc + "');");
     hAndF=addParamstoURL(hAndF,"access_token",userToken);
     hAndF=addParamstoURL(hAndF,"userUiLogoutRedirect",logOutFunc);
+    hAndF=addParamstoURL(hAndF,"userUiDeleteUserRedirect",userUiDeleteUserRedirect);
 
     queryparams.hAndF=hAndF;
 
     return queryparams;
-
 
 }
 
@@ -302,6 +315,16 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
                         customProperties.fastSearchUrl=JSON.parse(queryParams.fastSearchUrl);
                     }
 
+                    if(queryParams.userUiDeleteUserRedirect){
+                        customProperties.userUiDeleteUserRedirect=queryParams.userUiDeleteUserRedirect;
+                    }
+
+
+                    if(queryParams.logOutFunc){
+                        customProperties.logOutFunc=queryParams.logOutFunc;
+                    }
+
+
                     console.log("######################################################################################### Logged User" + bodyJson);
                     getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
                         if(er){
@@ -407,6 +430,17 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                         customProperties.fastSearchUrl=JSON.parse(queryParams.fastSearchUrl);
                     }
 
+                    if(queryParams.userUiDeleteUserRedirect){
+                        customProperties.userUiDeleteUserRedirect=queryParams.userUiDeleteUserRedirect;
+                    }
+
+
+                    if(queryParams.logOutFunc){
+                        customProperties.logOutFunc=queryParams.logOutFunc;
+                    }
+
+
+
 
 
                     getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
@@ -500,6 +534,16 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
                                 if(queryParams.fastSearchUrl){
                                     customProperties.fastSearchUrl=JSON.parse(queryParams.fastSearchUrl);
                                 }
+
+                                if(queryParams.userUiDeleteUserRedirect){
+                                    customProperties.userUiDeleteUserRedirect=queryParams.userUiDeleteUserRedirect;
+                                }
+
+
+                                if(queryParams.logOutFunc){
+                                    customProperties.logOutFunc=queryParams.logOutFunc;
+                                }
+
 
                                 bodyJson.ptitle=bodyJson.email+"[" + bodyJson.name + " " + bodyJson.surname + "]";
                                 bodyJson.ApplicationTokenTypes=appAdmin.ApplicationTokenTypes;

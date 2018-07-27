@@ -43,7 +43,7 @@ var sidebarTemplate = `
        <li class="list-group-item">        
             <a href="#">
                 <i class="fa fa-user"></i>
-                <span data-i18n="buttons.manageUser"></span>                                      
+                <span data-i18n="buttons.deleteme" onclick="deleteUser();"></span>                                      
             </a>            
       </li>       
   </ul>

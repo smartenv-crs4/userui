@@ -140,6 +140,10 @@
     }
   },
   "buttons": {
+    "deleteme":{
+      "en": "Delete user account",
+      "it": "Cancella account utente"
+    },
     "manageUser":{
       "en": "Manage Users",
       "it": "Gestisci Utenti"
