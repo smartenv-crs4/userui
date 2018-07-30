@@ -461,13 +461,17 @@ router.post('/actions/upgradeUser', function(req, res) {
                     if(err){
                         return res.status(500).send({error:"InternalError",error_message:err});
                     }else{
-                        console.log(body);
-                        var respBody=JSON.parse(body);
-                        if(resp.statusCode!=200){
-                            return res.status(resp.statusCode).send({error:respBody.error,error_message:body});
-                        }else{
-                            respBody.error_message+=" in " + properties.mailUrl + "/email";
-                            return res.status(200).send(respBody);
+                        try {
+                            console.log(body);
+                            var respBody = JSON.parse(body);
+                            if (resp.statusCode != 200) {
+                                return res.status(resp.statusCode).send({error: respBody.error, error_message: body});
+                            } else {
+                                respBody.error_message += " in " + properties.mailUrl + "/email";
+                                return res.status(200).send(respBody);
+                            }
+                        }catch (ex) {
+                            return res.status(500).send({error:"InternalServer Error", error_message:body});
                         }
                     }
                 });
