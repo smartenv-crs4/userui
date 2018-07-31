@@ -20,6 +20,11 @@ codified_data.setup({
 
 
 
+let filteredProperties=_.omit(properties,["limit", "skip", "logfile", "myMicroserviceToken", "resetPasswordMail", "upgradeUsermailConf", "redisCache"]);
+
+
+
+
 function getCommonUiResource(resource,callback){
     request.get(properties.commonUIUrl+resource, function (error, response, body) {
         if(error){
@@ -211,7 +216,7 @@ router.get('/setNewPassword/:resetToken', function(req, res) {
                        return res.status(er).send(commonUIItem);
                    } else {
                        commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                       return res.render('resetPassword', {error_message:null,resetTokenuserId:bodyJson.token._id,resetToken:resetToken,resetPassword:true,commonUI:commonUIItem,properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
+                       return res.render('resetPassword', {error_message:null,resetTokenuserId:bodyJson.token._id,resetToken:resetToken,resetPassword:true,commonUI:commonUIItem,properties: filteredProperties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                    }
                });
            }else{
@@ -221,7 +226,7 @@ router.get('/setNewPassword/:resetToken', function(req, res) {
                        return res.status(er).send(commonUIItem);
                    } else {
                        commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                       return res.render('resetPassword', {error_message:"error.resetPassword401",resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
+                       return res.render('resetPassword', {error_message:"error.resetPassword401",resetPassword:false,commonUI:commonUIItem,properties: filteredProperties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                    }
                });
            }
@@ -233,7 +238,7 @@ router.get('/setNewPassword/:resetToken', function(req, res) {
                     return res.status(er).send(commonUIItem);
                 } else {
                     commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                    return res.render('resetPassword', {error_message:"error.resetPassword500",resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
+                    return res.render('resetPassword', {error_message:"error.resetPassword500",resetPassword:false,commonUI:commonUIItem,properties: filteredProperties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                 }
             });
         }
@@ -249,14 +254,15 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
 
     let queryParams=getDefaultRequestParams(req);
 
+    var customProperties=_.clone(filteredProperties);
+    if(queryParams.applicationSettings) {
+        customProperties.applicationSettings =  JSON.parse(req.query.applicationSettings);
+    }
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to reset
 
 
-        var customProperties=_.clone(properties);
-        if(queryParams.applicationSettings) {
-            customProperties.applicationSettings =  JSON.parse(req.query.applicationSettings);
-        }
+
 
         console.log("######################################################################################### reset because not Access_token --->" + req.UserToken.error_message);
         getCommonUiResource(queryParams.hAndF,function(er,commonUIItem){
@@ -280,7 +286,7 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
                     return res.status(er).send(commonUIItem);
                 } else {
                     commonUIItem.languagemanager=properties.languageManagerLibUrl;
-                    return res.render('resetPassword', {error_message:null,resetPassword:false,commonUI:commonUIItem,properties: properties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
+                    return res.render('resetPassword', {error_message:null,resetPassword:false,commonUI:commonUIItem,properties: customProperties, redirectTo:queryParams.redirectTo || properties.defaultHomeRedirect});
                 }
             });
 
@@ -301,7 +307,7 @@ router.get('/resetPassword',tokenManager.checkTokenValidityOnReq, function(req, 
                     queryParams=getLoggedInUserDefaultRequestParams(req,queryParams,bodyJson.UserToken);
 
 
-                    var customProperties=_.clone(properties);
+                    // var customProperties=_.clone(filteredProperties);
                     if(queryParams.enableUserUpgrade){
                         customProperties.enableUserUpgrade=queryParams.enableUserUpgrade;
                     }
@@ -358,7 +364,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
 
     if(req.UserToken && req.UserToken.error_code && req.UserToken.error_code=="0") { // no access_token provided so go to login
 
-        var customProperties=_.clone(properties);
+        var customProperties=_.clone(filteredProperties);
         customProperties.resetLinkApplicationSettings="?loginHomeRedirect=" + queryParams.loginHomeRedirect+ "&homeRedirect="+queryParams.homeRedirect+"&redirectTo="+queryParams.redirectTo;
         if(queryParams.applicationSettings){
             customProperties.resetLinkApplicationSettings += "&applicationSettings=" + encodeURIComponent(req.query.applicationSettings);
@@ -380,7 +386,7 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
     }
     else { // get user profile
         if(req.UserToken && req.UserToken.error_code) { // no valid access_token
-            var customProperties=_.clone(properties);
+            var customProperties=_.clone(filteredProperties);
             customProperties.resetLinkApplicationSettings="?loginHomeRedirect=" + queryParams.loginHomeRedirect+ "&homeRedirect="+queryParams.homeRedirect+"&redirectTo="+queryParams.redirectTo;
             if(queryParams.applicationSettings){
                 customProperties.resetLinkApplicationSettings += "&applicationSettings=" + encodeURIComponent(req.query.applicationSettings);
@@ -413,9 +419,9 @@ router.get('/',tokenManager.checkTokenValidityOnReq, function(req, res) {
                     bodyJson.UserToken=req.UserToken.access_token;
                     queryParams=getLoggedInUserDefaultRequestParams(req,queryParams,bodyJson.UserToken);
 
-                    console.log("######################################################################################### Logged User" + bodyJson);
+
                     bodyJson.type=req.UserToken.token.type;
-                    var customProperties=_.clone(properties);
+                    var customProperties=_.clone(filteredProperties);
 
                     if(queryParams.enableUserUpgrade){
                         customProperties.enableUserUpgrade=req.query.enableUserUpgrade;
@@ -521,7 +527,7 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
                                 queryParams=getLoggedInUserDefaultRequestParams(req,queryParams,bodyJson.UserToken);
 
 
-                                var customProperties=_.clone(properties);
+                                var customProperties=_.clone(filteredProperties);
 
                                 if(queryParams.enableUserUpgrade){
                                     customProperties.enableUserUpgrade=req.query.enableUserUpgrade;
@@ -590,9 +596,6 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
             return res.status(statusCode).send(content);
         });
     }
-
-
-
 
 });
 
