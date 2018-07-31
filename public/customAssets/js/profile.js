@@ -284,7 +284,7 @@ function upgradeUserRequest(toUserType){
         },
         error: function(xhr, status){
 
-            console.log("Error in upgradeUserRequest() function "+ (xhr.responseJSON && xhr.responseJSON.error_message) || "undefined error");
+            console.log("Error in upgradeUserRequest() function "+ (xhr.responseJSON && (xhr.responseJSON.error_message || xhr.responseJSON.error )) || "undefined error");
             jQuery.jGrowl(i18next.t("error.internal_server_error"), {theme:'bg-color-red', life: 5000});
 
             return;

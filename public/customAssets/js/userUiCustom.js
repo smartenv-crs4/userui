@@ -3,10 +3,6 @@
 //***** Create userms Url
 var _userMsUrl  = config.userUIUrl;
 
-
-// Get userWebUi Token
-_access_token =  config.myMicroserviceToken;
-
 jQuery(document).ready(function(){
 
 
