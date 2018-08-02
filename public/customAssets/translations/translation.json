@@ -48,6 +48,10 @@
     }
   },
   "error": {
+    "userExist":{
+      "en": "That login username is not available due to User already Exists",
+      "it": "Questo username non è valido in quanto esiste gia un utente"
+    },
     "notValidTokenType":{
       "en": "Internal Server Error due to not valid user token type to create new user",
       "it": "Errore interno del serve. Il tipo di token dell'utente che si sta creando non è valido"

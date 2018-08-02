@@ -190,7 +190,10 @@ function signUp()
                             return;
                         }
                         else {
-                            respBlock.html(xhr.responseJSON.error_message);
+                            if((xhr.responseJSON.error_message.indexOf("login name is not available")>=0) ||(xhr.responseJSON.error_message.indexOf("UserExistsError")>=0))
+                                respBlock.html(i18next.t("error.userExist"));
+                            else
+                                respBlock.html(xhr.responseJSON.error_message);
                             respBlock.removeClass("invisible");
                             return;
                         }
@@ -200,7 +203,7 @@ function signUp()
 
                         if (xhr.responseJSON && xhr.responseJSON.error) {
                             if (xhr.responseJSON.error == "invalid_token")
-                                respBlock.html(i18next.t("error.unauthorized"))
+                                respBlock.html(i18next.t("error.unauthorized"));
                             else if (xhr.responseJSON.error == "BadRequest")
                                 respBlock.html(i18next.t("error.missing_user_or_password"));
                             else if (xhr.responseJSON.error_message)

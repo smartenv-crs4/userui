@@ -337,7 +337,7 @@ function deleteUser(){
 
             console.log("Error in deleteUser() function "+ (xhr.responseJSON && (xhr.responseJSON.error_message || xhr.responseJSON.message)) || "undefined error");
             console.log(xhr);
-            jQuery.jGrowl(i18next.t("error.internal_server_error"), {theme:'bg-color-red', life: 5000});
+            jQuery.jGrowl(i18next.t("error.internal_server_error")+ " :" + ((xhr.responseJSON && (xhr.responseJSON.error_message || xhr.responseJSON.message)) || "undefined error") , {theme:'bg-color-red', life: 5000});
 
             return;
         }
