@@ -516,7 +516,6 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
                         };
 
 
-
                         request.get(rqparams, function (error, response, body) {
 
                             var bodyJson = JSON.parse(body);
@@ -572,9 +571,19 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
                                 });
 
                             } else {
-                                commonFunctions.getErrorPage(404,"Not Found","User Not Found",function(statusCode,content){
-                                    return res.status(statusCode).send(content);
-                                });
+                                if(response.statusCode==404){
+                                    commonFunctions.getErrorPage(404,"Not Found","User profile not found",function(statusCode,content){
+                                        return res.status(statusCode).send(content);
+                                    });
+                                }else {
+                                    let msg;
+                                    if(bodyJson.error_message) msg=bodyJson.error_message;
+                                    else msg=body;
+
+                                    commonFunctions.getErrorPage(response.statusCode, "Internal Server Error", msg, function (statusCode, content) {
+                                        return res.status(statusCode).send(content);
+                                    });
+                                }
                             }
                         });
 
