@@ -46,7 +46,6 @@ router.post('/signin', function(req, res) {
         body: JSON.stringify(req.body)
     };
 
-    console.log("°°°°°" + userMsUrl + '/users/signup' + "òòòòòòò");
 
     request.post(rqparams, function (error, response, body) {
         console.log(body);
@@ -224,7 +223,10 @@ router.post('/actions/uploadprofileimage', function(req, res) {
 
 
     readStream(["image"],req,function(err,stream){
-        
+
+        if(err) return res.status(500).send(err);
+
+
         var formData = {};
 
         formData[stream.tag]={

@@ -580,7 +580,7 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
                                     if(bodyJson.error_message) msg=bodyJson.error_message;
                                     else msg=body;
 
-                                    commonFunctions.getErrorPage(response.statusCode, "Internal Server Error", msg, function (statusCode, content) {
+                                    commonFunctions.getErrorPage(500, "Internal Server Error", msg, function (statusCode, content) {
                                         return res.status(statusCode).send(content);
                                     });
                                 }
