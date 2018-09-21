@@ -23,7 +23,7 @@ var defaultUserProfileTemplate = `
             <select id="ed-type" disabled name="tokentypes" onchange="setTokenType()">
     	        <option value="none" selected="" disabled="">{{typeTranslate}}</option>
                 {{#each ApplicationTokenTypes}}
-                <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">{{this}}</option>
                 {{/each}}                
             </select>
             <i></i>

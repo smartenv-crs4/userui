@@ -116,13 +116,18 @@ function updateProfile()
         success: function(dataResp, textStatus, xhr){
 
 
-            if($('#pType').attr('data-accountType')!=$('#ed-type').val()){
+            console.log('#pType:' + $('#pType').attr('data-accountType'));
+            console.log('#ed-type:' + $('#ed-type').val());
+
+
+
+            if(($('#ed-type').val()) && ($('#pType').attr('data-accountType')!=$('#ed-type').val())){
                 jQuery.ajax({
                     url: _userMsUrl + "/users/" + userData._id+"/actions/upgradeusertype/"+$('#ed-type').val()+"?access_token=" + userData.UserToken,
                     type: "POST",
                     success: function(dataResp, textStatus, xhr){
+                        $('#pType').attr('data-accountType',$('#ed-type').val()); // update old value
                         updateProfileSuccess(data);
-
                     },
                     error: function(xhr, status){
                         updateProfileUnSuccess(xhr);

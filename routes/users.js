@@ -226,7 +226,6 @@ router.post('/actions/uploadprofileimage', function(req, res) {
 
         if(err) return res.status(500).send(err);
 
-
         var formData = {};
 
         formData[stream.tag]={

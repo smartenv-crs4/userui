@@ -593,7 +593,7 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
                         });
                     }
                 } else {
-                    commonFunctions.getErrorPage(500,"InternalError","Is not possible to get secret code",function(statusCode,content){
+                    commonFunctions.getErrorPage(403,"Forbidden","You are not authorised. Expired session due to is not possible to get secret code",function(statusCode,content){
                         return res.status(statusCode).send(content);
                     });
                 }
