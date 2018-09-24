@@ -64,12 +64,13 @@ var defaultUserProfileTemplate = `
         <a class="pull-right" href="javascript:setEditable('ed-surname',{{profileEditParams}})"><i class="fa fa-pencil"></i></a>
     </dd>
     <hr>
-    <dt><strong data-i18n="profile.ckanApiKey"></strong></dt>
-    <dd>
-        <span data-name="ckan_apikey" data-i18n="[data-defaultEmptyValue]profile.emptyText" id="ed-ckan">{{ckan_apikey}}</span>
-        <a class="pull-right" href="javascript:setEditable('ed-ckan',{{profileEditParams}})"><i class="fa fa-pencil"></i></a>
-    </dd>
-    <hr>
+    <!--todo ckan Apikey-->
+    <!--<dt><strong data-i18n="profile.ckanApiKey"></strong></dt>-->
+    <!--<dd>-->
+        <!--<span data-name="ckan_apikey" data-i18n="[data-defaultEmptyValue]profile.emptyText" id="ed-ckan">{{ckan_apikey}}</span>-->
+        <!--<a class="pull-right" href="javascript:setEditable('ed-ckan',{{profileEditParams}})"><i class="fa fa-pencil"></i></a>-->
+    <!--</dd>-->
+    <!--<hr>-->
     <dt><strong data-i18n="profile.avatar"></strong></dt>
     <dd>
         <span data-name="avatar" data-i18n="[data-defaultEmptyValue]profile.emptyText" id="ed-avatar">{{avatar}}</span>
