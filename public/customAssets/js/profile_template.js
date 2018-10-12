@@ -71,12 +71,17 @@ var defaultUserProfileTemplate = `
         <!--<a class="pull-right" href="javascript:setEditable('ed-ckan',{{profileEditParams}})"><i class="fa fa-pencil"></i></a>-->
     <!--</dd>-->
     <!--<hr>-->
-    <dt><strong data-i18n="profile.avatar"></strong></dt>
-    <dd>
-        <span data-name="avatar" data-i18n="[data-defaultEmptyValue]profile.emptyText" id="ed-avatar">{{avatar}}</span>
-        <a id="ed-avatarButton" style="display: none" class="pull-right" onclick="setEditable('ed-avatar',{{profileEditParams}})"><i class="fa fa-pencil"></i></a>
-    </dd>
-    <hr>
+    
+    <!--remove image field view from panel-->
+    <div class="hide"> 
+        <dt><strong data-i18n="profile.avatar"></strong></dt>
+        <dd>
+            <span data-name="avatar" data-i18n="[data-defaultEmptyValue]profile.emptyText" id="ed-avatar">{{avatar}}</span>
+            <a id="ed-avatarButton" style="display: none" class="pull-right" onclick="setEditable('ed-avatar',{{profileEditParams}})"><i class="fa fa-pencil"></i></a>
+        </dd>
+        <hr>
+    </div>
+    <!--remove image field view from panel-->
 </dl>
 <button id="profileCancel" type="button" disabled class="btn-u btn-u-default" data-i18n="profile.cancel" onclick="getUserProfile()">Cancel</button>
 <button id="profileSave" type="button" disabled class="btn-u btn-u-default" data-i18n="profile.save" onclick="updateProfile()">Save Changes</button>

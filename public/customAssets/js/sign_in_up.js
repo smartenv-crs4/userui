@@ -204,8 +204,13 @@ function signUp()
                         if (xhr.responseJSON && xhr.responseJSON.error) {
                             if (xhr.responseJSON.error == "invalid_token")
                                 respBlock.html(i18next.t("error.unauthorized"));
-                            else if (xhr.responseJSON.error == "BadRequest")
-                                respBlock.html(i18next.t("error.missing_user_or_password"));
+                            else if (xhr.responseJSON.error == "BadRequest") {
+                                if (xhr.responseJSON.error_message.indexOf("No valid User Type provided")>=0)
+                                    window.location.href=_userMsUrl + "/redirecttoerrorpage?error_status=500&error_code="+i18next.t("error.500")+"&error_message="+i18next.t("error.invalid_user_type") + "&defaultHomeRedirect="+redirectTo;
+                                    // respBlock.html(i18next.t("error.invalid_user_type"));
+                                else
+                                    respBlock.html(i18next.t("error.missing_user_or_password"));
+                            }
                             else if (xhr.responseJSON.error_message) {
                                 if((xhr.responseJSON.error_message.indexOf("login name is not available")>=0) ||(xhr.responseJSON.error_message.indexOf("UserExistsError")>=0))
                                     respBlock.html(i18next.t("error.userExist"));

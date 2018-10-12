@@ -144,7 +144,7 @@ function getUrlParameter(sParam)
 
 function customizeDictionary(dictionary,newEntries){
 
-    console.log(newEntries.profile);
+    // console.log(newEntries.profile);
 
     for(key in newEntries){
         dictionary.profile[key]=newEntries[key];

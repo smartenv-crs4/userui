@@ -75,6 +75,7 @@ function setEditable(elementId,associatedButtons){
     var element=$('#'+elementId);
     var oldContent=element.html();
     element.attr('contentEditable',true);
+    // element.html().select();
 
 
     if(!element.attr('data-blur')){
@@ -95,6 +96,9 @@ function setEditable(elementId,associatedButtons){
 
     element.attr('data-blur',true);
     element.focus();
+    document.execCommand('selectAll',false,null);
+
+    // element.get(0).setSelectionRange(0,2);
 }
 
 

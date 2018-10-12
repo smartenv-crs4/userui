@@ -91,6 +91,37 @@ function updateProfileUnSuccess(xhr){
     return;
 }
 
+
+
+
+function sendEmailNotification(){
+
+    jQuery.jGrowl(i18next.t("profile.upgradeRequestMailSentWait"), {theme:'bg-color-blue', sticky:true});
+
+    var url= _userMsUrl + "/users/actions/sendnotificationemail";
+
+    url+="?to="+userData.email;
+    url+=("&text_message=<p><b>"+userData.email+ "</b>,</p> " + i18next.t("profile.upgradeRequestMailBodyConfirmation"));
+    url+=("&subject="+ i18next.t("profile.upgradeRequestMailSubjectConfirmation"));
+    url+=("&applicationSettings="+ JSON.stringify(config.applicationSettings));
+
+
+    jQuery.ajax({
+        url: url,
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function(dataResp, textStatus, xhr){
+            jQuery.jGrowl(i18next.t("profile.upgradeRequestMailSent"), {theme:'bg-color-green1', sticky:true});
+        },
+        error: function(xhr, status){
+            console.log("Error in upgradeUserRequest() function "+ (xhr.responseJSON && (xhr.responseJSON.error_message || xhr.responseJSON.error )) || "undefined error");
+            jQuery.jGrowl(i18next.t("error.internal_server_error"), {theme:'bg-color-red',sticky:true});
+            return;
+        }
+    });
+}
+
+
 function updateProfile()
 {
     var data = {"user":{}};
@@ -128,6 +159,7 @@ function updateProfile()
                     success: function(dataResp, textStatus, xhr){
                         $('#pType').attr('data-accountType',$('#ed-type').val()); // update old value
                         updateProfileSuccess(data);
+                        sendEmailNotification();
                     },
                     error: function(xhr, status){
                         updateProfileUnSuccess(xhr);
@@ -277,20 +309,21 @@ function changePassword()
 function upgradeUserRequest(toUserType){
 
 
+    jQuery.jGrowl(i18next.t("profile.upgradeRequestSent"), {theme:'bg-color-blue', sticky:true});
 
     jQuery.ajax({
-        url: _userMsUrl + "/users/actions/upgradeUser?access_token="+userData.UserToken+"&applicationSettings="+JSON.stringify(config.applicationSettings)+"&toUserType="+toUserType,
+        url: _userMsUrl + "/users/actions/upgradeUser?userInfo=email:"+userData.email+" name:"+(userData.name||"ND")+" surname:"+(userData.surname||"ND")+ "&access_token="+userData.UserToken+"&applicationSettings="+JSON.stringify(config.applicationSettings)+"&toUserType="+toUserType,
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function(dataResp, textStatus, xhr){
 
-           jQuery.jGrowl(i18next.t("profile.upgradeRequestDone"), {theme:'bg-color-green1', life: 5000});
+           jQuery.jGrowl(i18next.t("profile.upgradeRequestDone"), {theme:'bg-color-green1', sticky:true});
 
         },
         error: function(xhr, status){
 
             console.log("Error in upgradeUserRequest() function "+ (xhr.responseJSON && (xhr.responseJSON.error_message || xhr.responseJSON.error )) || "undefined error");
-            jQuery.jGrowl(i18next.t("error.internal_server_error"), {theme:'bg-color-red', life: 5000});
+            jQuery.jGrowl(i18next.t("error.internal_server_error"), {theme:'bg-color-red', life: 5000, sticky:true});
 
             return;
         }

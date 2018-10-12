@@ -30,7 +30,11 @@ router.post('/signup', function(req, res) {
         body: JSON.stringify(req.body)
     };
 
+    console.log(rqparams);
+
     request.post(rqparams, function (error, response, body) {
+        console.log("SignUP");
+        console.log(body);
         return res.status(response.statusCode).send(body);
     });
 });
@@ -46,8 +50,10 @@ router.post('/signin', function(req, res) {
         body: JSON.stringify(req.body)
     };
 
+    console.log(rqparams);
 
     request.post(rqparams, function (error, response, body) {
+        console.log("SignIN");
         console.log(body);
         return res.status(response.statusCode).send(body);
     });
@@ -404,7 +410,7 @@ router.post('/actions/upgradeUser', function(req, res) {
 
     console.log(resetLink);
 
-    var bodyMail="<p>"+ properties.upgradeUsermailConf.htmlMessage +"<br> <a href=\""+ resetLink + "\" style=\"color:#2A5685\">Click Here</a></p>";
+    var bodyMail="<p>Request from User: "+req.query.userInfo+"</p><p>"+ properties.upgradeUsermailConf.htmlMessage +"<br> <a href=\""+ resetLink + "\" style=\"color:#2A5685\">Click Here</a></p>";
 
     console.log(bodyMail);
 
@@ -484,6 +490,58 @@ router.post('/actions/upgradeUser', function(req, res) {
         }
     });
 });
+
+
+
+
+// applicationSettings={mailFrom:{name":"Cagliari Port", "address":"cport2020@gmail.com"}, appAdmins:["tokentype"],appName:"NomeApp", appBaseUrl:"http://localhost.....",};
+router.post('/actions/sendnotificationemail', function(req, res) {
+
+
+    console.log("send email request");
+
+    let applicationSettings=JSON.parse(req.query.applicationSettings);
+    let textMessage=req.query.text_message;
+
+    var bodyMail="<p>"+ textMessage +"</p>";
+
+
+    let to=[req.query.to];
+
+    var mail={
+        "from":applicationSettings.mailFrom,
+        "to":to,
+        "subject":applicationSettings.appName+ " " + req.query.subject,
+        "htmlBody":bodyMail
+    };
+
+    var options={
+        url:  properties.mailUrl + "/email",
+        headers: {'Authorization': "Bearer " + properties.myMicroserviceToken, 'content-type': 'application/json'},
+        body: JSON.stringify(mail)
+    };
+
+    request.post(options,function(err,resp,body){
+        if(err){
+            return res.status(500).send({error:"InternalError",error_message:err});
+        }else{
+            try {
+                console.log(body);
+                var respBody = JSON.parse(body);
+                if (resp.statusCode != 200) {
+                    return res.status(resp.statusCode).send({error: respBody.error, error_message: body});
+                } else {
+                    respBody.error_message += " in " + properties.mailUrl + "/email";
+                    return res.status(200).send(respBody);
+                }
+            }catch (ex) {
+                return res.status(500).send({error:"InternalServer Error", error_message:body});
+            }
+        }
+    });
+});
+
+
 
 
 router.post('/actions/checkIftokenexixt/:name',function(req,res){

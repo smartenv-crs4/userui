@@ -14,8 +14,13 @@ tokenManager.configure( {
     "authorizationMicroserviceToken":properties.myMicroserviceToken,
 });
 
-exports.getErrorPage=function (errorCode,errorMessage,showMore,callback){
+exports.getErrorPage=function (errorCode,errorMessage,showMore,defaultHomeRedirect,callback){
     var url=properties.commonUIUrl+"/errorPage?error_code="+errorCode+"&error_message="+ errorMessage +"&showMore_message="+showMore;
+    if(callback){
+        url+="&defaultHomeRedirect="+defaultHomeRedirect;
+    }else
+        callback=defaultHomeRedirect;
+
     request.get(url,function(err,response,body){
         if(err) return callback(500,{error:"Internal Server Error", error_message:err});
         else{

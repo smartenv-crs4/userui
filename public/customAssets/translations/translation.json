@@ -104,6 +104,10 @@
       "en": "No username o password provided",
       "it": "Nome utente o password mancanti"
     },
+    "invalid_user_type": {
+      "en": "Internal Server Error: No valid User Type provided",
+      "it": "Errore Interno del Server: il tipo dell'utente non è valido"
+    },
     "unauthorized": {
       "en": "You are not authorized to call this endpoint",
       "it": "Non sei autorizzato ad accedere lla risorsa"
@@ -217,12 +221,32 @@
       "it": "Email"
     },
     "upgradeRequestDone": {
-      "en": "You request to change user type completed successfully",
-      "it": "La tua richiesta di modifica del tipo utente è stata completata con successo "
+      "en": "You request to upgrade user type completed successfully. If your request is accepted by 'Nice Time in Cagliari' Administrators, you will receive an to confirm it",
+      "it": "La tua richiesta di modifica del tipo utente è stata completata con successo. Se la tua richiesta verrà accettata dagli amministratori di 'Nice Time in Cagliari, riceverai una mail di conferma"
+    },
+    "upgradeRequestSent": {
+      "en": "You request to upgrade user has been sent. Wait for a confirmation",
+      "it": "La tua richiesta di modifica del tipo utente è stata inviata. Attendi una conferma del corretto invio"
+    },
+    "upgradeRequestMailBodyConfirmation": {
+      "en": "You request to upgrade you user type has been accepted. You must logout and login again to get new user functions",
+      "it": "La tua richiesta di modifica del tipo utente è stata accolta. Disconnettiti a fai nuovamente il login per ottenere le nuove funzionalità"
+    },
+    "upgradeRequestMailSubjectConfirmation": {
+      "en": "Congratulation for new User favor",
+      "it": "Congratulazioni per i tuoi nuovi privilegi utente"
+    },
+    "upgradeRequestMailSent": {
+      "en": "Notification to user by email has been sent successfully",
+      "it": "La notifica all'utente via email è stata inviata con successo"
+    },
+    "upgradeRequestMailSentWait": {
+      "en": "Notification to user by email has been sent, wait for a confirmation of successfully",
+      "it": "La notifica all'utente via email è stata inviata, attendi la conferma di corretto invio"
     },
     "upgrade": {
-      "en": "Change my user Type to:",
-      "it": "Cambia il mio utente in:"
+      "en": "Upgrade request to:",
+      "it": "Richiesta cambio in:"
     },
     "type": {
       "en": "Account type",

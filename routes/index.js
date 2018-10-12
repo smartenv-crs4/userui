@@ -131,6 +131,26 @@ function getDefaultRequestParams(req){
 
     queryparams.fastSearchUrl=fastSearchUrl;
 
+
+    let customMenu=(req.query && req.query.customMenu) || null;
+    if (req.headers['customMenu']) {
+        customMenu= req.headers['customMenu'];
+    }
+    if(customMenu && ((customMenu.indexOf("null")>=0)||(customMenu.indexOf("false")>=0)))
+        customMenu=null;
+
+    queryparams.customMenu=customMenu;
+
+    let favourite=(req.query && req.query.favourite) || null;
+    if (req.headers['favourite']) {
+        favourite= req.headers['favourite'];
+    }
+    if(favourite && ((favourite.indexOf("null")>=0)||(favourite.indexOf("false")>=0)))
+        favourite=null;
+
+    queryparams.favourite=favourite;
+
+
     let hAndF="/headerAndFooter";
     hAndF=addParamstoURL(hAndF,"homePage",homeRedirect);
     hAndF=addParamstoURL(hAndF,"loginHomeRedirect",loginHomeRedirect);
@@ -138,12 +158,12 @@ function getDefaultRequestParams(req){
     hAndF=addParamstoURL(hAndF,"enableUserUpgrade",enableUserUpgrade);
     hAndF=addParamstoURL(hAndF,"applicationSettings",applicationSettings);
     hAndF=addParamstoURL(hAndF,"fastSearchUrl",fastSearchUrl);
+    hAndF=addParamstoURL(hAndF,"customMenu",customMenu);
+    hAndF=addParamstoURL(hAndF,"favourite",favourite);
 
     queryparams.hAndF=hAndF;
 
     return queryparams;
-
-
 }
 
 
@@ -519,6 +539,7 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
                         request.get(rqparams, function (error, response, body) {
 
                             var bodyJson = JSON.parse(body);
+
                             if (response.statusCode == 200) {
 
                                 bodyJson.UserToken = req.UserToken.access_token;
@@ -609,7 +630,11 @@ router.get('/userprofileAsAdmin/:id',tokenManager.checkAuthorizationOnReq, funct
 });
 
 
-
+router.get('/redirecttoerrorpage', function(req, res) {
+    commonFunctions.getErrorPage(req.query.error_status || 500, req.query.error_code|| "Internal Server Error", req.query.error_message || "No More Info", req.query.defaultHomeRedirect || null,function (statusCode, content) {
+        return res.status(statusCode).send(content);
+    });
+});
 
 /* GET status */
 router.get('/env', function(req, res) {
