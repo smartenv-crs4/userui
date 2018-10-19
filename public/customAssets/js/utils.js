@@ -73,33 +73,115 @@ function disableAssociateButton(associatedButtons){
 
 function setEditable(elementId,associatedButtons){
     var element=$('#'+elementId);
-    var oldContent=element.html();
+    var oldContent=element.text();
     element.attr('contentEditable',true);
     // element.html().select();
 
-
+    console.log(element.attr('data-blur'));
     if(!element.attr('data-blur')){
-        element.blur(function() {
-            var newContent=element.html();
-            element.attr('contentEditable', false);
-            if((oldContent!=newContent) && (!(~(newContent.indexOf("mark"))))) {
-                element.html("<mark>" + newContent + "</mark>");
-                element.addClass("updatable");
-                enableAssociateButton(associatedButtons);
-            }else{
-                element.html(element.text());
-                element.removeClass("updatable");
-                disableAssociateButton(associatedButtons);
-            }
-        });
+        console.log("Activate Listeners");
+        element.off( "blur", null, blurHandler).on("blur",{data:Date(),oldContent:oldContent,associatedButtons:associatedButtons},blurHandler);  // set handler off then on to override function
+        element.off( "keyup", null, keyUpHandler).on("keyup",{data:Date(),oldContent:oldContent,associatedButtons:associatedButtons},keyUpHandler);
     }
 
     element.attr('data-blur',true);
     element.focus();
-    document.execCommand('selectAll',false,null);
+    document.execCommand('selectAll',false,null); // select all editable content
 
     // element.get(0).setSelectionRange(0,2);
 }
+
+function blurHandler(event){
+    var element=$(this);
+    var newContent=element.text();
+    var oldContent=event.data.oldContent;
+    var associatedButtons=event.data.associatedButtons;
+
+    console.log(event.data.data + "OLD Content:--> " + oldContent + " | New Content:--> " +newContent);
+
+    element.attr('contentEditable', false);
+    if((oldContent!=newContent)) {
+        element.html("<mark>" + newContent + "</mark>");
+        element.addClass("updatable");
+        enableAssociateButton(associatedButtons);
+    }else{
+        element.html(element.text());
+        element.removeClass("updatable");
+        disableAssociateButton(associatedButtons);
+    }
+}
+function keyUpHandler(event){
+    var element=$(this);
+    var newContent=element.text();
+    var oldContent=event.data.oldContent;
+    var associatedButtons=event.data.associatedButtons;
+
+
+    console.log("KeyPress");
+    console.log(event.data.data + "KPress::::OLD Content:--> " + oldContent + " | New Content:--> " +newContent);
+
+    if((oldContent!=newContent)) {
+        enableAssociateButton(associatedButtons);
+    }else{
+        disableAssociateButton(associatedButtons);
+    }
+}
+
+function resetEditableHandler(){
+
+    $("[data-blur]").each(function(){
+        var celement=$(this);
+        celement.removeAttr("data-blur");
+        console.log("Removed data-blur");
+    });
+}
+
+
+
+// function setEditable(elementId,associatedButtons){
+//     var element=$('#'+elementId);
+//     var oldContent=element.html();
+//     element.attr('contentEditable',true);
+//     // element.html().select();
+//
+//
+//     if(!element.attr('data-blur')){
+//         element.blur(function() {
+//             var newContent=element.html();
+//
+//             console.log("OLD Content:--> " + oldContent + " | New Content:--> " +newContent);
+//
+//             element.attr('contentEditable', false);
+//             if((oldContent!=newContent) && (!(~(newContent.indexOf("mark"))))) {
+//                 element.html("<mark>" + newContent + "</mark>");
+//                 element.addClass("updatable");
+//                 enableAssociateButton(associatedButtons);
+//             }else{
+//                 element.html(element.text());
+//                 element.removeClass("updatable");
+//                 disableAssociateButton(associatedButtons);
+//             }
+//         });
+//
+//         element.keypress(function() {
+//             var newContent=element.html();
+//
+//             if((oldContent!=newContent) && (!(~(newContent.indexOf("mark"))))) {
+//                 enableAssociateButton(associatedButtons);
+//             }else{
+//                 disableAssociateButton(associatedButtons);
+//             }
+//         });
+//
+//
+//     }
+//
+//     element.attr('data-blur',true);
+//     element.focus();
+//     document.execCommand('selectAll',false,null);
+//
+//     // element.get(0).setSelectionRange(0,2);
+// }
 
 
 

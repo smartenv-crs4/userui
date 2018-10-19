@@ -78,6 +78,8 @@ function updateProfileSuccess(data){
     _.each(data.user, function (value, key) {
         userData[key] = value;
     });
+
+    resetEditableHandler();
 }
 
 function updateProfileUnSuccess(xhr){
