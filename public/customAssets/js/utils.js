@@ -77,13 +77,10 @@ function setEditable(elementId,associatedButtons){
     element.attr('contentEditable',true);
     // element.html().select();
 
-    console.log(element.attr('data-blur'));
     if(!element.attr('data-blur')){
-        console.log("Activate Listeners");
-        element.off( "blur", null, blurHandler).on("blur",{data:Date(),oldContent:oldContent,associatedButtons:associatedButtons},blurHandler);  // set handler off then on to override function
-        element.off( "keyup", null, keyUpHandler).on("keyup",{data:Date(),oldContent:oldContent,associatedButtons:associatedButtons},keyUpHandler);
+        element.off( "blur", null, blurHandler).on("blur",{oldContent:oldContent,associatedButtons:associatedButtons},blurHandler);  // set handler off then on to override function
+        element.off( "keyup", null, keyUpHandler).on("keyup",{oldContent:oldContent,associatedButtons:associatedButtons},keyUpHandler);
     }
-
     element.attr('data-blur',true);
     element.focus();
     document.execCommand('selectAll',false,null); // select all editable content
@@ -96,8 +93,6 @@ function blurHandler(event){
     var newContent=element.text();
     var oldContent=event.data.oldContent;
     var associatedButtons=event.data.associatedButtons;
-
-    console.log(event.data.data + "OLD Content:--> " + oldContent + " | New Content:--> " +newContent);
 
     element.attr('contentEditable', false);
     if((oldContent!=newContent)) {
@@ -116,10 +111,6 @@ function keyUpHandler(event){
     var oldContent=event.data.oldContent;
     var associatedButtons=event.data.associatedButtons;
 
-
-    console.log("KeyPress");
-    console.log(event.data.data + "KPress::::OLD Content:--> " + oldContent + " | New Content:--> " +newContent);
-
     if((oldContent!=newContent)) {
         enableAssociateButton(associatedButtons);
     }else{
@@ -132,7 +123,6 @@ function resetEditableHandler(){
     $("[data-blur]").each(function(){
         var celement=$(this);
         celement.removeAttr("data-blur");
-        console.log("Removed data-blur");
     });
 }
 

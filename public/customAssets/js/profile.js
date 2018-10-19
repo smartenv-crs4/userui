@@ -3,7 +3,7 @@
 
 function compileProfile(){
 
-    console.log("===================>> Compile profile template");
+    // console.log("===================>> Compile profile template");
 
     jQuery('#profileContent').localize();
 
@@ -27,7 +27,7 @@ function compileProfile(){
 
 
         // console.log("22222222222222222222==============");
-         console.log(userData);
+        //  console.log(userData);
 
         if(config.enableUserUpgrade)
             userData.enableUserUpgrade=config.enableUserUpgrade.split(",");
@@ -43,7 +43,7 @@ function compileProfile(){
         jQuery(".editable").editable();
         jQuery(".editable").css("color", "black");
 
-        console.log("###" + JSON.stringify(userData));
+        // console.log("###" + JSON.stringify(userData));
         //SetDefaultValues();
         DefaultValuesInit();
 
@@ -147,12 +147,6 @@ function updateProfile()
         data: JSON.stringify(data),
         dataType: "json",
         success: function(dataResp, textStatus, xhr){
-
-
-            console.log('#pType:' + $('#pType').attr('data-accountType'));
-            console.log('#ed-type:' + $('#ed-type').val());
-
-
 
             if(($('#ed-type').val()) && ($('#pType').attr('data-accountType')!=$('#ed-type').val())){
                 jQuery.ajax({
@@ -280,10 +274,6 @@ function changePassword()
         error: function(xhr, status)
         {
             var msg;
-
-            console.log("$$$$$$$$$$$$$$$$$$ RESET PAssword");
-            console.log(xhr);
-            console.log(status);
 
             try
             {
