@@ -127,6 +127,10 @@
     "void_password": {
       "en": "Passwords can not be void",
       "it": "La password non puo essere vuota"
+    },
+    "terms_agreement": {
+      "en":"You should agree with privacy policy and terms and conditions",
+      "it":"E' necessario accettare le condizioni di servizio e l'informativa privacy"
     }
   },
   "homepage": {

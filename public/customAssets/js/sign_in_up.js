@@ -9,7 +9,6 @@ jQuery(document).ready(function(){
   });
 });
 
-
 // jQuery(document).on("translate", function(){
 //   jQuery('.selectpicker').selectpicker('refresh');
 // })
@@ -130,6 +129,15 @@ function errorMessageDisplay(xhr,respBlock){
     }
 }
 
+//estrae un pattern 0/1 delle checkbox privacy
+function ds_checkTerms() {
+    var agr =  jQuery(".checkTerms");
+    var pattern = "";
+    for(var i=0; i<agr.length; i++) {
+        pattern += jQuery(agr[i]).is(":checked") ? "1" : "0";
+    }
+    return pattern == config.termsPattern;
+}
 
 function signUp()
 {
@@ -147,6 +155,7 @@ function signUp()
 
             if (xhr.status != 204) {
                 var respBlock = jQuery("#signUpResponse");
+
 
                 if (respBlock.is(":visible")) {
                     respBlock.addClass("invisible");
@@ -170,11 +179,18 @@ function signUp()
                     return;
                 }
 
+                if(!ds_checkTerms()) {
+                    respBlock.html(i18next.t("error.terms_agreement"));
+                    respBlock.removeClass("invisible");
+                    return;
+                }
+
                 var data = {"user": {}};
                 data["user"]["email"] = email;
                 data["user"]["name"] = name;
                 data["user"]["password"] = password;
                 data["user"]["type"] = userType;
+                data["user"]["terms"] = 
 
                 jQuery.ajax({
                     url: _userMsUrl + "/users/signup",
