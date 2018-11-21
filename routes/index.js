@@ -90,7 +90,13 @@ function getDefaultRequestParams(req){
     if (req.headers['homeRedirect']) {
         homeRedirect= req.headers['homeRedirect'];
     }
-    if(homeRedirect && ((homeRedirect.indexOf("null")>=0)||(homeRedirect.indexOf("false")>=0)))
+    //*********************************************************************************************************************************************//
+    // DS - 20181121
+    // userui crashava quando l'admin cliccava sul link della mail per fare l'upgrade del token di un utente che lo richiedeva
+    // il motivo era che queryParams.fastSearchUrl risultava settato a "undefined" (string) quindi il JSON.parse della riga 567 andava in eccezione
+    // FIX: aggiunto il check ||(loginHomeRedirect.indexOf("undefined")>=0) ai controlli qui sotto
+    //*********************************************************************************************************************************************//
+    if(homeRedirect && ((homeRedirect.indexOf("null")>=0)||(homeRedirect.indexOf("false")>=0)||(homeRedirect.indexOf("undefined")>=0)))
         homeRedirect=null;
 
     queryparams.homeRedirect=homeRedirect;
@@ -99,7 +105,7 @@ function getDefaultRequestParams(req){
     if (req.headers['loginHomeRedirect']) {
         loginHomeRedirect= req.headers['loginHomeRedirect'];
     }
-    if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)))
+    if(loginHomeRedirect && ((loginHomeRedirect.indexOf("null")>=0)||(loginHomeRedirect.indexOf("false")>=0)||(loginHomeRedirect.indexOf("undefined")>=0)))
         loginHomeRedirect=null;
 
     queryparams.loginHomeRedirect=loginHomeRedirect;
@@ -108,7 +114,7 @@ function getDefaultRequestParams(req){
     if (req.headers['enableUserUpgrade']) {
         enableUserUpgrade= req.headers['enableUserUpgrade'];
     }
-    if(enableUserUpgrade && ((enableUserUpgrade.indexOf("null")>=0)||(enableUserUpgrade.indexOf("false")>=0)))
+    if(enableUserUpgrade && ((enableUserUpgrade.indexOf("null")>=0)||(enableUserUpgrade.indexOf("false")>=0)||(enableUserUpgrade.indexOf("undefined")>=0)))
         enableUserUpgrade=null;
 
     queryparams.enableUserUpgrade=enableUserUpgrade;
@@ -126,7 +132,7 @@ function getDefaultRequestParams(req){
     if (req.headers['fastSearchUrl']) {
         fastSearchUrl= req.headers['fastSearchUrl'];
     }
-    if(fastSearchUrl && ((fastSearchUrl.indexOf("null")>=0)||(fastSearchUrl.indexOf("false")>=0)))
+    if(fastSearchUrl && ((fastSearchUrl.indexOf("null")>=0)||(fastSearchUrl.indexOf("false")>=0)||(fastSearchUrl.indexOf("false")>=0)))
         fastSearchUrl=null;
 
     queryparams.fastSearchUrl=fastSearchUrl;
