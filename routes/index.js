@@ -132,7 +132,7 @@ function getDefaultRequestParams(req){
     if (req.headers['fastSearchUrl']) {
         fastSearchUrl= req.headers['fastSearchUrl'];
     }
-    if(fastSearchUrl && ((fastSearchUrl.indexOf("null")>=0)||(fastSearchUrl.indexOf("false")>=0)||(fastSearchUrl.indexOf("false")>=0)))
+    if(fastSearchUrl && ((fastSearchUrl.indexOf("null")>=0)||(fastSearchUrl.indexOf("false")>=0)||(fastSearchUrl.indexOf("undefined")>=0)))
         fastSearchUrl=null;
 
     queryparams.fastSearchUrl=fastSearchUrl;
