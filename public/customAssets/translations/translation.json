@@ -239,15 +239,15 @@
       "it": "Email"
     },
     "upgradeRequestDone": {
-      "en": "You request to upgrade user type completed successfully. If your request is accepted by 'Nice Time in Cagliari' Administrators, you will receive an to confirm it",
+      "en": "Your request to upgrade user type has been sent, If accepted by Administrators, you will receive a confirmation",
       "it": "La tua richiesta di modifica del tipo utente è stata completata con successo. Se la tua richiesta verrà accettata dagli amministratori di 'Nice Time in Cagliari, riceverai una mail di conferma"
     },
     "upgradeRequestSent": {
-      "en": "You request to upgrade user has been sent. Wait for a confirmation",
+      "en": "Your request to upgrade user has been sent. Wait for a confirmation",
       "it": "La tua richiesta di modifica del tipo utente è stata inviata. Attendi una conferma del corretto invio"
     },
     "upgradeRequestMailBodyConfirmation": {
-      "en": "You request to upgrade you user type has been accepted. You must logout and login again to get new user functions",
+      "en": "Your request to upgrade your user type has been accepted. You need to log out and back in again in order to use the new features",
       "it": "La tua richiesta di modifica del tipo utente è stata accolta. Disconnettiti a fai nuovamente il login per ottenere le nuove funzionalità"
     },
     "upgradeRequestMailSubjectConfirmation": {
