@@ -130,13 +130,13 @@ function errorMessageDisplay(xhr,respBlock){
 }
 
 //estrae un pattern 0/1 delle checkbox privacy
-function ds_checkTerms() {
+function ds_getTerms() {
     var agr =  jQuery(".checkTerms");
     var pattern = "";
     for(var i=0; i<agr.length; i++) {
         pattern += jQuery(agr[i]).is(":checked") ? "1" : "0";
     }
-    return pattern == config.termsPattern;
+    return pattern;
 }
 
 function signUp()
@@ -179,7 +179,8 @@ function signUp()
                     return;
                 }
 
-                if(!ds_checkTerms()) {
+                var termsPattern = ds_getTerms();
+                if(termsPattern != config.termsPattern) {
                     respBlock.html(i18next.t("error.terms_agreement"));
                     respBlock.removeClass("invisible");
                     return;
@@ -190,7 +191,7 @@ function signUp()
                 data["user"]["name"] = name;
                 data["user"]["password"] = password;
                 data["user"]["type"] = userType;
-                data["user"]["terms"] = 
+                data["terms"] = termsPattern;
 
                 jQuery.ajax({
                     url: _userMsUrl + "/users/signup",

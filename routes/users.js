@@ -23,6 +23,9 @@ var uploadMsUrl  = properties.uploadUrl; //"http://seidue.crs4.it/api/user/v1/";
 
 router.post('/signup', function(req, res) {
 
+    if(req.body.terms != properties.termsPattern) {
+        return res.status(400).send("You must accept the terms and conditions");
+    }
 
     var rqparams = {
         url:  userMsUrl + '/users/signup',
