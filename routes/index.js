@@ -123,7 +123,7 @@ function getDefaultRequestParams(req){
     if (req.headers['applicationSettings']) {
         applicationSettings= req.headers['applicationSettings'];
     }
-    if(applicationSettings && ((applicationSettings.indexOf("null")>=0)||(applicationSettings.indexOf("false")>=0)))
+    if(applicationSettings && ((applicationSettings.indexOf("null")>=0)||(applicationSettings.indexOf("false")>=0)||(applicationSettings.indexOf("undefined")>=0)))
         applicationSettings=null;
 
     queryparams.applicationSettings=applicationSettings;
