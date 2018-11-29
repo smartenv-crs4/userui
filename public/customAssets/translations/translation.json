@@ -127,6 +127,10 @@
     "void_password": {
       "en": "Passwords can not be void",
       "it": "La password non puo essere vuota"
+    },
+    "terms_agreement": {
+      "en":"You should agree with privacy policy and terms and conditions",
+      "it":"E' necessario accettare le condizioni di servizio e l'informativa privacy"
     }
   },
   "homepage": {
@@ -225,8 +229,8 @@
       "en":"According with articles 1341-1342 of the Italian Civil Laws, I agree with points 1, 3, 4, 6 of the terms and conditions."
     },
     "privacy": {
-      "it":"Confermo di aver ricevuto l’informativa disponibile al link e, barrando la casella sottostante, esprimo il consenso al trattamento dei propri dati personali attraverso la app, per le finalità indicate nell’informativa (offerta, ricerca e condivisione di servizi (offerte ed eventi) da parte di promotori privati e istituzionali) )",
-      "en":"I agree with TODO"
+      "it":"Confermo di aver ricevuto l’informativa disponibile al link seguente e, barrando la casella sottostante, esprimo il consenso al trattamento dei propri dati personali attraverso la app, per le finalità indicate nell’informativa (offerta, ricerca e condivisione di servizi (offerte ed eventi) da parte di promotori privati e istituzionali) )",
+      "en":"I read the privacy policy available at the following link and, by checking the box below, I authorize the treatment of my personal data through this application for the purposes listed in the policy"
     }
   },
   "profile": {
@@ -235,15 +239,15 @@
       "it": "Email"
     },
     "upgradeRequestDone": {
-      "en": "You request to upgrade user type completed successfully. If your request is accepted by 'Nice Time in Cagliari' Administrators, you will receive an to confirm it",
+      "en": "Your request to upgrade user type has been sent, If accepted by Administrators, you will receive a confirmation",
       "it": "La tua richiesta di modifica del tipo utente è stata completata con successo. Se la tua richiesta verrà accettata dagli amministratori di 'Nice Time in Cagliari, riceverai una mail di conferma"
     },
     "upgradeRequestSent": {
-      "en": "You request to upgrade user has been sent. Wait for a confirmation",
+      "en": "Your request to upgrade user has been sent. Wait for a confirmation",
       "it": "La tua richiesta di modifica del tipo utente è stata inviata. Attendi una conferma del corretto invio"
     },
     "upgradeRequestMailBodyConfirmation": {
-      "en": "You request to upgrade you user type has been accepted. You must logout and login again to get new user functions",
+      "en": "Your request to upgrade your user type has been accepted. You need to log out and back in again in order to use the new features",
       "it": "La tua richiesta di modifica del tipo utente è stata accolta. Disconnettiti a fai nuovamente il login per ottenere le nuove funzionalità"
     },
     "upgradeRequestMailSubjectConfirmation": {

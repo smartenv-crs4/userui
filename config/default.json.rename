@@ -13,6 +13,7 @@
     "contentUiUrl":"your_contentUi_url",
     "myMicroserviceToken":"your_auth_service_token",
     "defaultUserType":"cruiser",
+    "termsPattern":"111",
     "languageManagerLibUrl":"languageManager.js Path || URL",
     "resetPasswordMail":{
       "subject":"Reset password",
@@ -41,6 +42,7 @@
     "contentUiUrl":"your_contentUi_url",
     "myMicroserviceToken":"your_auth_service_token",
     "defaultUserType":"cruiser",
+    "termsPattern":"111",
     "languageManagerLibUrl":"languageManager.js Path || URL",
     "resetPasswordMail":{
       "subject":"Reset password",
