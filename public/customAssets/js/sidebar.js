@@ -15,7 +15,7 @@ var sidebarTemplate = `
 
   <ul class="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
       <li class="list-group-item active">
-          <!--a href="{{profilePage}}"--><i class="fa fa-bar-chart-o"></i> Menu<!--/a-->
+          <a href="#" style="cursor:default"><i class="fa fa-bar-chart-o"></i> Menu</a>
       </li>
       
       <!--{{#if isSupplier}}-->
